@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 220 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="hc">
+      <rect width="220" height="250" fill="white"/>
+      <path d="M110 132 Q96 118 86 124 Q74 132 80 146 Q86 164 110 182 Q134 164 140 146 Q146 132 134 124 Q124 118 110 132 Z" fill="black"/>
+    </mask>
+  </defs>
+  <path d="M110 30 Q70 70 58 120 Q46 175 70 210 Q90 240 110 240 L110 30Z" fill="#7bc67e" mask="url(#hc)"/>
+  <path d="M110 30 Q150 70 162 120 Q174 175 150 210 Q130 240 110 240 L110 30Z" fill="#2d6b4a" mask="url(#hc)"/>
+</svg>
