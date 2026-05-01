@@ -27,7 +27,7 @@ function Hero() {
       </FadeIn>
       <FadeIn delay={0.2}>
         <p style={{ fontSize: 16, color: COLORS.gray600, lineHeight: 1.7, maxWidth: 440, margin: "0 auto" }}>
-          22년 교육 현장에서 길어 올린 경험이<br />하나의 이름으로 수렴되기까지
+          교육 현장에서 길어 올린 경험이<br />하나의 이름으로 수렴되기까지
         </p>
       </FadeIn>
     </section>
@@ -46,18 +46,21 @@ function LevStory() {
     <section style={{ padding: "80px clamp(16px,4vw,48px)", maxWidth: 920, margin: "0 auto" }}>
       <FadeIn>
         <SectionLabel>THE NAME</SectionLabel>
-        <SectionTitle style={{ marginBottom: 24 }}>왜 '레브'인가요?</SectionTitle>
+        <SectionTitle style={{ marginBottom: 24 }}>왜 '레브(לֵב)'인가요?</SectionTitle>
       </FadeIn>
 
       <div className="flex-col-mobile" style={{ gap: 32, alignItems: "flex-start" }}>
         <FadeIn style={{ flex: 1 }}>
           <p style={{ fontSize: 16, color: COLORS.gray600, lineHeight: 1.85, marginBottom: 16 }}>
-            히브리어 <strong style={{ color: COLORS.gray800 }}>לֵב</strong>(레브)는 마음이자, 지성이자 의지입니다.
-            성경에서 마음은 감정만이 아니라, 판단하고 결정하고 방향을 잡는 중심입니다.
+            히브리어 <strong style={{ color: COLORS.gray800 }}>לֵב</strong>(레브)는 '<strong style={{ color: COLORS.gray800 }}>마음</strong>'이자 '<strong style={{ color: COLORS.gray800 }}>지성</strong>'이자 '<strong style={{ color: COLORS.gray800 }}>의지</strong>'입니다.
+            <br />
+            성경에서 레브(마음)는 감정만이 아니라, 판단하고 결정하고 방향을 잡는 중심입니다.
           </p>
           <p style={{ fontSize: 16, color: COLORS.gray600, lineHeight: 1.85 }}>
-            SEL(사회정서학습)이 추구하는 것도 같습니다 — 감정을 알아차리고,
-            관계를 돌보고, 공동체 안에서 책임 있는 결정을 내리는 힘.
+            SEL(사회정서학습)이 추구하는 것도 같습니다.
+            <br />
+            '<strong style={{ color: COLORS.gray800 }}>감정</strong>'을 알아차리고, '<strong style={{ color: COLORS.gray800 }}>관계</strong>'를 돌보고, 공동체 안에서 책임 있는 '<strong style={{ color: COLORS.gray800 }}>결정</strong>'을 내리는 힘.
+            <br />
             레브랩은 이 히브리어 한 단어에 교육철학 전체를 담았습니다.
           </p>
         </FadeIn>
@@ -126,7 +129,7 @@ function MissionSection() {
 
 /* ── 대표 소개 ── */
 function FounderSection() {
-  const tags = ["22년 교육 현장", "서울 SEL 2026", "「마음의 한줄」 저자", "TOV 채널"];
+  const tags = ["서울 SEL 2026", "「마음의 한줄」 저자", "LevLab Youtube"];
   return (
     <section style={{ padding: "80px clamp(16px,4vw,48px)", maxWidth: 920, margin: "0 auto" }}>
       <FadeIn><SectionLabel>FOUNDER</SectionLabel></FadeIn>
@@ -149,7 +152,7 @@ function FounderSection() {
           <h2 style={{ fontSize: 28, fontWeight: 700, color: COLORS.gray800, marginBottom: 4 }}>이승열</h2>
           <p style={{ fontSize: 15, fontWeight: 500, color: COLORS.teal600, marginBottom: 16 }}>교목 · SEL 코디네이터 · 레브랩 대표</p>
           <p style={{ fontSize: 15, color: COLORS.gray600, lineHeight: 1.85, marginBottom: 12 }}>
-            명지중학교 교목으로 22년간 학생들의 아침을 열어온 사역자.
+            명지중학교 교목으로 학생들의 아침을 열어온 사역자.
             매일 아침묵상 방송, 주간 설교, SEL 통합 교과 설계를 병행하며
             '마음의 교육'이 교과 안에 자연스럽게 녹아드는 구조를 연구해왔습니다.
           </p>
@@ -176,7 +179,7 @@ const TIMELINE = [
   { year: "2023", title: "SEL 통합 교육 설계", desc: "서울교육청 SEL 프레임워크와 종교 교과의 통합 연구 시작", dot: COLORS.teal400 },
   { year: "2025", title: "「마음의 한줄」 완성", desc: "필사 기반 SEL 워크북 3권 시리즈 편집 완료, 출판 준비", dot: COLORS.teal400 },
   { year: "2026", title: "45차시 커리큘럼 · 레브랩 설립", desc: "서울 SEL 2026 기반 학년별 15차시 완성, Lev Lab 공식 출범", dot: COLORS.teal400 },
-  { year: "NOW", title: "교사 연수 · 학부모 워크숍 · TOV 채널", desc: "SEL 콘텐츠 확산과 교육 생태계 구축", dot: COLORS.teal200 },
+  { year: "NOW", title: "교사 연수 · 학부모 워크숍 · LevLab Youtube", desc: "SEL 콘텐츠 확산과 교육 생태계 구축", dot: COLORS.teal200 },
 ];
 
 function TimelineSection() {
@@ -211,7 +214,7 @@ function TimelineSection() {
 
 /* ── 차별점 ── */
 const DIFFS = [
-  { title: "현장에서 태어난 콘텐츠", desc: "이론 수입이 아닌, 22년간 실제 교실에서 검증된 프로그램" },
+  { title: "현장에서 태어난 콘텐츠", desc: "이론 수입이 아닌, 실제 교실에서 검증된 프로그램" },
   { title: "교과 통합형 SEL", desc: "별도 시수가 아닌, 기존 교과 안에 SEL을 녹이는 설계" },
   { title: "아날로그 + 디지털", desc: "필사(마음의 한줄)와 AI 활용 콘텐츠 제작의 균형" },
   { title: "서울 SEL 2026 정합성", desc: "서울교육청 공식 프레임워크 4개 영역에 완전 대응" },

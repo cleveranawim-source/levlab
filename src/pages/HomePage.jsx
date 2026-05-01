@@ -139,7 +139,6 @@ function ProgramSection() {
 
 /* ── 숫자 ── */
 const STATS = [
-  { num: "22년", label: "교육 현장 경력" },
   { num: "45차시", label: "SEL 통합 교과" },
   { num: "3권", label: "마음의 한줄 시리즈" },
   { num: "4영역", label: "서울 SEL 프레임워크" },
@@ -148,7 +147,7 @@ const STATS = [
 function StatsSection() {
   return (
     <section style={{ padding: "64px clamp(16px,4vw,48px)", maxWidth: 960, margin: "0 auto" }}>
-      <div className="grid-4" style={{ gap: 16 }}>
+      <div className="grid-3" style={{ gap: 16 }}>
         {STATS.map((s, i) => (
           <FadeIn key={s.label} delay={i * 0.08}>
             <div style={{ textAlign: "center", padding: "28px 12px", background: COLORS.teal50, borderRadius: 14, borderBottom: `3px solid ${COLORS.teal200}` }}>
