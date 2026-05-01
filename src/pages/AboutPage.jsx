@@ -52,7 +52,7 @@ function LevStory() {
       <div className="flex-col-mobile" style={{ gap: 32, alignItems: "flex-start" }}>
         <FadeIn style={{ flex: 1 }}>
           <p style={{ fontSize: 16, color: COLORS.gray600, lineHeight: 1.85, marginBottom: 16 }}>
-            히브리어 <strong style={{ color: COLORS.gray800 }}>לֵב</strong>(레브)는 '마음'이자 '의지'이자 '지성'입니다.
+            히브리어 <strong style={{ color: COLORS.gray800 }}>לֵב</strong>(레브)는 마음이자, 지성이자 의지입니다.
             성경에서 마음은 감정만이 아니라, 판단하고 결정하고 방향을 잡는 중심입니다.
           </p>
           <p style={{ fontSize: 16, color: COLORS.gray600, lineHeight: 1.85 }}>
