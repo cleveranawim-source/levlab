@@ -2,25 +2,30 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COLORS, NAV_ITEMS, SOCIAL_LINKS } from "../styles/tokens";
 
-function ExtLink({ href, children, dim = false }) {
+function SocialLink({ href, external, children, dim = false }) {
   const [hovered, setHovered] = useState(false);
+  const style = {
+    fontSize: dim ? 12 : 13,
+    color: hovered && !dim ? "#fff" : COLORS.teal200,
+    opacity: dim ? 0.5 : 1,
+    textDecoration: "none",
+    transition: "color 0.2s",
+  };
+  const handlers = {
+    onMouseEnter: () => setHovered(true),
+    onMouseLeave: () => setHovered(false),
+  };
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" style={style} {...handlers}>
+        {children}
+      </a>
+    );
+  }
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        fontSize: dim ? 12 : 13,
-        color: hovered && !dim ? "#fff" : COLORS.teal200,
-        opacity: dim ? 0.5 : 1,
-        textDecoration: "none",
-        transition: "color 0.2s",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <Link to={href} style={style} {...handlers}>
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -76,9 +81,9 @@ export default function Footer() {
           }}
         >
           {SOCIAL_LINKS.map((s) => (
-            <ExtLink key={s.label} href={s.url}>
+            <SocialLink key={s.label} href={s.url} external={s.external}>
               {s.label}
-            </ExtLink>
+            </SocialLink>
           ))}
         </div>
         <div style={{ display: "flex", gap: 20, justifyContent: "flex-end" }}>

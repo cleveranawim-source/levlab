@@ -90,7 +90,6 @@ export const NAV_ITEMS = [
 
 // 소셜 링크
 export const SOCIAL_LINKS = [
-  { label: "Instagram", url: "#" },
-  { label: "YouTube (TOV)", url: "#" },
-  { label: "Newsletter", url: "#" },
+  { label: "YouTube", url: "https://www.youtube.com/channel/UCBP83tCojDn0M-HU7s_q7ow", external: true },
+  { label: "Newsletter", url: "/#newsletter", external: false },
 ];

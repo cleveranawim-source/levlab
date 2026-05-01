@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { COLORS, SEL_DOMAINS } from "../styles/tokens";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import { FadeIn, Hover, SectionLabel, SectionTitle, Pill, Card } from "../components/ui";
+
+const cardLinkStyle = { display: "block", height: "100%", textDecoration: "none", color: "inherit" };
 
 /* ── Hero ── */
 function Hero() {
@@ -118,12 +121,14 @@ function ProgramSection() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {PROGRAMS.map((p, i) => (
             <FadeIn key={p.title} delay={i * 0.12}>
-              <Card>
-                <Pill bg={p.tagBg} color={p.tagColor}>{p.tag}</Pill>
-                <h3 style={{ fontSize: 20, fontWeight: 600, color: COLORS.gray800, margin: "16px 0 10px" }}>{p.title}</h3>
-                <p style={{ fontSize: 14, color: COLORS.gray600, lineHeight: 1.7, flex: 1 }}>{p.desc}</p>
-                <p style={{ fontSize: 13, fontWeight: 500, color: COLORS.teal600, marginTop: 16 }}>자세히 보기 →</p>
-              </Card>
+              <Link to="/programs" style={cardLinkStyle}>
+                <Card>
+                  <Pill bg={p.tagBg} color={p.tagColor}>{p.tag}</Pill>
+                  <h3 style={{ fontSize: 20, fontWeight: 600, color: COLORS.gray800, margin: "16px 0 10px" }}>{p.title}</h3>
+                  <p style={{ fontSize: 14, color: COLORS.gray600, lineHeight: 1.7, flex: 1 }}>{p.desc}</p>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: COLORS.teal600, marginTop: 16 }}>자세히 보기 →</p>
+                </Card>
+              </Link>
             </FadeIn>
           ))}
         </div>
@@ -175,23 +180,25 @@ function InsightSection() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {POSTS.map((p, i) => (
             <FadeIn key={p.title} delay={i * 0.1}>
-              <Hover
-                style={{ background: "#fff", borderRadius: 16, overflow: "hidden", border: `1px solid ${COLORS.gray100}`, cursor: "pointer" }}
-                hoverStyle={{ transform: "translateY(-3px)", boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}
-              >
-                <div style={{ height: 140, background: `linear-gradient(135deg, ${COLORS.teal50}, ${COLORS.purple50})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={COLORS.gray200} strokeWidth="1.5">
-                    <rect x="3" y="3" width="18" height="18" rx="3" />
-                    <circle cx="8.5" cy="8.5" r="1.5" />
-                    <path d="M21 15l-5-5L5 21" />
-                  </svg>
-                </div>
-                <div style={{ padding: "20px 20px 24px" }}>
-                  <p style={{ fontSize: 12, fontWeight: 500, color: COLORS.teal600, marginBottom: 6 }}>{p.cat}</p>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, color: COLORS.gray800, lineHeight: 1.4, marginBottom: 8 }}>{p.title}</h3>
-                  <p style={{ fontSize: 12, color: COLORS.gray200 }}>{p.date}</p>
-                </div>
-              </Hover>
+              <Link to="/insights" style={cardLinkStyle}>
+                <Hover
+                  style={{ background: "#fff", borderRadius: 16, overflow: "hidden", border: `1px solid ${COLORS.gray100}`, cursor: "pointer" }}
+                  hoverStyle={{ transform: "translateY(-3px)", boxShadow: "0 8px 24px rgba(0,0,0,0.05)" }}
+                >
+                  <div style={{ height: 140, background: `linear-gradient(135deg, ${COLORS.teal50}, ${COLORS.purple50})`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={COLORS.gray200} strokeWidth="1.5">
+                      <rect x="3" y="3" width="18" height="18" rx="3" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <path d="M21 15l-5-5L5 21" />
+                    </svg>
+                  </div>
+                  <div style={{ padding: "20px 20px 24px" }}>
+                    <p style={{ fontSize: 12, fontWeight: 500, color: COLORS.teal600, marginBottom: 6 }}>{p.cat}</p>
+                    <h3 style={{ fontSize: 16, fontWeight: 600, color: COLORS.gray800, lineHeight: 1.4, marginBottom: 8 }}>{p.title}</h3>
+                    <p style={{ fontSize: 12, color: COLORS.gray200 }}>{p.date}</p>
+                  </div>
+                </Hover>
+              </Link>
             </FadeIn>
           ))}
         </div>
@@ -223,7 +230,7 @@ function TrustSection() {
 function NewsletterCta() {
   const [email, setEmail] = useState("");
   return (
-    <section style={{ padding: "72px clamp(16px,4vw,48px)", textAlign: "center", background: `linear-gradient(180deg, #fff 0%, ${COLORS.teal50} 100%)` }}>
+    <section id="newsletter" style={{ padding: "72px clamp(16px,4vw,48px)", textAlign: "center", background: `linear-gradient(180deg, #fff 0%, ${COLORS.teal50} 100%)`, scrollMarginTop: 80 }}>
       <FadeIn>
         <SectionLabel>NEWSLETTER</SectionLabel>
         <h2 style={{ fontSize: 26, fontWeight: 700, color: COLORS.gray800, marginBottom: 8 }}>레브랩 소식 받기</h2>

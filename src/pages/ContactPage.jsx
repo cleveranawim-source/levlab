@@ -215,7 +215,14 @@ function FormSection() {
                 </div>
                 <div>
                   <p style={{ fontSize: 12, color: COLORS.gray200, marginBottom: 2 }}>이메일</p>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: COLORS.gray800 }}>levlabkr@gmail.com</p>
+                  <a
+                    href="mailto:levlabkr@gmail.com"
+                    style={{ fontSize: 14, fontWeight: 500, color: COLORS.gray800, textDecoration: "none" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.teal600)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.gray800)}
+                  >
+                    levlabkr@gmail.com
+                  </a>
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
