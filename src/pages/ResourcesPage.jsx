@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { COLORS } from "../styles/tokens";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -479,36 +480,23 @@ function DarkCta() {
           필요한 자료를 요청하시면 제작해드립니다
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", position: "relative" }}>
-          <Hover
-            style={{
-              padding: "14px 32px",
-              borderRadius: 12,
-              fontSize: 15,
-              fontWeight: 600,
-              background: COLORS.teal400,
-              color: "#fff",
-              border: `1.5px solid ${COLORS.teal400}`,
-              cursor: "pointer",
-            }}
-            hoverStyle={{ background: COLORS.teal200, transform: "translateY(-2px)" }}
-          >
-            자료 요청하기
-          </Hover>
-          <Hover
-            style={{
-              padding: "14px 32px",
-              borderRadius: 12,
-              fontSize: 15,
-              fontWeight: 600,
-              background: "transparent",
-              color: COLORS.teal100,
-              border: `1.5px solid ${COLORS.teal600}`,
-              cursor: "pointer",
-            }}
-            hoverStyle={{ background: "rgba(255,255,255,0.05)", transform: "translateY(-2px)" }}
-          >
-            문의하기
-          </Hover>
+          <Link to="/contact" style={{ textDecoration: "none" }}>
+            <Hover
+              style={{
+                padding: "14px 32px",
+                borderRadius: 12,
+                fontSize: 15,
+                fontWeight: 600,
+                background: COLORS.teal400,
+                color: "#fff",
+                border: `1.5px solid ${COLORS.teal400}`,
+                cursor: "pointer",
+              }}
+              hoverStyle={{ background: COLORS.teal200, transform: "translateY(-2px)" }}
+            >
+              문의하기
+            </Hover>
+          </Link>
         </div>
       </FadeIn>
     </section>
