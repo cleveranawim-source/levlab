@@ -173,11 +173,47 @@ function CollabSection() {
 }
 
 /* ── Contact form ── */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjwnqaa";
+
 function FormSection() {
   const [form, setForm] = useState({ name: "", org: "", email: "", type: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          이름: form.name,
+          소속: form.org,
+          이메일: form.email,
+          "문의 유형": form.type,
+          메시지: form.message,
+          _replyto: form.email,
+          _subject: `[Lev Lab 문의] ${form.name || "이름 미기재"}${form.type ? " · " + form.type : ""}`,
+        }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data?.errors?.[0]?.message || "전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    } catch {
+      setError("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   const inputStyle = {
     width: "100%",
@@ -258,36 +294,39 @@ function FormSection() {
                   <p style={{ fontSize: 14, color: COLORS.gray600 }}>1-2일 내에 회신드리겠습니다</p>
                 </div>
               ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   <div className="grid-2" style={{ gap: 12 }}>
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>이름 *</label>
-                      <input type="text" placeholder="홍길동" value={form.name} onChange={update("name")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
+                      <label htmlFor="cf-name" style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>이름 *</label>
+                      <input id="cf-name" name="이름" type="text" required placeholder="홍길동" value={form.name} onChange={update("name")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
                     </div>
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>소속</label>
-                      <input type="text" placeholder="학교·기관명" value={form.org} onChange={update("org")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
+                      <label htmlFor="cf-org" style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>소속</label>
+                      <input id="cf-org" name="소속" type="text" placeholder="학교·기관명" value={form.org} onChange={update("org")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
                     </div>
                   </div>
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>이메일 *</label>
-                    <input type="email" placeholder="email@example.com" value={form.email} onChange={update("email")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
+                    <label htmlFor="cf-email" style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>이메일 *</label>
+                    <input id="cf-email" name="이메일" type="email" required placeholder="email@example.com" value={form.email} onChange={update("email")} style={inputStyle} onFocus={focusHandler} onBlur={blurHandler} />
                   </div>
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>문의 유형</label>
-                    <select value={form.type} onChange={update("type")} style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} onFocus={focusHandler} onBlur={blurHandler}>
+                    <label htmlFor="cf-type" style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>문의 유형</label>
+                    <select id="cf-type" name="문의 유형" value={form.type} onChange={update("type")} style={{ ...inputStyle, appearance: "none", cursor: "pointer" }} onFocus={focusHandler} onBlur={blurHandler}>
                       <option value="">선택해주세요</option>
-                      <option value="school">학교 SEL 도입</option>
-                      <option value="training">교사 연수 의뢰</option>
-                      <option value="parent">학부모 특강</option>
-                      <option value="content">콘텐츠 협업</option>
-                      <option value="resource">자료 요청</option>
-                      <option value="other">기타 문의</option>
+                      <option value="학교 SEL 도입">학교 SEL 도입</option>
+                      <option value="교사 연수 의뢰">교사 연수 의뢰</option>
+                      <option value="학부모 특강">학부모 특강</option>
+                      <option value="콘텐츠 협업">콘텐츠 협업</option>
+                      <option value="자료 요청">자료 요청</option>
+                      <option value="기타 문의">기타 문의</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>메시지 *</label>
+                    <label htmlFor="cf-message" style={{ fontSize: 13, fontWeight: 500, color: COLORS.gray600, marginBottom: 6, display: "block" }}>메시지 *</label>
                     <textarea
+                      id="cf-message"
+                      name="메시지"
+                      required
                       placeholder="문의 내용을 자유롭게 적어주세요"
                       value={form.message}
                       onChange={update("message")}
@@ -297,24 +336,36 @@ function FormSection() {
                       onBlur={blurHandler}
                     />
                   </div>
-                  <Hover
+                  {/* honeypot for spam */}
+                  <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, width: 0 }} aria-hidden="true" />
+                  {error && (
+                    <p role="alert" style={{ fontSize: 13, color: COLORS.coral600, background: COLORS.coral50, padding: "10px 14px", borderRadius: 10, margin: 0 }}>
+                      {error}
+                    </p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={sending}
                     style={{
                       padding: "14px 0",
                       borderRadius: 12,
                       fontSize: 15,
                       fontWeight: 600,
-                      background: COLORS.teal600,
+                      background: sending ? COLORS.gray200 : COLORS.teal600,
                       color: "#fff",
                       border: "none",
-                      cursor: "pointer",
+                      cursor: sending ? "not-allowed" : "pointer",
                       textAlign: "center",
                       width: "100%",
+                      fontFamily: "inherit",
+                      transition: "background 0.2s",
                     }}
-                    hoverStyle={{ background: COLORS.teal800 }}
+                    onMouseEnter={(e) => { if (!sending) e.currentTarget.style.background = COLORS.teal800; }}
+                    onMouseLeave={(e) => { if (!sending) e.currentTarget.style.background = COLORS.teal600; }}
                   >
-                    <div onClick={() => setSubmitted(true)}>보내기</div>
-                  </Hover>
-                </div>
+                    {sending ? "전송 중…" : "보내기"}
+                  </button>
+                </form>
               )}
             </div>
           </FadeIn>
