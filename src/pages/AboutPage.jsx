@@ -135,14 +135,14 @@ function FounderSection() {
           <div style={{
             width: 160, height: 192, borderRadius: 16,
             background: `linear-gradient(160deg, ${COLORS.teal50}, ${COLORS.gray50})`,
-            display: "flex", alignItems: "center", justifyContent: "center",
             border: `1px solid ${COLORS.gray100}`,
+            overflow: "hidden",
           }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: "50%", background: COLORS.teal100,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 28, fontWeight: 600, color: COLORS.teal800,
-            }}>SY</div>
+            <img
+              src="/founder.png"
+              alt="이승열 대표"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
+            />
           </div>
         </FadeIn>
         <FadeIn delay={0.1} style={{ flex: 1 }}>
