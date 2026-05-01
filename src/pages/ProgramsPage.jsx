@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { COLORS, SEL_DOMAINS } from "../styles/tokens";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -715,42 +716,46 @@ function CtaSection() {
             flexWrap: "wrap",
           }}
         >
-          <Hover
-            style={{
-              padding: "14px 32px",
-              borderRadius: 12,
-              fontSize: 15,
-              fontWeight: 600,
-              background: COLORS.teal600,
-              color: "#fff",
-              border: `1.5px solid ${COLORS.teal600}`,
-              cursor: "pointer",
-            }}
-            hoverStyle={{
-              background: COLORS.teal800,
-              transform: "translateY(-2px)",
-            }}
-          >
-            프로그램 문의하기
-          </Hover>
-          <Hover
-            style={{
-              padding: "14px 32px",
-              borderRadius: 12,
-              fontSize: 15,
-              fontWeight: 600,
-              background: "#fff",
-              color: COLORS.teal800,
-              border: `1.5px solid ${COLORS.teal200}`,
-              cursor: "pointer",
-            }}
-            hoverStyle={{
-              background: COLORS.teal50,
-              transform: "translateY(-2px)",
-            }}
-          >
-            자료실에서 샘플 보기
-          </Hover>
+          <Link to="/contact" style={{ textDecoration: "none" }}>
+            <Hover
+              style={{
+                padding: "14px 32px",
+                borderRadius: 12,
+                fontSize: 15,
+                fontWeight: 600,
+                background: COLORS.teal600,
+                color: "#fff",
+                border: `1.5px solid ${COLORS.teal600}`,
+                cursor: "pointer",
+              }}
+              hoverStyle={{
+                background: COLORS.teal800,
+                transform: "translateY(-2px)",
+              }}
+            >
+              프로그램 문의하기
+            </Hover>
+          </Link>
+          <Link to="/resources" style={{ textDecoration: "none" }}>
+            <Hover
+              style={{
+                padding: "14px 32px",
+                borderRadius: 12,
+                fontSize: 15,
+                fontWeight: 600,
+                background: "#fff",
+                color: COLORS.teal800,
+                border: `1.5px solid ${COLORS.teal200}`,
+                cursor: "pointer",
+              }}
+              hoverStyle={{
+                background: COLORS.teal50,
+                transform: "translateY(-2px)",
+              }}
+            >
+              자료실에서 샘플 보기
+            </Hover>
+          </Link>
         </div>
       </FadeIn>
     </section>
