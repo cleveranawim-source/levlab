@@ -1,0 +1,18 @@
+<svg width="800" height="800" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="hc4">
+      <rect width="220" height="220" fill="white"/>
+      <path d="M110 112
+               Q96 98 86 104
+               Q74 112 80 126
+               Q86 144 110 162
+               Q134 144 140 126
+               Q146 112 134 104
+               Q124 98 110 112 Z" fill="black"/>
+    </mask>
+  </defs>
+  <path d="M110 10 Q70 50 58 100 Q46 155 70 190 Q90 220 110 220 L110 10Z"
+        fill="rgba(255,255,255,0.55)" mask="url(#hc4)"/>
+  <path d="M110 10 Q150 50 162 100 Q174 155 150 190 Q130 220 110 220 L110 10Z"
+        fill="rgba(255,255,255,0.95)" mask="url(#hc4)"/>
+</svg>

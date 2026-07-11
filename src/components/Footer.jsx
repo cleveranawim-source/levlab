@@ -1,107 +1,35 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { COLORS, NAV_ITEMS, SOCIAL_LINKS } from "../styles/tokens";
-
-function SocialLink({ href, external, children, dim = false }) {
-  const [hovered, setHovered] = useState(false);
-  const style = {
-    fontSize: dim ? 12 : 13,
-    color: hovered && !dim ? "#fff" : COLORS.teal200,
-    opacity: dim ? 0.5 : 1,
-    textDecoration: "none",
-    transition: "color 0.2s",
-  };
-  const handlers = {
-    onMouseEnter: () => setHovered(true),
-    onMouseLeave: () => setHovered(false),
-  };
-  if (external) {
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" style={style} {...handlers}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <Link to={href} style={style} {...handlers}>
-      {children}
-    </Link>
-  );
-}
+import Logo from "./Logo";
+import { CATCHPHRASE, CONTACT_EMAIL, YOUTUBE_URL } from "../data/site";
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        padding: "36px clamp(16px, 4vw, 48px)",
-        background: COLORS.teal900,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-        flexWrap: "wrap",
-        gap: 24,
-      }}
-    >
-      <div>
-        <Link
-          to="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            marginBottom: 10,
-            textDecoration: "none",
-          }}
-        >
-          <img src="/favicon.svg" alt="Lev Lab" style={{ height: 28 }} />
-          <span style={{ fontSize: 16, fontWeight: 600, color: "#fff" }}>
-            Lev Lab
-          </span>
-        </Link>
-        <p style={{ fontSize: 13, color: COLORS.teal200 }}>마음을 읽는 교육</p>
-        <p
-          style={{
-            fontSize: 12,
-            color: COLORS.teal200,
-            opacity: 0.5,
-            marginTop: 8,
-          }}
-        >
-          &copy; 2026 Lev Lab. All rights reserved.
-        </p>
-      </div>
-
-      <div style={{ textAlign: "right" }}>
-        <div
-          style={{
-            display: "flex",
-            gap: 20,
-            justifyContent: "flex-end",
-            marginBottom: 12,
-          }}
-        >
-          {SOCIAL_LINKS.map((s) => (
-            <SocialLink key={s.label} href={s.url} external={s.external}>
-              {s.label}
-            </SocialLink>
-          ))}
+    <footer className="foot">
+      <div className="wrap">
+        <div>
+          <Link to="/" className="logo">
+            <Logo white />
+            <span className="wm" style={{ color: "#fff" }}>LEV&nbsp;LAB</span>
+          </Link>
+          <p className="slogan" style={{ color: "#BFE9CD", marginTop: 14 }}>{CATCHPHRASE}</p>
+          <p className="desc">사회정서학습(SEL)으로 학생의 마음 근육을 키우는 교육 콘텐츠 연구소.</p>
         </div>
-        <div style={{ display: "flex", gap: 20, justifyContent: "flex-end" }}>
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              style={{
-                fontSize: 12,
-                color: COLORS.teal200,
-                opacity: 0.5,
-                textDecoration: "none",
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div>
+          <h5>둘러보기</h5>
+          <Link to="/about">소개</Link>
+          <Link to="/tools">SEL 콘텐츠</Link>
+          <Link to="/programs">프로그램</Link>
+          <Link to="/resources">자료실</Link>
+          <Link to="/insights">인사이트</Link>
         </div>
+        <div>
+          <h5>연결</h5>
+          <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer">LevLab 유튜브</a>
+          <Link to="/contact">뉴스레터</Link>
+          <Link to="/contact">협업 문의</Link>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </div>
+        <div className="copy">© 2026 Lev Lab. 마음을 읽는 교육. All rights reserved.</div>
       </div>
     </footer>
   );
