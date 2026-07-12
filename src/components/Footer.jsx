@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
-import { CATCHPHRASE, CONTACT_EMAIL, YOUTUBE_URL } from "../data/site";
+import { CONTACT_EMAIL, YOUTUBE_URL } from "../data/site";
 
 export default function Footer() {
   return (
@@ -11,8 +11,7 @@ export default function Footer() {
             <Logo white />
             <span className="wm" style={{ color: "#fff" }}>LEV&nbsp;LAB</span>
           </Link>
-          <p className="slogan" style={{ color: "#BFE9CD", marginTop: 14, display: "flex" }}>{CATCHPHRASE}</p>
-          <p className="desc">사회정서학습(SEL)으로 학생의 마음 근육을 키우는 교육 콘텐츠 연구소.</p>
+          <p className="desc" style={{ marginTop: 14 }}>사회정서학습(SEL)으로 학생의 마음 근육을 키우는 교육 콘텐츠 연구소.</p>
         </div>
         <div>
           <h5>둘러보기</h5>
