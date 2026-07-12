@@ -449,3 +449,10 @@
   .stat-row { gap: 16px 28px; }
   .stat-row .div { display: none; }
 }
+
+/* mobile polish — button text never wraps, newsletter form stacks */
+.btn { white-space: nowrap; }
+@media (max-width: 520px) {
+  .news form { flex-direction: column; }
+  .news form .btn { justify-content: center; }
+}
