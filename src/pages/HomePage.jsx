@@ -158,10 +158,10 @@ export default function HomePage() {
       {/* Trust */}
       <div className="trust">
         <div className="wrap">
-          <span className="lbl">함께해온 곳</span>
+          <span className="lbl">함께하는 곳</span>
           <span className="org">명지중학교</span><span className="dot" />
           <span className="org">서울시교육청 SEL</span><span className="dot" />
-          <span className="org">LevLab 유튜브</span>
+          <span className="org">정연출판사</span>
         </div>
       </div>
 
