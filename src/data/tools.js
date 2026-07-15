@@ -14,7 +14,7 @@ export const DOMAIN_COLOR = {
 export const TOOLS = [
   { n: "마음 점프", d: "SEL 4역량을 담은 마리오식 2D 플랫포머. 관문마다 감정 미션을 풀며 스테이지를 클리어합니다.", t: "게임", dom: "전체", aud: "학생", em: "🕹️", url: "https://cleveranawim-source.github.io/mind-jump" },
   { n: "마음의 밤길 라이더", d: "1인칭 라이딩으로 달리며 SEL 네 영역을 여행하는 밤길 게임.", t: "게임", dom: "전체", aud: "학생", em: "🌙", url: "https://cleveranawim-source.github.io/mind-rider" },
-  { n: "마음의 협곡", d: "틸트 관리와 심호흡을 배우는 LOL 스타일 SEL MOBA.", t: "게임", dom: "마음건강", aud: "학생", em: "⚔️", url: "https://cleveranawim-source.github.io/mind-rift" },
+  { n: "마음의 협곡", d: "틸트 관리와 심호흡을 배우는 LOL 스타일 SEL MOBA.", t: "게임", dom: "마음건강", aud: "학생", em: "⚔️", url: "" },
   { n: "감정 캐치", d: "떨어지는 감정을 받아내며 감정 조절을 연습하는 리듬 게임.", t: "게임", dom: "자기", aud: "학생", em: "🎵", url: "https://cleveranawim-source.github.io/emotion-catch" },
   { n: "공동체 빌더스", d: "복셀 세계를 탐험하며 공동체 역량을 키우는 3D 미션 게임.", t: "게임", dom: "공동체", aud: "학생", em: "🧱", url: "https://cleveranawim-source.github.io/Community_builders" },
   { n: "감정 내려놓기", d: "“친구는 감정쓰레기통이 아니에요” — 감정을 건강하게 내려놓는 교실 활동.", t: "활동 도구", dom: "대인관계", aud: "학생", em: "🫧", url: "https://cleveranawim-source.github.io/emotion-release" },
