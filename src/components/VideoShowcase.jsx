@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import Reveal from "./Reveal";
 import { usePrefersReducedMotion } from "../lib/motion";
+import { TOOLS } from "../data/tools";
 
-const GAMES = ["마음의 밤길 라이더", "공동체 빌더스", "마음 점프", "마음의 협곡", "감정 캐치"];
+const GAMES = TOOLS.filter((t) => t.t === "게임").map((t) => t.n);
+const COUNTS = ["게임", "자기진단", "활동 도구"]
+  .map((t) => `${t} ${TOOLS.filter((x) => x.t === t).length}`)
+  .join(" · ");
 
 /** 게임 실사 영상이 배경으로 흐르는 시네마틱 쇼케이스 밴드 */
 export default function VideoShowcase({
@@ -12,7 +16,7 @@ export default function VideoShowcase({
   sub = "레브랩의 SEL 게임 세계에서 학생들은 플레이하며 감정을 다루고 관계를 배웁니다. 밤의 숲을 달리고, 공동체를 짓고, 감정을 붙잡으면서.",
   ctaLabel = "SEL 콘텐츠 체험하기 →",
   ctaTo = "/tools",
-  meta = "게임 5 · 자기진단 3 · 활동 도구 4",
+  meta = COUNTS,
   showBadges = true,
 }) {
   const reduce = usePrefersReducedMotion();
