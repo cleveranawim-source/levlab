@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
+import Spotlight from "./components/Spotlight";
 import HomePage from "./pages/HomePage";
 import ToolsPage from "./pages/ToolsPage";
 import AboutPage from "./pages/AboutPage";
@@ -9,12 +10,12 @@ import ResourcesPage from "./pages/ResourcesPage";
 import InsightsPage from "./pages/InsightsPage";
 import ContactPage from "./pages/ContactPage";
 
-export default function App() {
+/** 경로가 바뀔 때마다 페이지가 부드럽게 페이드인 */
+function AnimatedRoutes() {
+  const location = useLocation();
   return (
-    <BrowserRouter>
-      <Loader />
-      <ScrollToTop />
-      <Routes>
+    <div key={location.pathname} className="page-in">
+      <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -24,6 +25,17 @@ export default function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Loader />
+      <ScrollToTop />
+      <Spotlight />
+      <AnimatedRoutes />
     </BrowserRouter>
   );
 }

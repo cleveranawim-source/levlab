@@ -1,8 +1,20 @@
 import { useState, useMemo } from "react";
+import { flushSync } from "react-dom";
 import { TOOLS, TOOL_TYPES, TOOL_AUDIENCES, DOMAIN_COLOR } from "../data/tools";
 
-function ToolCard({ a }) {
+/** 필터 변경을 View Transitions 로 감싸 카드가 제자리로 미끄러지게 (미지원·reduced-motion 이면 즉시 변경) */
+function withTransition(fn) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (document.startViewTransition && !reduce) {
+    document.startViewTransition(() => flushSync(fn));
+  } else {
+    fn();
+  }
+}
+
+function ToolCard({ a, i }) {
   const c = DOMAIN_COLOR[a.dom] || "var(--brand)";
+  const style = { "--i": i, viewTransitionName: `tool-${TOOLS.indexOf(a)}` };
   const inner = (
     <>
       <div
@@ -28,9 +40,9 @@ function ToolCard({ a }) {
     </>
   );
   return a.url ? (
-    <a className="tcard" href={a.url} target="_blank" rel="noopener noreferrer">{inner}</a>
+    <a className="tcard" href={a.url} target="_blank" rel="noopener noreferrer" style={style}>{inner}</a>
   ) : (
-    <div className="tcard soon">{inner}</div>
+    <div className="tcard soon" style={style}>{inner}</div>
   );
 }
 
@@ -49,12 +61,15 @@ export default function ToolsGallery({ full = false }) {
     [type, aud, full]
   );
 
+  const pickType = (t) => t !== type && withTransition(() => setType(t));
+  const pickAud = (v) => v !== aud && withTransition(() => setAud(v));
+
   const TypeFilters = (
     <div className="tool-filters" style={full ? { margin: 0 } : undefined}>
       {TOOL_TYPES.map((t) => {
         const cnt = t === "전체" ? TOOLS.length : TOOLS.filter((a) => a.t === t).length;
         return (
-          <button key={t} className="tfilter" aria-pressed={type === t} onClick={() => setType(t)}>
+          <button key={t} className="tfilter" aria-pressed={type === t} onClick={() => pickType(t)}>
             {t} <span className="cnt">{cnt}</span>
           </button>
         );
@@ -62,13 +77,19 @@ export default function ToolsGallery({ full = false }) {
     </div>
   );
 
+  const grid = (
+    <div className="tool-grid">
+      {list.length
+        ? list.map((a, i) => <ToolCard key={a.n} a={a} i={i} />)
+        : <p className="empty">해당하는 콘텐츠가 없어요.</p>}
+    </div>
+  );
+
   if (!full) {
     return (
       <>
         {TypeFilters}
-        <div className="tool-grid">
-          {list.map((a) => <ToolCard key={a.n} a={a} />)}
-        </div>
+        {grid}
       </>
     );
   }
@@ -81,15 +102,13 @@ export default function ToolsGallery({ full = false }) {
           <span className="fglabel">대상</span>
           <div className="tool-filters" style={{ margin: 0 }}>
             {TOOL_AUDIENCES.map((v) => (
-              <button key={v} className="tfilter" aria-pressed={aud === v} onClick={() => setAud(v)}>{v}</button>
+              <button key={v} className="tfilter" aria-pressed={aud === v} onClick={() => pickAud(v)}>{v}</button>
             ))}
           </div>
         </div>
       </div>
-      <p className="count-note"><b>{list.length}개</b> 콘텐츠</p>
-      <div className="tool-grid">
-        {list.length ? list.map((a) => <ToolCard key={a.n} a={a} />) : <p className="empty">해당하는 콘텐츠가 없어요.</p>}
-      </div>
+      <p className="count-note" aria-live="polite"><b>{list.length}개</b> 콘텐츠</p>
+      {grid}
     </>
   );
 }

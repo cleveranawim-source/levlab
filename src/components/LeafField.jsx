@@ -29,11 +29,28 @@ export default function LeafField() {
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       for (const m of motes) { if (m.x > W) m.x = Math.random() * W; }
     };
+    // 마우스(또는 터치) 근처 입자는 살짝 밀려나며 흩어짐
+    const ptr = { x: -9999, y: -9999 };
+    const R = 130;
+    const onMove = (e) => {
+      const r = c.getBoundingClientRect();
+      ptr.x = e.clientX - r.left;
+      ptr.y = e.clientY - r.top;
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
       for (const m of motes) {
         m.y -= m.s;
         m.sway += 0.01 * m.sw;
+        const dx = m.x - ptr.x;
+        const dy = m.y - ptr.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 0.1 && dist < R) {
+          const f = (1 - dist / R) * 2.4;
+          m.x += (dx / dist) * f;
+          m.y += (dy / dist) * f;
+        }
         const x = m.x + Math.sin(m.sway) * 14;
         const g = ctx.createRadialGradient(x, m.y, 0, x, m.y, m.r * 3);
         g.addColorStop(0, `rgba(123,198,126,${m.a})`);
@@ -51,7 +68,7 @@ export default function LeafField() {
     draw();
     const ro = new ResizeObserver(resize);
     ro.observe(c);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener("pointermove", onMove); };
   }, []);
   return <canvas ref={ref} className="leaf-field" aria-hidden="true" />;
 }

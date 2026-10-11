@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Reveal from "./Reveal";
 import { usePrefersReducedMotion } from "../lib/motion";
@@ -20,9 +21,37 @@ export default function VideoShowcase({
   showBadges = true,
 }) {
   const reduce = usePrefersReducedMotion();
+  const bgRef = useRef(null);
+
+  // 스크롤 패럴랙스: 배경 영상이 본문보다 느리게 움직여 깊이감
+  useEffect(() => {
+    if (reduce) return;
+    const bg = bgRef.current;
+    const sec = bg?.parentElement;
+    if (!bg || !sec) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = sec.getBoundingClientRect();
+      const vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      const progress = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2); // 1 → -1
+      bg.style.setProperty("--py", `${(progress * -42).toFixed(1)}px`);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [reduce]);
+
   return (
     <section className="vshow" id="showcase">
-      <div className="vshow-bg">
+      <div className={`vshow-bg ${reduce ? "" : "para"}`} ref={bgRef}>
         {reduce ? (
           <img className="vshow-media" src="/video/sel-showcase-poster.jpg" alt="" aria-hidden="true" />
         ) : (

@@ -13,6 +13,7 @@ import Magnetic from "../components/Magnetic";
 import SectionNav from "../components/SectionNav";
 import KineticReveal from "../components/KineticReveal";
 import VideoShowcase from "../components/VideoShowcase";
+import Marquee from "../components/Marquee";
 import { CATCHPHRASE } from "../data/site";
 
 const PROGRAMS = [
@@ -50,6 +51,10 @@ function Stats() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVals(STATS.map((s) => s.to));
+      return;
+    }
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting && !done.current) {
         done.current = true;
@@ -78,18 +83,51 @@ function Stats() {
   );
 }
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjwnqaa";
+
 function Newsletter() {
   const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState({ text: "", ok: true });
-  const submit = (e) => {
+  const [status, setStatus] = useState("idle"); // idle | sending | done | error
+  const [msg, setMsg] = useState("");
+
+  const submit = async (e) => {
     e.preventDefault();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) {
-      setMsg({ text: "이메일 주소를 확인해 주세요.", ok: false });
+    if (status === "sending") return;
+    if (e.currentTarget.elements._gotcha?.value) return; // 스팸 봇은 조용히 무시
+    const value = email.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
+      setStatus("error");
+      setMsg("이메일 주소를 다시 확인해 주세요.");
       return;
     }
-    setMsg({ text: "구독 신청 완료! 곧 첫 소식을 보내드릴게요.", ok: true });
-    setEmail("");
+    setStatus("sending");
+    setMsg("");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          이메일: value,
+          "문의 유형": "뉴스레터 구독",
+          _replyto: value,
+          _subject: `[Lev Lab 뉴스레터 구독] ${value}`,
+        }),
+      });
+      if (res.ok) {
+        setStatus("done");
+        setMsg("구독 신청이 접수됐어요. 첫 소식을 보내드릴게요!");
+        setEmail("");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setStatus("error");
+        setMsg(data?.errors?.[0]?.message || "신청을 보내지 못했어요. 잠시 후 다시 시도해 주세요.");
+      }
+    } catch {
+      setStatus("error");
+      setMsg("인터넷 연결을 확인한 뒤 다시 시도해 주세요.");
+    }
   };
+
   return (
     <section className="band" id="newsletter">
       <div className="wrap">
@@ -101,11 +139,31 @@ function Newsletter() {
           <p className="eyebrow">Newsletter</p>
           <h2>격주로, 마음 날씨를 배달합니다</h2>
           <p>SEL 인사이트와 새 교안 소식을 이메일로. 학교·가정에서 바로 쓰는 한 가지 실천을 함께 담아요.</p>
-          <form onSubmit={submit}>
-            <input type="email" placeholder="이메일 주소" aria-label="이메일 주소" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <button className="btn btn-solid" type="submit">구독하기</button>
+          <form onSubmit={submit} noValidate>
+            <input
+              type="email"
+              name="email"
+              placeholder="이메일 주소"
+              aria-label="이메일 주소"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: "none" }} />
+            <button className="btn btn-solid" type="submit" disabled={status === "sending"}>
+              {status === "sending" ? "보내는 중…" : "구독하기"}
+            </button>
           </form>
-          <div className="msg" style={{ color: msg.ok ? "var(--brand)" : "var(--accent-deep)" }}>{msg.text}</div>
+          <div
+            className="msg"
+            role="status"
+            aria-live="polite"
+            style={{ color: status === "error" ? "var(--accent-deep)" : "var(--brand)" }}
+          >
+            {msg}
+          </div>
+          <p className="news-note">이메일은 레브랩 소식을 보내는 데만 쓰고, 언제든 수신을 거부할 수 있어요.</p>
         </Reveal>
       </div>
     </section>
@@ -184,7 +242,7 @@ export default function HomePage() {
       <section className="band" id="tools">
         <div className="wrap">
           <Reveal className="sec-head">
-            <p className="eyebrow">Interactive SEL · 레브랩의 새로운 중심</p>
+            <p className="eyebrow">Interactive SEL</p>
             <KineticReveal text="플레이로 배우는 SEL" />
             <p>게임 · 자기진단 · 활동 도구 — 학생이 직접 만지고 플레이하며 배우는 인터랙티브 SEL 라이브러리. 설치 없이 웹 브라우저에서 바로 실행됩니다.</p>
           </Reveal>
@@ -194,6 +252,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* SEL keyword marquee */}
+      <Marquee />
 
       {/* Programs */}
       <section className="band" id="programs" style={{ background: "var(--ground-2)" }}>
