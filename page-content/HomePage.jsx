@@ -263,7 +263,7 @@ export default function HomePage() {
           <Reveal className="sec-head">
             <p className="eyebrow">Interactive SEL</p>
             <KineticReveal text="플레이로 배우는 SEL" />
-            <p>게임 · 자기 점검 · 활동 도구, 그리고 교실 도구 — 학생이 직접 만지고 플레이하며 배우는 인터랙티브 라이브러리. 설치 없이 웹 브라우저에서 바로 실행됩니다.</p>
+            <p>AI 수업 · 게임 · 자기 점검 · 활동 도구 — 학생이 직접 만지고 플레이하며 배우는 인터랙티브 SEL 라이브러리. 설치 없이 웹 브라우저에서 바로 실행됩니다.</p>
           </Reveal>
           <Reveal d={1}><ToolsGallery /></Reveal>
           <div style={{ marginTop: 26 }}>

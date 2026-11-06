@@ -4,9 +4,8 @@
 // privacy: 교사가 수업 전에 알아야 할 데이터 처리 한 줄.
 // 실시간 데이터베이스를 쓰는 앱(말하지 않은 이유, 마음의 방)은 권한 구조 보강 뒤 등재한다.
 // "AI 수업"은 교사 비밀번호·초대 코드로 수업방을 여는 45분 수업 앱. 외부 학교는 레브랩에 개설을 신청한다(AI 비용·학급 격리 관리).
-// "교실 도구"는 SEL 성취기준과 직접 잇지 않는 수업·학급 행사·교사용 도구.
 // 교실 코드 모드에서 Firebase 를 쓰는 게임(마음 점프, 밤길 라이더, 공동체 빌더스)도 외부 학교 공개 전 규칙 점검 대상.
-export const TOOL_TYPES = ["전체", "AI 수업", "게임", "자기 점검", "활동 도구", "교실 도구"];
+export const TOOL_TYPES = ["전체", "AI 수업", "게임", "자기 점검", "활동 도구"];
 export const TOOL_AUDIENCES = ["전체", "학생", "교사"];
 
 export const DOMAIN_COLOR = {
@@ -42,8 +41,6 @@ export const TOOLS = [
     standards: ["02-02"], privacy: "서버 전송 없음", url: "https://cleveranawim-source.github.io/perspective-room" },
   { n: "행복한 삶을 위한 가치관", d: "밸런스 게임과 가치 카드로 내가 바라는 행복한 삶을 그려 보는 수업 앱. 교사용 결과판이 함께 있습니다.", t: "활동 도구", dom: "마음건강", aud: "학생", em: "🌤️",
     standards: ["04-01"], privacy: "고른 답만 익명으로 결과판에 전송 · 글·사진은 기기에만", url: "https://cleveranawim-source.github.io/happy-values/" },
-  { n: "학급 관계지도", d: "교우관계 설문을 소시오메트리로 분석하는 교사용 도구.", t: "활동 도구", dom: "대인관계", aud: "교사", em: "🕸️",
-    standards: [], privacy: "학생 응답을 다룸 · 교사만 열람", url: "https://mjms-classmap.vercel.app" },
   { n: "마음 렌즈", d: "표정을 참고용 힌트로만 보여 주고, 내 감정은 스스로 골라 기록하는 자기인식 도구.", t: "자기 점검", dom: "자기", aud: "학생", em: "🪞",
     standards: ["01-01"], privacy: "카메라 사용 · 감정 기록과 고른 얼굴 캡처가 이 기기 브라우저에 남음 · 공용 기기는 ‘다음 사람’으로 지우기", url: "https://cleveranawim-source.github.io/emotion_lens/" },
   { n: "분노버튼 측정소", d: "나를 화나게 하는 버튼을 살펴보고, 실천 모드로 조절 방법을 연습합니다.", t: "자기 점검", dom: "자기", aud: "학생", em: "🔥",
@@ -54,13 +51,5 @@ export const TOOLS = [
     standards: [], privacy: "", url: "https://cleveranawim-source.github.io/mind-check-in" },
   { n: "선생님의 분노버튼 연구소", d: "교사가 자신의 분노버튼을 살펴보고 마음 안정 버튼과 캐릭터를 만들어 보는 연수용 앱.", t: "자기 점검", dom: "마음건강", aud: "교사", em: "🧯",
     standards: [], privacy: "서버 전송 없음", url: "https://teacher-anger.vercel.app" },
-  { n: "갈튼보드 시뮬레이터", d: "구슬을 떨어뜨리고 확률과 못 줄 수를 바꾸며 분포가 달라지는 모습을 관찰합니다. 두 실험을 겹쳐 비교할 수 있습니다.", t: "교실 도구", dom: "전체", aud: "학생", em: "📊",
-    standards: [], privacy: "실험 결과는 이 페이지 안에서만 처리 · 이름·사진 수집 없음", url: "https://cleveranawim-source.github.io/galton/" },
-  { n: "우리들의 4컷 사진관", d: "교사가 준비한 기기로 네컷 사진을 찍고 프레임을 골라 학급의 추억을 남깁니다. 완성한 사진은 기기에 저장하거나 인쇄할 수 있습니다.", t: "교실 도구", dom: "전체", aud: "학생", em: "📸",
-    standards: [], privacy: "카메라 사용 · 사진은 기기에서 처리 · 저장·공유는 사용자가 선택", url: "https://cleveranawim-source.github.io/4cut-photo/" },
-  { n: "YEOL 튜너·메트로놈", d: "악기 소리의 음높이를 확인하고 일정한 박자에 맞춰 연습합니다. 기준음과 빠르기를 수업에 맞게 조절할 수 있습니다.", t: "교실 도구", dom: "전체", aud: "학생", em: "🎼",
-    standards: [], privacy: "마이크 소리는 기기에서 분석 · 녹음·전송 없음", url: "https://yeol-tuner.vercel.app/" },
-  { n: "AI 교무실 만들기 키트", d: "교사가 AI 코딩 도구와 함께 우리 학교 교직원 사이트를 직접 만드는 안내 키트. 기능 목록, 구축 순서, 권한 점검 항목을 담았습니다.", t: "교실 도구", dom: "전체", aud: "교사", em: "🏫",
-    standards: [], privacy: "안내 페이지는 정보를 받지 않음 · 직접 만든 사이트는 따로 점검", url: "https://cleveranawim-source.github.io/school-office-kit/" },
 ];
 

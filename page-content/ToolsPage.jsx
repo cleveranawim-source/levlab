@@ -24,8 +24,8 @@ export default function ToolsPage() {
             <span className="g"><KineticText words={["SEL", "라이브러리"]} offset={2} /></span>
           </h1>
           <p className="sub">
-            게임 · 자기 점검 · 활동 도구 — 학생이 직접 만지고 플레이하며 배우는 레브랩의 인터랙티브 SEL 콘텐츠와,
-            수업·학급 행사에 쓰는 교실 도구. 학생 계정 없이 웹 브라우저에서 바로 열립니다.
+            AI 수업 · 게임 · 자기 점검 · 활동 도구 — 학생이 직접 만지고 플레이하며 배우는 레브랩의 인터랙티브 SEL 콘텐츠.
+            학생 계정 없이 웹 브라우저에서 바로 열리고, 서울 사회정서교육 네 영역에 맞춰 만들었습니다.
           </p>
           <div className="stat-row">
             <div className="s"><span className="n">{PUBLIC_COUNT}</span><span className="l">공개 콘텐츠</span></div>
