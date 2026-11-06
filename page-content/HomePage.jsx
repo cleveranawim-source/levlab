@@ -17,7 +17,9 @@ const featuredTools = [TOOLS.find((t) => t.t === "AI 수업" && t.url), ...TOOLS
 
 export default function HomePage() {
   const standards = getStandards();
-  const lessons = GRADES.map((n) => getLessonsByGrade(n)[0]).filter(Boolean);
+  // 학년마다 한 차시, 영역이 겹치지 않게: 중1 대인관계(공감) · 중2 공동체 · 중3 마음건강(도움 요청)
+  const FEATURED = [[1, "대인관계"], [2, "공동체"], [3, "마음건강"]];
+  const lessons = FEATURED.map(([n, area]) => getLessonsByGrade(n).find((l) => l.area === area)).filter(Boolean);
   return (
     <>
       <section className="home-hero" aria-labelledby="home-title">
@@ -59,7 +61,7 @@ export default function HomePage() {
 
       <section className="band home-lessons" aria-labelledby="home-lessons">
         <div className="wrap">
-          <div className="sec-head section-heading-row"><h2 id="home-lessons">이번 주에 해 볼 수업</h2><Link className="text-link" href="/curriculum">전체 수업 <span aria-hidden="true">→</span></Link></div>
+          <div className="sec-head section-heading-row"><h2 id="home-lessons">먼저 둘러볼 만한 수업</h2><Link className="text-link" href="/curriculum">전체 수업 <span aria-hidden="true">→</span></Link></div>
           <div className="featured-lessons">
             {lessons.map((l) => <Link className="featured-lesson" href={`/lessons/${l.slug}`} key={l.slug}>
               <ContentImage src={`/images/lessons/${l.slug}.webp`} alt={`중${l.grade} ${l.title} 수업 활동 장면`} width={800} height={600} />

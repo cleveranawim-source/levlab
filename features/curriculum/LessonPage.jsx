@@ -63,7 +63,7 @@ export default function LessonPage({ slug }) {
             </div>
           </div>
 
-          <div className="timeline" role="img" aria-label={`45분 수업 흐름: ${L.flow.map((f) => `${f.stage} ${f.minutes}분`).join(", ")}`}>
+          <div className="lesson-timeline" role="img" aria-label={`45분 수업 흐름: ${L.flow.map((f) => `${f.stage} ${f.minutes}분`).join(", ")}`}>
             {L.flow.map((f, i) => (
               <span key={f.stage} className={`tl-seg s${i}`} style={{ flexGrow: f.minutes }}>
                 <StageIcon stage={f.stage} size={20} />

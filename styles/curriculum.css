@@ -19,8 +19,8 @@
 .source-note { margin-top: 12px; font-size: 14px; color: var(--ink-2, #4A5650); }
 
 /* ── 탭·칩 ── */
-.area-tab { display: inline-block; font-size: 13.5px; font-weight: 700; line-height: 1; padding: 6px 10px 6px 12px; color: var(--on-ac, #fff); background: var(--ac, var(--forest, #1F5C3F)); border-radius: 4px var(--r-sm, 10px) var(--r-sm, 10px) 4px; }
-.grade-tab { display: inline-block; font-size: 13.5px; font-weight: 800; line-height: 1; padding: 6px 10px; color: var(--ink, #1E2A24); background: var(--paper-2, #F5F6F2); border: 1.5px solid var(--ink, #1E2A24); border-radius: 6px; }
+.area-tab { display: inline-block; font-size: 13.5px; font-weight: 700; line-height: 1; padding: 6px 10px 6px 12px; color: var(--on-ac, #fff); background: var(--ac, var(--forest, #1F5C3F)); border-radius: var(--r-sm, 10px); }
+.grade-tab { display: inline-block; font-size: 13.5px; font-weight: 800; line-height: 1; padding: 6px 10px; color: var(--ink, #1E2A24); background: var(--paper-2, #F5F6F2); border: 1.5px solid var(--ink, #1E2A24); border-radius: var(--r-sm, 10px); }
 .std-chip { display: inline-block; font-weight: 700; font-size: 14px; color: var(--forest, #1F5C3F); background: var(--paper, #fff); border: 1.5px solid currentColor; border-radius: var(--r-sm, 10px); padding: 3px 10px; white-space: nowrap; }
 .std-chip.small { font-size: 12.5px; padding: 2px 8px; }
 .std-chip:hover { background: var(--paper-2, #F5F6F2); }
@@ -79,7 +79,7 @@
 .table-scroll:focus-visible { outline: 3px solid var(--forest, #1F5C3F); outline-offset: 2px; }
 .full-course { margin-top: 48px; padding: 26px; border: 1.5px solid var(--line, #DCE2DC); border-radius: var(--r-lg, 20px); }
 .full-course .sec-title { margin-top: 0; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.cur-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 
 /* ── 차시 카드 (학년·성취기준) ── */
 .area-group { margin-top: 36px; }
@@ -141,7 +141,7 @@
 .goals li::before { content: counter(g); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--ac); color: var(--on-ac, #fff); font-weight: 800; font-size: 14px; margin-top: 1px; }
 .lh-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14.5px; color: var(--ink-2, #4A5650); margin: 0; }
 
-.timeline { display: flex; gap: 4px; margin-top: 28px; border-radius: var(--r-sm, 10px); overflow: hidden; }
+.lesson-timeline { display: flex; gap: 4px; margin-top: 28px; border-radius: var(--r-sm, 10px); overflow: hidden; }
 .tl-seg { min-width: 0; display: flex; align-items: center; gap: 8px; padding: 12px 12px; color: var(--on-ac, #fff); background: var(--ac); font-size: 14px; white-space: nowrap; }
 .tl-seg b { font-size: 15px; }
 .tl-seg span { opacity: .92; }
@@ -156,13 +156,13 @@
 .steps { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 16px; }
 .step { border: 1.5px solid var(--line, #DCE2DC); border-radius: var(--r-lg, 20px); padding: 20px 22px; background: var(--paper, #fff); }
 .step-head { display: flex; align-items: center; gap: 12px; }
-.step-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--ac-soft); color: var(--ac); flex: none; }
+.step-icon { width: 40px; height: 40px; border-radius: var(--r-sm, 10px); display: grid; place-items: center; background: var(--ac-soft); color: var(--ac); flex: none; }
 .step-head h3 { font-size: 20px; margin: 0; }
 .step-min { margin-left: auto; font-weight: 800; font-size: 15px; color: var(--ac); }
 .step-title { font-weight: 800; font-size: 17px; margin: 14px 0 8px; }
 .step-list { padding-left: 20px; display: grid; gap: 6px; font-size: 16px; line-height: 1.65; }
 .step-list li { white-space: pre-line; }
-.asks { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--paper-2, #F5F6F2); }
+.asks { margin-top: 14px; padding: 14px 16px; border-radius: var(--r-sm, 10px); background: var(--paper-2, #F5F6F2); }
 .asks-label { margin: 0 0 6px; font-size: 13.5px; font-weight: 800; color: var(--ink-2, #4A5650); }
 .asks ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .asks li { font-size: 17px; line-height: 1.55; white-space: pre-line; padding-left: 22px; position: relative; }
@@ -178,7 +178,7 @@
 .prep-title { font-size: 17px; margin: 0 0 10px; }
 .checklist { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
 .checklist li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; font-size: 15px; line-height: 1.4; }
-.checklist .box { width: 16px; height: 16px; border: 2px solid var(--ink, #1E2A24); border-radius: 4px; margin-top: 2px; }
+.checklist .box { width: 16px; height: 16px; border: 2px solid var(--ink, #1E2A24); border-radius: var(--r-sm, 10px); margin-top: 2px; }
 .prep-note { font-size: 13.5px; color: var(--ink-2, #4A5650); margin: 0 0 12px; }
 .prep-note b { color: var(--ink, #1E2A24); display: block; }
 .print-btn { width: 100%; justify-content: center; }
@@ -188,11 +188,11 @@
 .lesson-more .sec-title:first-child { margin-top: 0; }
 .more-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
 .assess { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.assess li { display: grid; gap: 2px; padding: 12px 14px; border-left: 4px solid var(--ac); background: var(--paper-2, #F5F6F2); border-radius: 0 12px 12px 0; font-size: 15px; }
+.assess li { display: grid; gap: 2px; padding: 12px 14px; border-left: 4px solid var(--ac); background: var(--paper-2, #F5F6F2); border-radius: 0 var(--r-sm, 10px) var(--r-sm, 10px) 0; font-size: 15px; }
 .safety { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.safety li { padding: 12px 14px; border-left: 4px solid var(--d-well, #2F6FB8); background: var(--paper-2, #F5F6F2); border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.6; }
+.safety li { padding: 12px 14px; border-left: 4px solid var(--d-well, #2F6FB8); background: var(--paper-2, #F5F6F2); border-radius: 0 var(--r-sm, 10px) var(--r-sm, 10px) 0; font-size: 15px; line-height: 1.6; }
 .safety li b { display: block; }
-.more { border: 1.5px solid var(--line, #DCE2DC); border-radius: 14px; padding: 14px 18px; margin-top: 10px; background: var(--paper, #fff); }
+.more { border: 1.5px solid var(--line, #DCE2DC); border-radius: var(--r-sm, 10px); padding: 14px 18px; margin-top: 10px; background: var(--paper, #fff); }
 .more summary { cursor: pointer; font-weight: 700; }
 .more p, .more ul { color: var(--ink-2, #4A5650); margin: 10px 0 0; font-size: 15.5px; line-height: 1.7; }
 .file-list a { color: var(--forest, #1F5C3F); font-weight: 700; text-decoration: underline; }
@@ -222,7 +222,7 @@
   .area-block { grid-template-columns: 1fr; }
   .ab-img { min-height: 0; aspect-ratio: 4 / 3 !important; }
   .lm-side { grid-template-columns: 1fr; }
-  .timeline { flex-wrap: wrap; }
+  .lesson-timeline { flex-wrap: wrap; }
   .tl-seg { flex-basis: calc(50% - 4px); }
   .tl-seg b { font-size: 14px; }
   .lesson-pager { grid-template-columns: 1fr; }
@@ -236,46 +236,55 @@
   :root:not([data-theme="light"]) .a-self, :root:not([data-theme="light"]) .a-inter, :root:not([data-theme="light"]) .a-comm, :root:not([data-theme="light"]) .a-well { --ac-soft: color-mix(in srgb, var(--ac) 22%, var(--paper, #121814)); }
 }
 
-/* ── 인쇄: A4 수업 카드 ── */
+/* ── 인쇄: A4 수업 카드 — 화면 테마와 상관없이 항상 밝은 색 ── */
 @media print {
   @page { size: A4; margin: 12mm; }
+  :root, :root[data-theme="dark"], :root[data-theme="light"], :root:not([data-theme="light"]) {
+    color-scheme: light !important;
+    --paper: #FFFFFF !important; --paper-2: #F5F6F2 !important; --ink: #1E2A24 !important; --ink-2: #4A5650 !important; --line: #DCE2DC !important; --forest: #1F5C3F !important;
+    --d-self: #6D4FC2 !important; --d-inter: #BF4027 !important; --d-comm: #17784E !important; --d-well: #2F6FB8 !important; --domain-on: #FFFFFF !important;
+    --d-self-soft: #F0EDF9 !important; --d-inter-soft: #F9ECE9 !important; --d-comm-soft: #E8F2ED !important; --d-well-soft: #EAF1F8 !important; --hl: #FFE45C !important;
+  }
+  .a-self, .a-inter, .a-comm, .a-well { --tl-mix: #1E2A24 !important; --on-ac: #FFFFFF !important; --ac-soft: color-mix(in srgb, var(--ac) 10%, #FFFFFF) !important; }
+  html, body { background: #FFFFFF !important; color: #1E2A24 !important; }
   header, footer, nav.crumbs, .skip-link, .print-btn, .lesson-more, .std-box, .lm-flow > p.muted, .theme-toggle { display: none !important; }
-  .lh-img { max-height: 55mm; }
+  body { font-size: 11pt; }
+  .lesson-head { background: none !important; padding: 0 0 4mm; border: 0; break-after: avoid; }
+  .lh-grid { grid-template-columns: 62mm 1fr; gap: 6mm; }
+  .lh-img { max-height: 42mm; }
   .lh-img img { object-fit: cover; }
+  .lh-body h1 { font-size: 19pt; margin-bottom: 2mm; }
+  .key-q { font-size: 12.5pt; margin-bottom: 3mm; }
+  .key-q mark { background: linear-gradient(transparent 52%, #FFE45C 52%, #FFE45C 92%, transparent 92%) !important; color: #1E2A24 !important; padding: 0; }
+  .lh-sub { margin-bottom: 1mm; }
+  .goals { gap: 1mm; margin-bottom: 2mm; }
+  .goals li { font-size: 9.5pt; }
+  .lesson-timeline { margin-top: 3mm; }
+  .band { padding: 0 !important; }
+  .lm-grid { display: flex; flex-direction: column; align-items: stretch; gap: 3mm; }
+  .lm-flow, .lm-side, .prep { width: 100%; max-width: none; }
+  .lm-side { order: -1; position: static; display: block; }
+  .prep { padding: 2.5mm 4mm; border-radius: var(--r-sm, 10px); }
+  .prep-title { font-size: 11pt; margin: 0 0 1.5mm; }
+  .checklist { columns: 3; column-gap: 6mm; margin: 0; display: block; }
+  .checklist li { font-size: 9.5pt; break-inside: avoid; margin-bottom: 1mm; }
+  .prep-note { display: none; }
+  .sec-title { margin: 2mm 0 1mm; font-size: 12.5pt; }
+  .step { break-inside: auto; padding: 2mm 3mm; border-radius: var(--r-sm, 10px); }
+  .step-head, .step-title { break-after: avoid; }
+  .asks, .step-notes { break-inside: avoid; }
+  .steps { gap: 2mm; margin-top: 1mm; }
   .step-head h3 { font-size: 12pt; }
   .step-icon { width: 7mm; height: 7mm; }
-  .step-title { font-size: 10.5pt; margin: 1.5mm 0; }
+  .step-title { font-size: 10pt; margin: 1mm 0; }
+  .step-list { gap: 0.5mm; padding-left: 5mm; }
+  .step-list li, .asks li { font-size: 9pt; line-height: 1.4; }
   .asks { padding: 2mm 3mm; margin-top: 2mm; }
+  .asks ul { gap: 0.5mm; }
+  .asks-label { font-size: 8.5pt; margin-bottom: 1mm; }
   .step-notes { font-size: 8.5pt; margin-top: 1.5mm; display: flex; flex-wrap: wrap; gap: 1mm 5mm; }
   .step-notes > div { display: flex; gap: 1.5mm; }
   .step-notes svg { width: 12px; height: 12px; }
-  .step-list { gap: 0.5mm; padding-left: 5mm; }
-  .step-list li, .asks li { font-size: 9.5pt; line-height: 1.45; }
-  .asks ul { gap: 0.5mm; }
-  .asks-label { font-size: 8.5pt; margin-bottom: 1mm; }
-  .step { padding: 2.5mm 3.5mm; }
-  .steps { gap: 2mm; margin-top: 2mm; }
-  .lh-sub { margin-bottom: 1mm; }
-  .goals { gap: 1mm; margin-bottom: 2mm; }
-  .checklist li { font-size: 9.5pt; }
-  body { background: #fff !important; color: #000 !important; font-size: 11pt; }
-  .lesson-head { background: none !important; padding: 0 0 6mm; }
-  .lh-grid { grid-template-columns: 70mm 1fr; gap: 6mm; }
-  .lh-body h1 { font-size: 20pt; margin-bottom: 3mm; }
-  .key-q { font-size: 13pt; margin-bottom: 4mm; }
-  .goals li { font-size: 10.5pt; }
-  .timeline { margin-top: 4mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .lm-grid { grid-template-columns: 1fr 55mm; gap: 5mm; }
-  .lm-side { position: static; }
-  .step { break-inside: auto; border-radius: 3mm; }
-  .step-head, .step-title { break-after: avoid; }
-  .asks, .step-notes { break-inside: avoid; }
-  .lesson-head { break-after: avoid; }
-  .band { padding: 0 !important; }
-  .sec-title { margin: 5mm 0 2mm; font-size: 13pt; }
   a { color: inherit !important; text-decoration: none !important; }
-  .area-tab, .goals li::before, .tl-seg { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .area-tab, .goals li::before, .tl-seg, .key-q mark { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
-
-:root[data-theme="dark"] .key-q mark { background: var(--hl, #FFE45C); color: #1E2A24; border-radius: 4px; padding: 0 6px; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .key-q mark { background: var(--hl, #FFE45C); color: #1E2A24; border-radius: 4px; padding: 0 6px; } }

@@ -62,7 +62,7 @@ export default function CurriculumIndex() {
           <div className="full-course">
             <h2 className="sec-title" id="full-h">전체 34차시 과정이 필요하신가요?</h2>
             <p className="muted">학년별 전체 과정은 학교 교육과정 편성, 교사 연수, 교원학습공동체와 함께 운영합니다.</p>
-            <div className="cta-row">
+            <div className="cur-cta">
               <Link className="btn btn-solid" href="/contact">전체 과정 문의</Link>
               <Link className="btn btn-ghost" href="/programs">연수·워크북 보기</Link>
             </div>
