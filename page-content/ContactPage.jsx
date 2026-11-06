@@ -70,13 +70,11 @@ export default function ContactPage() {
 
   return (
     <PageShell
-      eyebrow="Contact"
       title="함께 만들어 가는 교육"
       sub="학교 SEL 도입, 교사 연수, 학부모 특강, 콘텐츠 협업 문의를 환영합니다. 보내 주시면 영업일 1~2일 안에 이메일로 답장드립니다."
     >
       <div className="contact-grid">
         <div>
-          <p className="eyebrow">Collaboration</p>
           <h2 className="content-h2">이런 일을 함께합니다</h2>
           <div className="collab-list" style={{ marginTop: 20 }}>
             {COLLABS.map((c) => <div className="collab" key={c.h}><b>{c.h}</b><span>{c.d}</span></div>)}
@@ -142,7 +140,6 @@ export default function ContactPage() {
       </div>
 
       <section className="content-section" aria-labelledby="faq-h">
-        <p className="eyebrow">FAQ</p>
         <h2 className="content-h2" id="faq-h">자주 묻는 질문</h2>
         <div className="faq" style={{ marginTop: 20 }}>
           {FAQ.map((f) => (

@@ -1,56 +1,9 @@
 "use client";
 
 import { Suspense, useMemo, useRef } from "react";
-import { flushSync } from "react-dom";
 import { useSearchParams } from "next/navigation";
-import { TOOLS, TOOL_TYPES, TOOL_AUDIENCES, DOMAIN_COLOR } from "../data/tools";
-import { domainInk } from "../lib/colors";
-
-/** 필터 변경을 View Transitions 로 감싸 카드가 제자리로 미끄러지게 (미지원·reduced-motion 이면 즉시 변경) */
-function withTransition(fn) {
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (document.startViewTransition && !reduce) {
-    document.startViewTransition(() => flushSync(fn));
-  } else {
-    fn();
-  }
-}
-
-function ToolCard({ a, i }) {
-  const c = DOMAIN_COLOR[a.dom] || "var(--brand)";
-  const ink = domainInk(c);
-  const style = { "--i": i, viewTransitionName: `tool-${TOOLS.indexOf(a)}` };
-  const inner = (
-    <>
-      <div
-        className="tthumb"
-        style={{
-          background: `linear-gradient(135deg, color-mix(in srgb, ${c} 34%, var(--surface)), color-mix(in srgb, ${c} 9%, var(--surface)))`,
-        }}
-      >
-        <span className="em">{a.em}</span>
-      </div>
-      <div className="tbody">
-        <span className="ttype" style={{ color: ink }}>{a.t}</span>
-        <h3>{a.n}</h3>
-        <p>{a.d}</p>
-        {a.privacy && <p className="tool-privacy">{a.privacy}</p>}
-        <div className="tmeta">
-          <div className="chips">
-            <span className="tchip" style={{ background: `color-mix(in srgb, ${c} 15%, transparent)`, color: ink }}>{a.dom}</span>
-            <span className="aud">{a.aud}</span>
-          </div>
-          {a.url ? <span className="topen row">열기 →</span> : <span className="tsoon">곧 공개</span>}
-        </div>
-      </div>
-    </>
-  );
-  return a.url ? (
-    <a className="tcard" href={a.url} target="_blank" rel="noopener noreferrer" style={style}>{inner}</a>
-  ) : (
-    <div className="tcard soon" style={style}>{inner}</div>
-  );
-}
+import { TOOLS, TOOL_TYPES, TOOL_AUDIENCES } from "../data/tools";
+import ToolCard from "./ToolCard";
 
 /** full=true → 유형+대상 이중 필터 + 개수 표시 (전용 페이지용) */
 function FilteredGallery({ full }) {
@@ -82,7 +35,7 @@ function Gallery({ full, params }) {
     [type, aud, full]
   );
 
-  const updateFilters = (changes) => withTransition(() => {
+  const updateFilters = (changes) => {
     const next = new URLSearchParams(window.location.search);
     for (const [key, value] of Object.entries(changes)) {
       if (value === "전체") next.delete(key);
@@ -91,7 +44,7 @@ function Gallery({ full, params }) {
     const query = next.toString();
     // Next integrates native history with useSearchParams; no route scroll/focus reset.
     window.history.pushState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`);
-  });
+  };
   const pickType = (t) => t !== type && updateFilters({ type: t });
   const pickAud = (v) => v !== aud && updateFilters({ aud: v });
 
@@ -111,7 +64,7 @@ function Gallery({ full, params }) {
   const grid = (
     <div className="tool-grid">
       {list.length
-        ? list.map((a, i) => <ToolCard key={a.n} a={a} i={i} />)
+        ? list.map((a) => <ToolCard key={a.n} tool={a} />)
         : <div className="empty"><p>해당하는 콘텐츠가 없어요.</p><button type="button" className="btn btn-ghost" onClick={() => { updateFilters({ type: "전체", aud: "전체" }); firstFilter.current?.focus(); }}>필터 초기화</button></div>}
     </div>
   );
@@ -138,7 +91,10 @@ function Gallery({ full, params }) {
           </div>
         </div>
       </div>
-      <p className="count-note" aria-live="polite"><b>{list.length}개</b> 콘텐츠</p>
+      <div className="gallery-summary">
+        <p className="count-note" aria-live="polite"><b>{list.length}개</b> 콘텐츠</p>
+        {(type !== "전체" || aud !== "전체") && <button className="filter-reset" type="button" onClick={() => { updateFilters({ type: "전체", aud: "전체" }); firstFilter.current?.focus(); }}>필터 초기화</button>}
+      </div>
       {grid}
     </>
   );

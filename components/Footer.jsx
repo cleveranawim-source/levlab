@@ -7,11 +7,11 @@ export default function Footer() {
     <footer className="foot">
       <div className="wrap">
         <div>
-          <Link href="/" className="logo" style={{ display: "inline-flex" }} aria-label="Lev Lab 홈">
+          <Link href="/" className="logo" aria-label="Lev Lab 홈">
             <Logo white />
-            <span className="wm" style={{ color: "#fff" }}>LEV&nbsp;LAB</span>
+            <span className="wm">LEV&nbsp;LAB</span>
           </Link>
-          <p className="desc" style={{ marginTop: 14 }}>서울 사회정서교육에 맞춘 중학교 SEL 수업과 웹앱을 만드는 교육 콘텐츠 연구소.</p>
+          <p className="desc">서울 사회정서교육에 맞춘 중학교 SEL 수업과 웹앱을 만드는 교육 콘텐츠 연구소.</p>
         </div>
         <div>
           <h2 className="foot-h">둘러보기</h2>

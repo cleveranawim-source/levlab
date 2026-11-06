@@ -1,5 +1,3 @@
-"use client";
-
 import PageShell from "../components/PageShell";
 import { CONTACT_EMAIL } from "../data/site";
 
@@ -30,7 +28,6 @@ const TRANSFERS = [
 export default function PrivacyPage() {
   return (
     <PageShell
-      eyebrow="Privacy"
       title="개인정보 처리방침"
       sub="레브랩 웹사이트(www.levlab.co.kr)가 어떤 정보를 왜 받고, 어디로 보내고, 언제 어떻게 지우는지 알려 드립니다."
     >

@@ -18,12 +18,10 @@ const PARENT_TALK = [
 export default function ProgramsPage() {
   return (
     <PageShell
-      eyebrow="Programs"
       title="연수 · 워크북"
       sub="수업 밖에서도 사회정서교육을 이어 가도록, 교사 연수와 학부모 특강, 필사 워크북 「마음의 한줄」을 함께 운영합니다."
     >
       <section className="content-section" id="workshop" aria-labelledby="workshop-h">
-        <p className="eyebrow">Workshop</p>
         <h2 className="content-h2" id="workshop-h">교사 연수 · 학부모 특강</h2>
         <p className="content-lead">「학교로 찾아가는 사회정서교육」 연수 강사로 현장에서 나눈 내용을 바탕으로, 학교 상황에 맞춰 설계합니다.</p>
         <div className="offer-list" style={{ marginTop: 22 }}>
@@ -42,7 +40,6 @@ export default function ProgramsPage() {
       </section>
 
       <section className="content-section" id="workbook" aria-labelledby="workbook-h">
-        <p className="eyebrow">Workbook</p>
         <h2 className="content-h2" id="workbook-h">「마음의 한줄」 필사 워크북</h2>
         <p className="content-lead">
           매일 한 줄을 손으로 쓰며 마음을 정리하는 34주 루틴. 학년별 3권으로, 1학년은 자기, 2학년은 관계, 3학년은 공동체 주제를 깊게 다룹니다.
@@ -51,7 +48,6 @@ export default function ProgramsPage() {
       </section>
 
       <section className="content-section" aria-labelledby="full-h">
-        <p className="eyebrow">Full Course</p>
         <h2 className="content-h2" id="full-h">학교 단위 전체 {CURRICULUM.lessonsPerGrade}차시 과정</h2>
         <p className="content-lead">
           공개한 핵심 15차시 밖의 전체 과정(학년별 {CURRICULUM.lessonsPerGrade}차시, 총 {CURRICULUM.totalLessons}차시)은

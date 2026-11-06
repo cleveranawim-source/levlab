@@ -1,11 +1,8 @@
-"use client";
-
 import PageShell, { ComingSoon } from "../components/PageShell";
 
 export default function InsightsPage() {
   return (
     <PageShell
-      eyebrow="Insights"
       title="마음을 읽는 교실의 기록"
       sub="SEL 칼럼과 현장 이야기를 나눌 공간입니다."
     >

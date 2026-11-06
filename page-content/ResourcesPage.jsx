@@ -1,11 +1,8 @@
-"use client";
-
 import PageShell, { ComingSoon } from "../components/PageShell";
 
 export default function ResourcesPage() {
   return (
     <PageShell
-      eyebrow="Resources"
       title="수업 자료"
       sub="지도안·활동지·수업 슬라이드는 따로 모아 두지 않고, 각 수업 페이지에서 웹앱과 함께 받을 수 있게 공개합니다."
     >

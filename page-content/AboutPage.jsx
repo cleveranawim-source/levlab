@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import PageShell from "../components/PageShell";
 
@@ -35,12 +33,10 @@ export default function AboutPage() {
   return (
     <PageShell
       showSlogan
-      eyebrow="About Lev Lab"
       title="마음(לֵב)에서 시작하는 교육"
       sub="히브리어 레브(לֵב)는 마음이자 지성이자 의지입니다. 레브랩은 이 한 단어에 교육철학을 담아, 사회정서교육을 교실의 중심에 놓습니다."
     >
       <section className="content-section" aria-labelledby="name-h">
-        <p className="eyebrow">The Name</p>
         <h2 className="content-h2" id="name-h">왜 ‘레브’인가요?</h2>
         <div className="about-two" style={{ marginTop: 20 }}>
           <div>
@@ -57,7 +53,6 @@ export default function AboutPage() {
       </section>
 
       <section className="content-section" aria-labelledby="mission-h">
-        <p className="eyebrow">Mission</p>
         <h2 className="content-h2" id="mission-h">레브랩이 지향하는 것</h2>
         <div className="track-grid" style={{ marginTop: 22, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
           {MISSION.map((m) => (
@@ -71,10 +66,9 @@ export default function AboutPage() {
       </section>
 
       <section className="content-section" aria-labelledby="founder-h">
-        <p className="eyebrow">Founder</p>
         <h2 className="content-h2" id="founder-h">대표 소개</h2>
         <div className="founder-card" style={{ marginTop: 22 }}>
-          <img src="/founder.png" alt="레브랩 대표 이승열" loading="lazy" />
+          <img src="/founder.png" alt="레브랩 대표 이승열" width={440} height={550} loading="lazy" />
           <div>
             <h3>이승열</h3>
             <p className="role">명지중학교 교목 · 레브랩 대표</p>
@@ -91,9 +85,8 @@ export default function AboutPage() {
       </section>
 
       <section className="content-section" aria-labelledby="timeline-h">
-        <p className="eyebrow">Story</p>
         <h2 className="content-h2" id="timeline-h">레브랩이 되기까지</h2>
-        <ol className="timeline" style={{ marginTop: 24 }}>
+        <ol className="about-timeline" style={{ marginTop: 24 }}>
           {TIMELINE.map((t) => (
             <li key={t.h}>
               <span className="y">{t.y}</span>
@@ -105,7 +98,6 @@ export default function AboutPage() {
       </section>
 
       <section className="content-section" aria-labelledby="diff-h">
-        <p className="eyebrow">Why Lev Lab</p>
         <h2 className="content-h2" id="diff-h">레브랩이 다른 점</h2>
         <div className="offer-list" style={{ marginTop: 22 }}>
           {DIFFS.map((x) => (
