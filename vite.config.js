@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    host: true,
+    host: "localhost", // LAN에서 확인할 때만 npm run dev -- --host 0.0.0.0
     open: true,
     strictPort: false,
   },

@@ -4,13 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lev Lab · 레브랩 — 마음이 배움의 중심이 되는 시간</title>
-    <meta name="description" content="게임·자기진단·활동 도구로 직접 체험하는 인터랙티브 SEL. 서울 SEL 2026 기반 사회정서학습 교육 콘텐츠 연구소, 레브랩." />
+    <meta name="description" content="서울 사회정서교육 4영역·17개 사회정서기술에 맞춘 중학교 SEL 수업과 웹앱. 마음이 배움의 중심이 되는 시간을 만드는 레브랩입니다." />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Lev Lab · 레브랩 — 마음이 배움의 중심이 되는 시간" />
-    <meta property="og:description" content="게임·자기진단·활동 도구로 직접 체험하는 인터랙티브 SEL. 서울 SEL 2026 기반 교육 콘텐츠 연구소." />
-    <meta property="og:image" content="/img/hero.jpg" />
+    <meta property="og:description" content="서울 사회정서교육 4영역·17개 사회정서기술에 맞춘 중학교 SEL 수업과 웹앱. 마음이 배움의 중심이 되는 시간을 만드는 레브랩입니다." />
+    <meta property="og:image" content="https://www.levlab.co.kr/img/hero.jpg" />
+    <meta property="og:url" content="https://www.levlab.co.kr/" />
+    <link rel="canonical" href="https://www.levlab.co.kr/" />
     <meta property="og:locale" content="ko_KR" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#2D6B4A" />
@@ -25,7 +27,7 @@
       (function () {
         try {
           var t = localStorage.getItem("levlab-theme");
-          if (t) document.documentElement.setAttribute("data-theme", t);
+          if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
         } catch (e) {}
       })();
     </script>

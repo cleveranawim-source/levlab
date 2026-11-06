@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import Logo from "./Logo";
@@ -24,16 +25,23 @@ export default function PageShell({ eyebrow, title, sub, showSlogan = false, chi
   );
 }
 
-/** 아직 재구축 중인 섹션 안내 카드 */
-export function ComingSoon({ note }) {
+/** 아직 공개 전인 영역 안내 카드 — 막다른 길이 되지 않도록 다음 행동을 함께 준다 */
+export function ComingSoon({ title = "준비하고 있어요", note, actions = [] }) {
   return (
     <div style={{
       background: "var(--surface)", border: "1px solid var(--line)", borderRadius: 18,
       padding: "40px 32px", textAlign: "center", boxShadow: "var(--shadow-s)",
     }}>
-      <div style={{ fontSize: 34, marginBottom: 10 }}>🌱</div>
-      <h3 style={{ fontSize: 20, marginBottom: 8 }}>이 페이지는 곧 채워집니다</h3>
+      <div style={{ fontSize: 34, marginBottom: 10 }} aria-hidden="true">🌱</div>
+      <h2 style={{ fontSize: 20, marginBottom: 8 }}>{title}</h2>
       <p style={{ color: "var(--ink-soft)", fontSize: 15, maxWidth: "48ch", margin: "0 auto" }}>{note}</p>
+      {actions.length > 0 && (
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginTop: 22 }}>
+          {actions.map((a, i) => (
+            <Link key={a.to} to={a.to} className={`btn ${i === 0 ? "btn-solid" : "btn-ghost"}`}>{a.label}</Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,13 +1,18 @@
 import { useRef, useEffect } from "react";
+import { usePrefersReducedMotion } from "../lib/motion";
+import { useInViewport, usePageVisible } from "../lib/visibility";
 
 /** 아침 햇살 속 부드러운 초록 빛 입자가 위로 떠오르는 캔버스 */
 export default function LeafField() {
   const ref = useRef(null);
+  const reduce = usePrefersReducedMotion();
+  const visible = useInViewport(ref);
+  const pageVisible = usePageVisible();
   useEffect(() => {
     const c = ref.current;
-    if (!c) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!c || reduce || !visible || !pageVisible) return;
     const ctx = c.getContext("2d");
+    if (!ctx) return;
     const DPR = Math.min(2, window.devicePixelRatio || 1);
     let W = 0, H = 0, raf = 0;
     const N = 18;
@@ -69,6 +74,6 @@ export default function LeafField() {
     const ro = new ResizeObserver(resize);
     ro.observe(c);
     return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener("pointermove", onMove); };
-  }, []);
-  return <canvas ref={ref} className="leaf-field" aria-hidden="true" />;
+  }, [reduce, visible, pageVisible]);
+  return <canvas ref={ref} className="leaf-field" aria-hidden="true" hidden={reduce} />;
 }

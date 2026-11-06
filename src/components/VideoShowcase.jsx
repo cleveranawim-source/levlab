@@ -1,12 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useId, useState } from "react";
 import { Link } from "react-router-dom";
 import Reveal from "./Reveal";
 import { usePrefersReducedMotion } from "../lib/motion";
-import { TOOLS } from "../data/tools";
+import { useInViewport, usePageVisible } from "../lib/visibility";
+import { TOOLS, TOOL_TYPES } from "../data/tools";
 
-const GAMES = TOOLS.filter((t) => t.t === "게임").map((t) => t.n);
-const COUNTS = ["게임", "자기진단", "활동 도구"]
-  .map((t) => `${t} ${TOOLS.filter((x) => x.t === t).length}`)
+const GAMES = TOOLS.filter((t) => t.t === "게임" && t.url).map((t) => t.n);
+const COUNTS = TOOL_TYPES.filter((type) => type !== "전체")
+  .map((t) => `${t} ${TOOLS.filter((x) => x.t === t && x.url).length}`)
   .join(" · ");
 
 /** 게임 실사 영상이 배경으로 흐르는 시네마틱 쇼케이스 밴드 */
@@ -22,10 +23,35 @@ export default function VideoShowcase({
 }) {
   const reduce = usePrefersReducedMotion();
   const bgRef = useRef(null);
+  const sectionRef = useRef(null);
+  const videoRef = useRef(null);
+  const videoId = useId();
+  const canLoad = useInViewport(sectionRef, { rootMargin: "240px", once: true });
+  const visible = useInViewport(sectionRef);
+  const pageVisible = usePageVisible();
+  const [wantsPlay, setWantsPlay] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [error, setError] = useState("");
+
+  // A still poster is the default. Only an explicit play starts motion.
+  useEffect(() => { if (reduce) setWantsPlay(false); }, [reduce]);
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    let cancelled = false;
+    if (canLoad && wantsPlay && visible && pageVisible) {
+      video.play().catch((reason) => {
+        if (cancelled || reason.name === "AbortError") return;
+        setWantsPlay(false);
+        setError("영상을 재생하지 못했어요. 다시 재생해 주세요.");
+      });
+    } else video.pause();
+    return () => { cancelled = true; };
+  }, [canLoad, wantsPlay, visible, pageVisible]);
 
   // 스크롤 패럴랙스: 배경 영상이 본문보다 느리게 움직여 깊이감
   useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible || !pageVisible) return;
     const bg = bgRef.current;
     const sec = bg?.parentElement;
     if (!bg || !sec) return;
@@ -46,19 +72,20 @@ export default function VideoShowcase({
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);
+      bg.style.removeProperty("--py");
     };
-  }, [reduce]);
+  }, [reduce, visible, pageVisible]);
 
   return (
-    <section className="vshow" id="showcase">
+    <section className="vshow" id="showcase" ref={sectionRef}>
       <div className={`vshow-bg ${reduce ? "" : "para"}`} ref={bgRef}>
-        {reduce ? (
-          <img className="vshow-media" src="/video/sel-showcase-poster.jpg" alt="" aria-hidden="true" />
-        ) : (
-          <video className="vshow-media" autoPlay muted loop playsInline preload="metadata" poster="/video/sel-showcase-poster.jpg">
-            <source src="/video/sel-showcase.mp4" type="video/mp4" />
-          </video>
-        )}
+        <video
+          ref={videoRef} id={videoId} className="vshow-media" muted loop playsInline
+          preload={canLoad ? "metadata" : "none"} poster="/video/sel-showcase-poster.jpg"
+          src={canLoad ? "/video/sel-showcase.mp4" : undefined} aria-hidden="true"
+          onPlaying={() => setPlaying(true)} onPause={() => setPlaying(false)}
+          onError={() => { setWantsPlay(false); setPlaying(false); setError("영상을 불러오지 못했어요. 다시 재생해 주세요."); }}
+        />
         <div className="vshow-overlay" />
       </div>
 
@@ -70,6 +97,14 @@ export default function VideoShowcase({
           <div className="vshow-cta">
             <Link className="btn btn-solid" to={ctaTo}>{ctaLabel}</Link>
             {meta && <span className="vshow-meta">{meta}</span>}
+          </div>
+          <div className="vshow-controls">
+            <button type="button" className="btn vshow-toggle" aria-controls={videoId} onClick={() => {
+              if (error) videoRef.current?.load();
+              setError("");
+              setWantsPlay((current) => !current);
+            }}>{playing || wantsPlay ? "배경 영상 일시정지" : "배경 영상 재생"}</button>
+            {error && <p role="status">{error}</p>}
           </div>
           {showBadges && (
             <div className="vshow-badges">

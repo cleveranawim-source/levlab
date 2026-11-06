@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import { usePrefersReducedMotion } from "../lib/motion";
 
 const TARGETS = ".tcard, .pcard, .sel-tab, .ipost, .rrow";
 
 /** 마우스 위치를 카드에 --mx/--my 로 전달 → CSS 스포트라이트·테두리 빛 (마우스 기기 전용) */
 export default function Spotlight() {
+  const reduce = usePrefersReducedMotion();
   useEffect(() => {
+    if (reduce) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     let raf = 0;
     let last = null;
@@ -25,6 +28,6 @@ export default function Spotlight() {
       document.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [reduce]);
   return null;
 }

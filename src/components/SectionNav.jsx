@@ -5,9 +5,9 @@ const SECTIONS = [
   { id: "home", label: "홈" },
   { id: "about", label: "SEL이란" },
   { id: "tools", label: "SEL 콘텐츠" },
+  { id: "curriculum", label: "3년 수업" },
   { id: "programs", label: "프로그램" },
-  { id: "insights", label: "인사이트" },
-  { id: "resources", label: "자료실" },
+  { id: "newsletter", label: "소식 받기" },
 ];
 
 /** 우측 섹션 도트 내비게이션 (스크롤 위치 추적 + 점프) */
@@ -34,7 +34,11 @@ export default function SectionNav() {
   const go = (e, id) => {
     e.preventDefault();
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (el) {
+      el.setAttribute("tabindex", "-1");
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    }
   };
 
   return (

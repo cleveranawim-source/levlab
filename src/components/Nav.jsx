@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
@@ -10,6 +10,20 @@ export default function Nav() {
   const scrolled = useScrolled();
   const mobile = useIsMobile();
   const [open, setOpen] = useState(false);
+  const toggleRef = useRef(null);
+
+  useEffect(() => { if (!mobile) setOpen(false); }, [mobile]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpen(false);
+      toggleRef.current?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <>
@@ -22,7 +36,7 @@ export default function Nav() {
         </Link>
 
         {!mobile && (
-          <nav className="menu">
+          <nav className="menu" aria-label="주 메뉴">
             {NAV_ITEMS.map((it) => (
               <NavLink
                 key={it.path}
@@ -45,8 +59,11 @@ export default function Nav() {
           {mobile && (
             <button
               className="tog"
-              aria-label="메뉴 열기"
+              ref={toggleRef}
+              type="button"
+              aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
               aria-expanded={open}
+              aria-controls="mobile-menu"
               onClick={() => setOpen((v) => !v)}
             >
               {open ? "✕" : "☰"}
@@ -57,6 +74,8 @@ export default function Nav() {
 
       {mobile && (
         <div
+          id="mobile-menu"
+          hidden={!open}
           style={{
             overflow: "hidden",
             maxHeight: open ? 460 : 0,
@@ -65,7 +84,7 @@ export default function Nav() {
             background: "var(--ground)",
           }}
         >
-          <nav style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
+          <nav aria-label="주 메뉴" style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
             {NAV_ITEMS.map((it) => (
               <NavLink
                 key={it.path}

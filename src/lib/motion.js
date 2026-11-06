@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 
 /** prefers-reduced-motion 감지 */
 export function usePrefersReducedMotion() {
-  const [reduce, setReduce] = useState(false);
+  const [reduce, setReduce] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const on = () => setReduce(mq.matches);

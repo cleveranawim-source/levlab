@@ -4,10 +4,14 @@ export default function ResourcesPage() {
   return (
     <PageShell
       eyebrow="Resources"
-      title="교안·활동지를 무료로"
-      sub="교사·학부모가 바로 내려받아 쓰는 SEL 자료. 준비된 자료부터 순차 공개합니다."
+      title="수업 자료"
+      sub="지도안·활동지·수업 슬라이드는 따로 모아 두지 않고, 각 수업 페이지에서 웹앱과 함께 받을 수 있게 공개합니다."
     >
-      <ComingSoon note="교안·워크시트·가이드 목록과 실제 다운로드 연결을 준비 중입니다. (파일 호스팅 방식 확정 후 연동)" />
+      <ComingSoon
+        title="핵심 15차시와 함께 공개합니다"
+        note="학년별 핵심 15차시를 공개할 때 자료도 함께 열립니다. 지금은 수업 구성과 웹앱을 먼저 둘러보세요."
+        actions={[{ to: "/programs", label: "SEL 수업 보기" }, { to: "/tools", label: "SEL 콘텐츠 체험" }]}
+      />
     </PageShell>
   );
 }

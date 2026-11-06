@@ -1,160 +1,82 @@
 # Lev Lab (레브랩) — 마음을 읽는 교육
 
-SEL(사회정서학습) 교육 콘텐츠 연구소 레브랩의 공식 웹사이트입니다.
+서울 사회정서교육에 맞춘 중학교 SEL 수업과 웹앱을 만드는 레브랩의 공식 웹사이트입니다.
+
+- 운영 주소: https://www.levlab.co.kr (levlab.co.kr 은 www 로 이동)
+- 배포: Vercel (GitHub `main` 푸시 시 자동 배포)
 
 ## 기술 스택
 
-- **React 18** + **Vite 5** — 빠른 HMR 개발 환경
-- **React Router v6** — SPA 라우팅
-- **Pretendard** — 한국어 최적화 가변 웹폰트
-- 별도 CSS 프레임워크 없이 인라인 스타일 + 공통 토큰 기반
+- React 18 + Vite 5, React Router 6 (SPA, `vercel.json` 에서 모든 경로를 `index.html` 로)
+- 디자인 시스템: `src/styles/theme.css` (색·글꼴 토큰, 공통 컴포넌트 스타일)
+- 콘텐츠 페이지 스타일: `src/styles/content.css`
+- 글꼴: Pretendard (CDN)
 
-## 시작하기
-
-### 필수 조건
-
-- **Node.js 18+** (권장: 20 LTS)
-- **npm 9+**
-
-Node.js 설치 확인:
-```bash
-node -v   # v18.0.0 이상
-npm -v    # 9.0.0 이상
-```
-
-### 설치 및 실행
+## 실행
 
 ```bash
-# 1. 압축 해제
-unzip levlab-project.zip -d levlab
-cd levlab
-
-# 2. 의존성 설치
 npm install
-
-# 3. 개발 서버 실행
-npm run dev
+npm run dev      # http://localhost:3000
+npm run build    # dist/ 생성
+npm run preview  # 빌드 결과 미리보기
 ```
 
-브라우저에서 http://localhost:3000 을 열면 됩니다.
-(자동으로 브라우저가 열리지 않으면 주소를 직접 입력하세요)
+Node 18 이상이 필요합니다.
 
-```bash
-# 프로덕션 빌드
-npm run build
-
-# 빌드 미리보기
-npm run preview
-```
-
-### 트러블슈팅
-
-**화면이 안 뜰 때:**
-1. 터미널에서 에러 메시지 확인
-2. `node_modules` 삭제 후 재설치: `rm -rf node_modules && npm install`
-3. 포트 충돌 시 다른 포트가 자동 할당됩니다 (터미널 출력 확인)
-
-**Windows에서 실행 시:**
-- PowerShell 또는 CMD에서 실행
-- `rm -rf` 대신 `rmdir /s /q node_modules` 사용
-
-**npm install 에러:**
-- Node.js 18 이상인지 확인: `node -v`
-- npm 캐시 초기화: `npm cache clean --force`
-
-## 프로젝트 구조
+## 구조
 
 ```
 src/
-├── main.jsx                    # React 진입점
-├── App.jsx                     # 라우터 설정
-├── index.css                   # 글로벌 리셋 + 기본 스타일
-│
-├── styles/
-│   └── tokens.js               # 디자인 토큰 (COLORS, SEL_DOMAINS, NAV_ITEMS)
-│
-├── hooks.js                    # 공통 훅 (useInView, useScrolled)
-│
-├── components/
-│   ├── ui.jsx                  # UI 프리미티브 (FadeIn, Hover, Card, Pill 등)
-│   ├── Nav.jsx                 # 글로벌 네비게이션
-│   ├── Footer.jsx              # 글로벌 푸터
-│   └── ScrollToTop.jsx         # 페이지 전환 시 스크롤 리셋
-│
-└── pages/
-    ├── HomePage.jsx            # 홈 (8개 섹션)
-    └── AboutPage.jsx           # 소개 (7개 섹션)
+├── App.jsx              라우터, 경로별 제목·설명, 404
+├── main.jsx             진입점, 스타일 불러오기
+├── data/
+│   ├── site.js          메뉴, 연락처, 도메인, 커리큘럼 규모(차시 수)
+│   ├── sel.js           서울 사회정서교육 4영역 · 17개 사회정서기술
+│   ├── curriculum.js    중학교 성취기준 17개 원문, 학년별 학습 주제
+│   └── tools.js         SEL 콘텐츠(웹앱·게임) 목록
+├── pages/               홈, 소개, SEL 수업, SEL 콘텐츠, 문의, 개인정보 처리방침, 404 등
+├── components/          Nav, Footer, PageShell, ToolsGallery, SelExplorer, VideoShowcase …
+├── lib/                 공통 훅(테마, 화면 크기, 모션 설정, 페이지 메타)
+└── styles/              theme.css, content.css
+public/
+├── img/, video/, logo/  이미지·영상·로고
+├── robots.txt, sitemap.xml
+└── gangdannote/         강단노트 앱 지원·개인정보 페이지 (별도 제품, 주소 유지)
+(내부 점검 자료는 저장소에 올리지 않고 드라이브에 보관)
 ```
 
-## 페이지 추가 방법
+## 자주 하는 일
 
-1. `src/pages/NewPage.jsx` 생성
-2. 공통 컴포넌트 import:
-   ```jsx
-   import Nav from "../components/Nav";
-   import Footer from "../components/Footer";
-   import { FadeIn, SectionLabel, SectionTitle } from "../components/ui";
-   import { COLORS } from "../styles/tokens";
-   ```
-3. `src/App.jsx`에 라우트 추가:
-   ```jsx
-   <Route path="/new-page" element={<NewPage />} />
-   ```
-4. `src/styles/tokens.js`의 `NAV_ITEMS`에 메뉴 항목 추가
+### SEL 콘텐츠(웹앱) 추가
 
-## 디자인 시스템
+`src/data/tools.js` 의 `TOOLS` 에 항목을 더합니다.
 
-### 컬러
+| 필드 | 뜻 |
+|---|---|
+| `n`, `d` | 이름, 한두 문장 설명 (학생이 무엇을 해 보는지) |
+| `t` | 유형: `게임` · `자기 점검` · `활동 도구` |
+| `dom` | 영역: `자기` · `대인관계` · `공동체` · `마음건강` · `전체` |
+| `aud` | 대상: `학생` · `교사` |
+| `standards` | 성취기준 코드 뒷자리 배열, 예 `["02-01"]` = [9사회정서02-01] |
+| `privacy` | 교사가 알아야 할 데이터 처리 한 줄 (카메라, 서버 전송 여부) |
+| `url` | 실행 주소. 빈 문자열이면 "곧 공개" |
 
-| 용도 | 토큰 | 비고 |
-|------|------|------|
-| 프라이머리 | `teal50`~`teal900` | 브랜드 메인 컬러 |
-| 자기 영역 | `purple50`~`purple800` | SEL 자기이해 |
-| 대인관계 | `coral50`~`coral800` | SEL 공감·소통 |
-| 마음건강 | `blue50`~`blue800` | SEL 회복탄력성 |
-| 중립 | `gray50`~`gray800` | 텍스트·배경 |
+실시간 데이터베이스를 쓰는 앱은 반별 격리·기한 만료·교사 권한을 확인한 뒤 올립니다.
 
-### 공통 컴포넌트
+### 페이지 추가
 
-| 컴포넌트 | 설명 |
-|----------|------|
-| `<FadeIn delay={0.1}>` | 스크롤 진입 시 fade-up 애니메이션 |
-| `<Hover style={} hoverStyle={}>` | 호버 시 스타일 전환 |
-| `<Card>` | 호버 리프트 카드 |
-| `<Pill bg={} color={}>` | 태그/뱃지 |
-| `<SectionLabel>` | 영문 섹션 라벨 |
-| `<SectionTitle>` | 섹션 제목 (h2) |
+1. `src/pages/새페이지.jsx` 를 만들고 `PageShell` 로 감쌉니다.
+2. `src/App.jsx` 에 경로를 등록하고, 페이지 제목·설명을 메타 목록에 더합니다.
+3. 메뉴에 보이려면 `src/data/site.js` 의 `NAV_ITEMS` 에 더합니다.
+4. `public/sitemap.xml` 에 주소를 더합니다.
 
-## 배포 (Vercel)
+## 문구 원칙
 
-### 방법 1: 웹 UI (추천)
-
-1. [github.com](https://github.com)에서 새 저장소 만들기 (예: `levlab`)
-2. 프로젝트 폴더에서:
-   ```bash
-   git init
-   git add .
-   git commit -m "initial commit"
-   git branch -M main
-   git remote add origin https://github.com/[내계정]/levlab.git
-   git push -u origin main
-   ```
-3. [vercel.com](https://vercel.com)에 GitHub 계정으로 로그인
-4. "Add New Project" → GitHub 저장소 선택 → "Deploy" 클릭
-5. 끝! `levlab-[계정].vercel.app` 주소가 생성됩니다
-
-### 방법 2: CLI
-
-```bash
-npm i -g vercel
-vercel
-```
-
-### 커스텀 도메인
-
-Vercel 대시보드 → Settings → Domains에서 `levlab.kr` 등 연결 가능.
-`vercel.json`에 SPA 라우팅 설정이 포함되어 있어서 `/about`, `/programs` 등 직접 접속이 정상 동작합니다.
+- 공식 명칭은 **서울 사회정서교육** (서울특별시교육청). 성취기준 코드는 원문 그대로 씁니다. [9사회정서02-01]은 공감, [9사회정서02-02]는 관점입니다.
+- 경력 연수("○○년") 표현은 쓰지 않습니다.
+- 실제로 받을 수 있는 자료·글만 링크합니다. 준비 중인 것은 준비 중이라고 씁니다.
+- 공개 콘텐츠는 특정 종교를 전제하지 않습니다.
 
 ## 라이선스
 
-&copy; 2026 Lev Lab. All rights reserved.
+&copy; 2026 Lev Lab. All rights reserved. 공개 수업 자료의 이용 조건은 공개 시 따로 안내합니다.

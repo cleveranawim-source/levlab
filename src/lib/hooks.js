@@ -12,13 +12,13 @@ export function useScrolled(offset = 10) {
   return scrolled;
 }
 
-/** 모바일 여부 감지 */
+/** 모바일 여부 감지 — theme.css의 max-width: 900px와 같은 포함 경계 */
 export function useIsMobile(breakpoint = 900) {
   const [mobile, setMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+    () => typeof window !== "undefined" && window.matchMedia(`(max-width: ${breakpoint}px)`).matches
   );
   useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
     const on = () => setMobile(mq.matches);
     on();
     mq.addEventListener("change", on);
@@ -31,18 +31,26 @@ export function useIsMobile(breakpoint = 900) {
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return null;
-    return localStorage.getItem("levlab-theme");
+    try {
+      const saved = window.localStorage.getItem("levlab-theme");
+      return saved === "light" || saved === "dark" ? saved : null;
+    } catch {
+      const current = document.documentElement.getAttribute("data-theme");
+      return current === "light" || current === "dark" ? current : null;
+    }
   });
   useEffect(() => {
     const root = document.documentElement;
     if (theme) root.setAttribute("data-theme", theme);
     else root.removeAttribute("data-theme");
+    if (theme) {
+      try { window.localStorage.setItem("levlab-theme", theme); } catch { /* 세션 내 토글은 유지 */ }
+    }
   }, [theme]);
   const toggle = () => {
     setTheme((cur) => {
       const eff = cur || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       const next = eff === "dark" ? "light" : "dark";
-      localStorage.setItem("levlab-theme", next);
       return next;
     });
   };

@@ -5,9 +5,13 @@ export default function InsightsPage() {
     <PageShell
       eyebrow="Insights"
       title="마음을 읽는 교실의 기록"
-      sub="SEL 칼럼, 현장 이야기, 교목 에세이. 22년째 이어온 아침의 관찰을 나눕니다."
+      sub="SEL 칼럼과 현장 이야기를 나눌 공간입니다."
     >
-      <ComingSoon note="블로그 글 목록과 개별 글 페이지를 준비 중입니다. (블로그 구축 방식 확정 후 연동)" />
+      <ComingSoon
+        title="첫 글을 준비하고 있어요"
+        note="실제 수업 이야기와 칼럼이 준비되면 이곳에 올립니다. 새 글 소식은 홈 화면 아래에서 신청하실 수 있어요."
+        actions={[{ to: "/programs", label: "SEL 수업 보기" }, { to: "/about", label: "레브랩 소개" }]}
+      />
     </PageShell>
   );
 }
