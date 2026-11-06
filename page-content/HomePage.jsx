@@ -17,7 +17,7 @@ import { CATCHPHRASE, CURRICULUM, FORMSPREE_ENDPOINT, CONTACT_EMAIL, CONSENT_VER
 import { TOOLS } from "../data/tools";
 
 const PROGRAMS = [
-  { kick: "커리큘럼", title: "중학교 3년 SEL 수업", desc: "서울 사회정서교육 17개 사회정서기술과 성취기준에 맞춘 학년별 34차시. 학년마다 핵심 15차시부터 차례로 공개합니다.", stat: "학년별 핵심 15차시", to: "/curriculum",
+  { kick: "커리큘럼", title: "중학교 3년 SEL 수업", desc: "서울 사회정서교육 17개 사회정서기술과 성취기준에 맞춘 학년별 34차시. 학년마다 핵심 15차시를 공개했습니다.", stat: "학년별 핵심 15차시", to: "/curriculum",
     icon: <path d="M4 5h16M4 12h16M4 19h10" strokeLinecap="round" /> },
   { kick: "워크북", title: "마음의 한줄", desc: "매일 한 줄 필사로 마음 근육을 키우는 SEL 워크북. 학년별 34주, 손글씨의 힘을 믿는 아날로그 실천.", stat: "3권 시리즈", to: "/programs#workbook",
     icon: <><path d="M5 4h9l5 5v11H5z" /><path d="M14 4v5h5M8 13h7M8 16h5" strokeLinecap="round" /></> },

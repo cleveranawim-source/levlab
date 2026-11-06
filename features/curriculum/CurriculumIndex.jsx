@@ -12,7 +12,7 @@ export default function CurriculumIndex() {
     <PageShell
       eyebrow="SEL Curriculum"
       title="중학교 3년, 사회정서교육 수업"
-      sub="서울 사회정서교육의 4개 영역과 17개 사회정서기술에 맞춘 학년별 34차시 가운데, 핵심 15차시를 먼저 공개합니다. 학년으로 찾거나, 가르치고 싶은 기술로 찾아보세요."
+      sub="서울 사회정서교육의 4개 영역과 17개 사회정서기술에 맞춘 학년별 34차시 가운데, 학년별 핵심 15차시를 공개합니다. 학년으로 찾거나, 가르치고 싶은 기술로 찾아보세요."
     >
       {anyDraft && <DraftNotice />}
 

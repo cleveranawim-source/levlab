@@ -54,7 +54,7 @@ export default function ProgramsPage() {
         <p className="eyebrow">Full Course</p>
         <h2 className="content-h2" id="full-h">학교 단위 전체 {CURRICULUM.lessonsPerGrade}차시 과정</h2>
         <p className="content-lead">
-          공개 준비 중인 핵심 15차시 밖의 전체 과정(학년별 {CURRICULUM.lessonsPerGrade}차시, 총 {CURRICULUM.totalLessons}차시)은
+          공개한 핵심 15차시 밖의 전체 과정(학년별 {CURRICULUM.lessonsPerGrade}차시, 총 {CURRICULUM.totalLessons}차시)은
           학교 교육과정 편성, 교사 연수, 교원학습공동체와 함께 운영합니다.
         </p>
         <div className="cta-row-plain">

@@ -1,6 +1,6 @@
 {
  "track": "core-15",
- "note": "핵심 15차시 초안 — 대표 확정 전 비공개",
+ "note": "핵심 15차시 — 2026-11-06 대표 확정·공개",
  "lessons": [
   {
    "slug": "g1-01",
@@ -19,7 +19,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "지금 내가 느끼는 이 감정, 나는 정말 알고 있을까? '좋다·나쁘다'를 넘어 내 감정에 진짜 이름을 붙일 수 있을까?",
    "objectives": [
     "기쁨·슬픔·분노·두려움·놀람·혐오 6가지 기본감정을 넘어 다양한 감정 어휘를 알 수 있다.",
@@ -209,7 +209,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "강한 감정이 올라올 때, 나는 어떤 방법으로 나를 진정시킬 수 있을까?",
    "objectives": [
     "감정 조절의 필요성과 다양한 전략 5가지 이상을 설명할 수 있다.",
@@ -393,7 +393,7 @@
    ],
    "edutech": "카훗(Kahoot!)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "후회되는 행동 뒤에는 어떤 감정이 숨어 있었을까?",
    "objectives": [
     "부정적 행동 뒤에 숨은 감정을 찾아 이름 붙일 수 있다.",
@@ -575,7 +575,7 @@
    ],
    "edutech": "멘티미터(Mentimeter) 워드클라우드",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 스트레스는 어디서 오고, 내 몸과 마음에 어떻게 나타날까?",
    "objectives": [
     "나의 스트레스 원인 5가지를 파악할 수 있다.",
@@ -756,7 +756,7 @@
    ],
    "edutech": "카훗 + 잼보드(Google Jamboard)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "같은 일을 보고도 왜 사람마다 전혀 다르게 말할까?",
    "objectives": [
     "같은 상황에 대해 여러 관점이 존재함을 설명할 수 있다.",
@@ -936,7 +936,7 @@
    ],
    "edutech": "패들릿(Padlet) 벽 형식",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "친구의 말 뒤에 있는 감정을 어떻게 알아차릴 수 있을까?",
    "objectives": [
     "공감의 정의를 동정·조언과 구분해 설명할 수 있다.",
@@ -1117,7 +1117,7 @@
    ],
    "edutech": "띵커벨 토론(찬반)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나를 키우는 관계와 나를 깎는 관계는 어떻게 다를까?",
    "objectives": [
     "건강한 관계의 5가지 특징을 설명할 수 있다.",
@@ -1300,7 +1300,7 @@
    ],
    "edutech": "멘티미터(Mentimeter) 오픈질문",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "상대를 공격하지 않고 내 마음을 전하려면 어떻게 말해야 할까?",
    "objectives": [
     "나-전달법의 4요소를 설명할 수 있다.",
@@ -1481,7 +1481,7 @@
    ],
    "edutech": "패들릿(Padlet) 캔버스",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "갈등을 피하지 않고 배울 거리로 바꾸려면 무엇부터 봐야 할까?",
    "objectives": [
     "갈등의 긍정적·부정적 기능을 구분할 수 있다.",
@@ -1662,7 +1662,7 @@
    ],
    "edutech": "멘티미터(Mentimeter) 워드클라우드 + 스케일",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "마음건강은 무엇이고, 왜 몸 건강처럼 '관리'가 필요할까?",
    "objectives": [
     "마음건강의 WHO 정의를 자기 말로 설명할 수 있다.",
@@ -1846,7 +1846,7 @@
    ],
    "edutech": "패들릿(Padlet) 맵 형식",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나는 어디에 속해 있고, 그 공동체는 나에게 무엇을 해주고 있을까?",
    "objectives": [
     "공동체의 정의와 특징 3가지를 설명할 수 있다.",
@@ -2027,7 +2027,7 @@
    ],
    "edutech": "띵커벨(Tkbell) 팀 게임",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "경쟁과 협력은 어떻게 다르고, 나는 협력에 어떤 기여를 할 수 있을까?",
    "objectives": [
     "경쟁과 협력의 차이를 설명할 수 있다.",
@@ -2206,7 +2206,7 @@
    ],
    "edutech": "아날로그 중심(디지털 최소)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 강점과 약점은 정말 '좋은 것'과 '나쁜 것'일까?",
    "objectives": [
     "내 강점 3가지를 구체적 행동 사례로 제시할 수 있다.",
@@ -2385,7 +2385,7 @@
    ],
    "edutech": "카훗(Kahoot!)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "'책임 있는 결정'이란 무엇이고, 어떻게 연습할 수 있을까?",
    "objectives": [
     "의사 결정 4단계(정지·평가·선택·검토)를 설명할 수 있다.",
@@ -2559,7 +2559,7 @@
    ],
    "edutech": "멘티미터(Mentimeter) 워드클라우드 + 스케일",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 마음 상태를 '괜찮아' 말고 어떤 단어로 표현할 수 있을까?",
    "objectives": [
     "자신의 마음 상태를 5가지 이상의 단어로 표현할 수 있다.",
@@ -2736,7 +2736,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "같은 '짜증'이라도 상황에 따라 다른 이름이 있다면, 나는 어떻게 더 정확하게 표현할 수 있을까?",
    "objectives": [
     "감정 어휘의 정밀도(정서 입자도) 개념을 자신의 말로 설명할 수 있다.",
@@ -2925,7 +2925,7 @@
    ],
    "edutech": "카훗(Kahoot)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "시험 직전, 친구 다툼, 가족과 마찰 — 같은 '화'라도 상황마다 다른 조절 전략이 필요할까?",
    "objectives": [
     "감정 조절의 5단계(상황 선택~반응 조절)를 자신의 말로 설명할 수 있다.",
@@ -3112,7 +3112,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 스트레스 신호를 얼마나 빨리 알아차리고, 건강한 방식으로 해소할 수 있을까?",
    "objectives": [
     "스트레스의 4가지 신호(신체·정서·행동·사회)를 구분하여 인식할 수 있다.",
@@ -3295,7 +3295,7 @@
    ],
    "edutech": "카훗(Kahoot)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나와 친구가 같은 상황을 전혀 다르게 기억한다면, 누가 맞는 것일까? 혹은 둘 다 맞을 수 있을까?",
    "objectives": [
     "같은 사건이 관점에 따라 다르게 해석될 수 있음을 설명할 수 있다.",
@@ -3480,7 +3480,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "친구가 힘들 때 '힘내'라는 말 말고, 진짜 공감을 표현하려면 어떻게 해야 할까?",
    "objectives": [
     "공감적 표현과 비공감적 표현의 차이를 구분할 수 있다.",
@@ -3665,7 +3665,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "친한 친구에게 '안 돼'라고 말하는 것이 왜 이렇게 어려울까? 경계는 관계를 해칠까, 지킬까?",
    "objectives": [
     "관계에서 경계의 의미와 필요성을 설명할 수 있다.",
@@ -3848,7 +3848,7 @@
    ],
    "edutech": "카훗(Kahoot)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내가 원하는 걸 요청할 때도, 거절할 때도 상대가 상처받지 않을 수 있을까?",
    "objectives": [
     "수동·공격·주장의 차이를 구분해 설명할 수 있다.",
@@ -4029,7 +4029,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 마음 상태가 좋을 때와 나쁠 때, 내 하루는 얼마나 달라질까?",
    "objectives": [
     "마음건강이 학업·관계·신체에 미치는 상호 영향을 설명할 수 있다.",
@@ -4214,7 +4214,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "우리 반·학교·동네라는 공동체가 흔들릴 때, 그 가치를 지키기 위해 내가 할 수 있는 가장 작은 한 가지는 무엇일까?",
    "objectives": [
     "우리 반/학교가 공유하는 가치를 3가지 이상 도출할 수 있다.",
@@ -4398,7 +4398,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "모둠 과제에서 누구는 다 하고 누구는 아무것도 안 하는 이 구조, 정말 바꿀 수 있을까?",
    "objectives": [
     "무임승차가 일어나는 구조적 원인을 설명할 수 있다.",
@@ -4584,7 +4584,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나는 어떤 어려움을 이겨내본 사람인가? 그때 나를 되돌아오게 한 것은 무엇이었나?",
    "objectives": [
     "회복탄력성의 의미와 3가지 요소(관계·재해석·행동)를 설명할 수 있다.",
@@ -4767,7 +4767,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "다른 사람이 붙인 이름표가 아닌, 내가 스스로 붙이는 나의 이름은 무엇일까?",
    "objectives": [
     "자아정체성의 의미와 청소년기 특징을 자신의 말로 설명할 수 있다.",
@@ -4951,7 +4951,7 @@
    ],
    "edutech": "띵커벨(Tkbell) 토론",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "갈등을 피하면 편할 것 같지만 왜 점점 더 힘들어질까? 대화로 푸는 길은 어떻게 시작될까?",
    "objectives": [
     "갈등 회피와 직면의 장단점을 설명할 수 있다.",
@@ -5137,7 +5137,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "떠오른 여러 해결 방안 중에서 내가 실제 실행할 '그 하나'를 어떻게 고를 수 있을까?",
    "objectives": [
     "문제 해결 방안을 평가할 4가지 기준을 설명할 수 있다.",
@@ -5319,7 +5319,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내 마음이 힘들어지고 있다는 신호를 나는 얼마나 빨리 알아차릴 수 있을까?",
    "objectives": [
     "마음건강 어려움의 4영역 조기 신호를 구분할 수 있다.",
@@ -5503,7 +5503,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "같은 일을 겪어도 사람마다 감정이 다른 이유는 무엇일까?",
    "objectives": [
     "ABC 모델의 세 요소를 자기 언어로 설명할 수 있어요.",
@@ -5691,7 +5691,7 @@
    ],
    "edutech": "카훗(Kahoot!)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나는 어떤 감정 조절 전략을 가지고 있고, 무엇이 부족할까?",
    "objectives": [
     "감정 조절 전략 4가지 범주를 구분할 수 있어요.",
@@ -5877,7 +5877,7 @@
    ],
    "edutech": "ChatGPT(또는 학교 승인 생성형 AI)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "후회하는 행동을 반복하지 않으려면 무엇이 필요할까?",
    "objectives": [
     "내 부정 행동 패턴을 'A-충동-행동-결과' 구조로 분석할 수 있어요.",
@@ -6062,7 +6062,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "거대한 결심이 자꾸 무너진다면, 어떻게 계획해야 할까?",
    "objectives": [
     "SMART 목표 5가지 요소를 설명할 수 있어요.",
@@ -6247,7 +6247,7 @@
    ],
    "edutech": "패들렛(Padlet) + 멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "한 가지 사건을 여러 각도에서 보는 연습은 나에게 무엇을 줄까?",
    "objectives": [
     "하나의 사건에 대한 여러 관점을 구분할 수 있어요.",
@@ -6432,7 +6432,7 @@
    ],
    "edutech": "카훗(Kahoot!)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "진짜 '들어주는 것'은 무엇이 다를까?",
    "objectives": [
     "공감적 경청의 4가지 요소를 설명할 수 있어요.",
@@ -6616,7 +6616,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "의견이 다른 친구와 어떻게 함께 답을 만들 수 있을까?",
    "objectives": [
     "협력적 의사소통과 경쟁적 의사소통을 구분할 수 있어요.",
@@ -6800,7 +6800,7 @@
    ],
    "edutech": "멘티미터(Mentimeter)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "나에게 행복은 어떤 모습이고, 어떻게 계획할 수 있을까?",
    "objectives": [
     "PERMA 5요소를 설명할 수 있어요.",
@@ -6986,7 +6986,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "내가 아는 가치를 지키는 일과 실제로 행동하는 일 사이의 거리를 어떻게 좁힐까?",
    "objectives": [
     "공동체 가치와 내 행동을 연결할 수 있어요.",
@@ -7171,7 +7171,7 @@
    ],
    "edutech": "패들렛(Padlet) 갤러리워크",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "우리 모둠의 협력에서 무엇이 잘 되었고 무엇을 바꿔야 할까?",
    "objectives": [
     "우리 모둠의 협력 강점과 약점을 분석할 수 있어요.",
@@ -7356,7 +7356,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "'나는 할 수 있다'는 감각은 어떻게 길러질까?",
    "objectives": [
     "자기효능감과 자존감을 구분할 수 있어요.",
@@ -7542,7 +7542,7 @@
    ],
    "edutech": "카훗(Kahoot!)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "당사자 아닌 내가 중재자로 나설 때 무엇이 필요할까?",
    "objectives": [
     "중재자의 역할과 한계를 설명할 수 있어요.",
@@ -7727,7 +7727,7 @@
    ],
    "edutech": "패들렛(Padlet)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "한 공동체의 결정은 누구에게, 어떻게 영향을 줄까?",
    "objectives": [
     "의사 결정의 1·2·3차 영향을 구분할 수 있어요.",
@@ -7911,7 +7911,7 @@
    ],
    "edutech": "띵커벨(Tkbell)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "여러 해결 방안 중 어떻게 가장 좋은 것을 고를까?",
    "objectives": [
     "평가 매트릭스의 구조를 설명할 수 있어요.",
@@ -8096,7 +8096,7 @@
    ],
    "edutech": "스마트폰/태블릿(자원 저장)",
    "apps": [],
-   "status": "draft",
+   "status": "published",
    "keyQuestion": "정말 힘들 때, 나는 어디로 손을 뻗을 수 있을까?",
    "objectives": [
     "공식 위기 상담 자원(1388, 1577-0199, 117 등)을 알 수 있어요.",

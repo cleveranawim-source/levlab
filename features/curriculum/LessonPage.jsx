@@ -120,7 +120,7 @@ export default function LessonPage({ slug }) {
             {L.files.map((f) => <li key={f.href}><a href={f.href} download>{f.label} <span className="muted">{f.meta}</span></a></li>)}
           </ul>
         ) : (
-          <p className="muted">지도안·활동지·수업 슬라이드 원본 파일은 핵심 15차시 공개 때 이 자리에서 받을 수 있습니다.</p>
+          <p className="muted">지도안·활동지·수업 슬라이드 원본 파일은 준비되는 대로 이 자리에 올립니다. 먼저 필요하시면 문의해 주세요.</p>
         )}
       </section>
 
