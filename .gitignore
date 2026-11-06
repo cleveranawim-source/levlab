@@ -7,3 +7,7 @@ dist
 
 # 내부 점검·기획 자료 (비공개, 드라이브 [01] LevLab/사이트 점검 2026-11 에 보관)
 docs/
+
+# Next.js output
+.next/
+out/

@@ -7,41 +7,38 @@
 
 ## 기술 스택
 
-- React 18 + Vite 5, React Router 6 (SPA, `vercel.json` 에서 모든 경로를 `index.html` 로)
-- 디자인 시스템: `src/styles/theme.css` (색·글꼴 토큰, 공통 컴포넌트 스타일)
-- 콘텐츠 페이지 스타일: `src/styles/content.css`
-- 글꼴: Pretendard (CDN)
+- Next.js 16 App Router + React 19 (JavaScript, 모든 공개 페이지 빌드 시 정적 생성)
+- 디자인 시스템: `styles/theme.css` (색·글꼴 토큰, 공통 컴포넌트 스타일)
+- 콘텐츠 페이지 스타일: `styles/content.css`
+- 글꼴: Pretendard 1.3.9 자체 호스팅 (가변 동적 서브셋, `next/font/local`로 공통 글자만 미리 로드)
 
 ## 실행
 
 ```bash
-npm install
+npm ci
 npm run dev      # http://localhost:3000
-npm run build    # dist/ 생성
-npm run preview  # 빌드 결과 미리보기
+npm run build    # .next/ 생성
+npm run start    # 프로덕션 빌드 미리보기
+npm run check    # 빌드 + 데이터 검증 + 정적 생성·메타데이터·HTTP 상태 검사
 ```
 
-Node 18 이상이 필요합니다.
+Node 20.9 이상이 필요합니다.
 
 ## 구조
 
 ```
-src/
-├── App.jsx              라우터, 경로별 제목·설명, 404
-├── main.jsx             진입점, 스타일 불러오기
-├── data/
-│   ├── site.js          메뉴, 연락처, 도메인, 커리큘럼 규모(차시 수)
-│   ├── sel.js           서울 사회정서교육 4영역 · 17개 사회정서기술
-│   ├── curriculum.js    중학교 성취기준 17개 원문, 학년별 학습 주제
-│   └── tools.js         SEL 콘텐츠(웹앱·게임) 목록
-├── pages/               홈, 소개, SEL 수업, SEL 콘텐츠, 문의, 개인정보 처리방침, 404 등
-├── components/          Nav, Footer, PageShell, ToolsGallery, SelExplorer, VideoShowcase …
-├── lib/                 공통 훅(테마, 화면 크기, 모션 설정, 페이지 메타)
-└── styles/              theme.css, content.css
+app/                    레이아웃·라우트·서버 메타데이터·404·sitemap·robots
+components/             Nav, Footer, PageShell, ToolsGallery, SelExplorer, VideoShowcase …
+page-content/           기존 페이지 본문 (상호작용이 필요한 화면은 Client Component)
+lib/                    공통 훅·페이지 메타데이터
+styles/                 theme.css, content.css (루트 레이아웃에서 한 번 불러오기)
+data/                   site.js, sel.js, curriculum.js, tools.js
+content/                standards.json, lessons.json
+features/curriculum/    커리큘럼 데이터 로더·학년·성취기준·차시 화면
+scripts/check.mjs       콘텐츠 필드·참조 검증 및 임시 next start 서버 HTTP 검사
 public/
 ├── img/, video/, logo/  이미지·영상·로고
-├── robots.txt, sitemap.xml
-└── gangdannote/         강단노트 앱 지원·개인정보 페이지 (별도 제품, 주소 유지)
+└── gangdannote/         강단노트 앱 지원·개인정보 HTML (슬래시 유무 모두 200)
 (내부 점검 자료는 저장소에 올리지 않고 드라이브에 보관)
 ```
 
@@ -49,7 +46,7 @@ public/
 
 ### SEL 콘텐츠(웹앱) 추가
 
-`src/data/tools.js` 의 `TOOLS` 에 항목을 더합니다.
+`data/tools.js` 의 `TOOLS` 에 항목을 더합니다.
 
 | 필드 | 뜻 |
 |---|---|
@@ -65,10 +62,14 @@ public/
 
 ### 페이지 추가
 
-1. `src/pages/새페이지.jsx` 를 만들고 `PageShell` 로 감쌉니다.
-2. `src/App.jsx` 에 경로를 등록하고, 페이지 제목·설명을 메타 목록에 더합니다.
-3. 메뉴에 보이려면 `src/data/site.js` 의 `NAV_ITEMS` 에 더합니다.
-4. `public/sitemap.xml` 에 주소를 더합니다.
+1. `page-content/새페이지.jsx`를 만들고 `PageShell`로 본문을 감쌉니다. Nav·Footer·main은 루트 레이아웃과 template이 제공합니다.
+2. `app/경로/page.jsx`에서 본문을 렌더링하고 `metadata`를 내보냅니다. 기존 정적 페이지는 `lib/pageMeta.js`의 `PAGE_META`에 제목·설명을 등록합니다.
+3. 메뉴에 보이려면 `data/site.js`의 `NAV_ITEMS`에 더합니다.
+4. `app/sitemap.js`에 주소를 반영하고 `npm run check`를 실행합니다. 차시는 `content/lessons.json`에서 `status`가 `published`인 것만 sitemap에 포함하며, 초안은 `noindex, nofollow`로 정적 생성합니다.
+
+### Vercel 설정
+
+`vercel.json`이 프레임워크(`nextjs`), 빌드(`npm run build`), 설치(`npm ci`), 출력(`.next`)을 지정하여 기존 Vite 설정을 대체합니다. SPA 전체 재작성은 제거했습니다. 일반적인 설정에서는 대시보드 변경이 필요하지 않으며, 프로젝트가 Node 20.9 미만으로 고정되어 있거나 Root Directory가 이 저장소 루트와 다를 때만 소유자가 이를 수정해야 합니다. 실제 배포는 별도로 수행합니다.
 
 ## 문구 원칙
 
