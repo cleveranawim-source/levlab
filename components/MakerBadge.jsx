@@ -7,7 +7,7 @@ export default function MakerBadge({ size = "md", href = "/about#maker", classNa
   const h = { sm: 40, md: 64, lg: 168 }[size] || 64;
   const body = (
     <>
-      <img src="/images/maker/sen-dev-sticker.webp" alt="" width={Math.round(h * 0.8906)} height={h} decoding="async" draggable={false} />
+      <img src="/images/maker/sen-dev-sticker.webp" alt="" width={Math.round(h * 0.9206)} height={h} decoding="async" draggable={false} />
       <span className="mb-t">
         <span className="mb-l">만든 사람</span>
         <span className="mb-n">교사개발자 2호 <b>Yeol</b></span>

@@ -13,43 +13,29 @@ a.maker-badge:hover img, a.maker-badge:focus-visible img { transform: rotate(-6d
 .maker-badge.mb-lg { font-size: 20px; gap: .9em; }
 @media (prefers-reduced-motion: reduce) { .maker-badge img { transition: none; } a.maker-badge:hover img, a.maker-badge:focus-visible img { transform: none; } }
 
-/* 소개 페이지 — 교사개발자 2호 */
+/* 소개 페이지 — 서울시교육청 교사개발자 2호 */
 .maker { scroll-margin-top: 96px; }
-.maker-card { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 4vw, 48px); align-items: center; margin-top: 22px; padding: clamp(22px, 3vw, 36px); background: var(--paper-2, #F5F6F2); border-radius: var(--r-lg, 20px); }
-.maker-sticker { margin: 0; text-align: center; }
-.maker-sticker img { display: block; width: clamp(160px, 22vw, 228px); height: auto; filter: drop-shadow(0 6px 0 rgba(30, 42, 36, .14)); transform: rotate(-3deg); transition: transform .3s cubic-bezier(.3, 1.6, .6, 1); }
-.maker-sticker:hover img { transform: rotate(2deg) scale(1.04); }
-.maker-sticker figcaption { margin-top: 10px; font-size: 13px; color: var(--ink-2, #4A5650); }
-.maker-lead { font-size: clamp(21px, 2.4vw, 26px); line-height: 1.5; margin: 0 0 14px; color: var(--ink, #1E2A24); }
-.maker-copy > p { margin: 0 0 12px; color: var(--ink-2, #4A5650); max-width: 62ch; }
-.maker-copy > p b { color: var(--ink, #1E2A24); }
-.maker-classes { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.maker-classes li { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; background: var(--paper, #fff); border-radius: var(--r-sm, 10px); border-left: 4px solid var(--mc, var(--forest, #1F5C3F)); }
-.maker-classes b { font-size: 16px; }
-.maker-classes span { font-size: 14px; color: var(--ink-2, #4A5650); }
-.maker-classes .mc-bible { --mc: #C8902A; }
-.maker-classes .mc-board { --mc: var(--d-comm, #17784E); }
-.maker-classes .mc-code { --mc: var(--d-well, #2F6FB8); }
-.maker-classes .mc-heart { --mc: var(--d-inter, #BF4027); }
-.maker-sign { display: grid; grid-template-columns: 1fr minmax(260px, 340px); gap: clamp(20px, 4vw, 40px); align-items: center; margin-top: 28px; }
-.maker-sign h3 { font-size: 20px; margin: 0 0 10px; }
-.maker-sign p { margin: 0 0 10px; color: var(--ink-2, #4A5650); max-width: 62ch; }
-.maker-demo { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 16px 18px 20px; border: 1px solid var(--line, #DCE2DC); border-radius: var(--r-lg, 20px); background: var(--paper, #fff); }
-.maker-demo .md-bar { align-self: stretch; display: flex; gap: 6px; padding-bottom: 10px; border-bottom: 1px solid var(--line, #DCE2DC); }
-.maker-demo .md-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line, #DCE2DC); }
-.maker-demo .md-screen { font-size: 14px; color: var(--forest, #1F5C3F); text-decoration: underline; text-underline-offset: 3px; }
+.maker-card { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 4vw, 48px); align-items: center; padding: clamp(22px, 3vw, 36px); background: var(--paper-2, #F5F6F2); border-radius: var(--r-lg, 20px); }
+.maker-sticker { display: block; width: clamp(170px, 22vw, 240px); height: auto; transform: rotate(-3deg); transition: transform .3s cubic-bezier(.3, 1.6, .6, 1); }
+.maker-sticker:hover { transform: rotate(2deg) scale(1.04); }
+.maker-copy .content-h2 { margin: 0 0 20px; }
+.maker-badges { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.maker-badges a { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 150px; padding: 14px 10px; text-align: center; color: var(--ink, #1E2A24); text-decoration: none; background: var(--paper, #fff); border-radius: var(--r-sm, 10px); }
+.maker-badges a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.maker-badges a:focus-visible { outline: 3px solid var(--d-self, #6D4FC2); outline-offset: 2px; }
+.maker-badges img { width: 96px; height: 96px; margin-bottom: 6px; transition: transform .3s cubic-bezier(.3, 1.6, .6, 1); }
+.maker-badges a:hover img { transform: rotate(-4deg) scale(1.06); }
+.maker-badges b { font-size: 14.5px; line-height: 1.35; word-break: keep-all; }
+.maker-badges span { font-size: 13px; color: var(--ink-2, #4A5650); }
 @media (max-width: 720px) {
-  .maker-card, .maker-sign { grid-template-columns: 1fr; }
-  .maker-sticker img { margin: 0 auto; }
-  .maker-classes { grid-template-columns: 1fr; }
+  .maker-card { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .maker-badges { justify-content: center; }
+  .maker-badges a { width: 132px; }
 }
-@media (prefers-reduced-motion: reduce) { .maker-sticker img, .maker-sticker:hover img { transition: none; transform: rotate(-3deg); } }
-@media print { .maker-sticker img { filter: none; } }
+@media (prefers-reduced-motion: reduce) { .maker-sticker, .maker-sticker:hover, .maker-badges img, .maker-badges a:hover img { transition: none; transform: rotate(-3deg); } .maker-badges img, .maker-badges a:hover img { transform: none; } }
 
 /* 바닥글 — 어두운 초록 위 */
 .foot a.maker-badge.foot-maker { display: inline-flex; margin-top: 20px; padding: 0; color: #FFFFFF; }
 .foot a.maker-badge.foot-maker:hover { text-decoration: none; }
 .foot a.maker-badge.foot-maker .mb-l { color: #E2EDE5; }
-.maker-sign a { color: var(--forest, #1F5C3F); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
-:root[data-theme="dark"] .maker-sign a { color: inherit; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .maker-sign a { color: inherit; } }
+

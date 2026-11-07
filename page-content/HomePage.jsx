@@ -2,7 +2,9 @@ import Link from "next/link";
 import ContentImage from "../components/ContentImage";
 import ToolCard from "../components/ToolCard";
 import Newsletter from "../components/Newsletter";
-import MakerBadge from "../components/MakerBadge";
+import LessonSearch from "../components/LessonSearch";
+import { HeartCode, WitControls, YeolSticker, HomeFacts, WitTape } from "../components/wit/HomeWit";
+import "../styles/wit.css";
 import { CURRICULUM } from "../data/site";
 import { SEL_DOMAINS } from "../data/sel";
 import { TOOLS } from "../data/tools";
@@ -24,12 +26,15 @@ export default function HomePage() {
   return (
     <>
       <section className="home-hero" aria-labelledby="home-title">
+        <HeartCode />
         <div className="wrap home-hero-grid">
           <div className="home-hero-copy">
+            <WitControls />
             <h1 className="serif" id="home-title"><span className="hero-word" style={{ "--word": 0 }}>감정을</span>{" "}<span className="hero-word" style={{ "--word": 1 }}>다루는</span>{" "}<span className="hero-word" style={{ "--word": 2 }}>힘은</span><br /><span className="hero-highlight"><span className="hero-word" style={{ "--word": 3 }}>가르칠</span>{" "}<span className="hero-word" style={{ "--word": 4 }}>수</span>{" "}<span className="hero-word" style={{ "--word": 5 }}>있습니다</span></span></h1>
             <p className="sub">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 3년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</p>
+            <LessonSearch variant="hero" />
             <div className="cta-row"><Link className="btn btn-solid" href="/curriculum">수업 찾기 <span aria-hidden="true">→</span></Link><Link className="btn btn-ghost" href="/tools">콘텐츠 체험하기</Link></div>
-            <MakerBadge size="md" />
+            <YeolSticker />
           </div>
           <div className="home-hero-scene">
             <ContentImage className="home-hero-art" src="/images/home-hero.webp" alt="교실에서 감정 카드와 활동지를 펼치고 함께 이야기하는 학생들" width={1200} height={900} priority />
@@ -38,7 +43,7 @@ export default function HomePage() {
             </nav>
           </div>
         </div>
-        <div className="wrap"><p className="home-facts">3년 {CURRICULUM.totalLessons}차시 <span aria-hidden="true">·</span> {CURRICULUM.skills}개 사회정서기술 <span aria-hidden="true">·</span> 학년별 핵심 {CURRICULUM.coreLessonsPerGrade}차시</p></div>
+        <div className="wrap"><HomeFacts /></div>
       </section>
 
       <section className="band" aria-labelledby="home-grades">
@@ -47,7 +52,7 @@ export default function HomePage() {
           <div className="home-grade-grid" data-motion-stagger>
             {GRADES.map((n) => <Link key={n} className="home-grade" data-motion="card" data-motion-card href={`/curriculum/grade-${n}`}>
               <ContentImage src={`/images/grades/g${n}.webp`} alt={GRADE_COPY[n].alt} width={800} height={600} />
-              <div className="home-grade-copy"><h3><span>중{n}</span> {GRADE_COPY[n].theme}</h3><ul>{GRADE_COPY[n].topics.map((t) => <li key={t}>{t}</li>)}</ul><span className="home-grade-link">핵심 15차시 <span aria-hidden="true">→</span></span></div>
+              <div className="home-grade-copy"><h3><span>중{n}</span> {GRADE_COPY[n].theme}</h3><ul>{GRADE_COPY[n].topics.map((t) => <li key={t}>{t}</li>)}</ul><span className="home-grade-link">핵심 {CURRICULUM.coreLessonsPerGrade}차시 <span aria-hidden="true">→</span></span></div>
             </Link>)}
           </div>
         </div>
@@ -65,6 +70,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <WitTape />
 
       <section className="band home-lessons" aria-labelledby="home-lessons">
         <div className="wrap">

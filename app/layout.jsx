@@ -4,11 +4,13 @@ import Footer from "../components/Footer";
 import SkipLink from "../components/SkipLink";
 import ScrollToTop from "../components/ScrollToTop";
 import MotionRoot from "../components/motion/MotionRoot";
+import YeolHello from "../components/YeolHello";
 import { ORIGIN, PAGE_META, createPageMetadata } from "../lib/pageMeta";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "../styles/content.css";
 import "../styles/theme.css";
 import "../styles/motion.css";
+import "../styles/search.css";
 
 // Preload only the small common-character subset. Other glyphs are fetched from
 // the package's local unicode-range faces as needed, all under /_next/static/.
@@ -51,6 +53,7 @@ export default function RootLayout({ children }) {
       <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
       <body>
         <MotionRoot />
+        <YeolHello />
         <SkipLink />
         <ScrollToTop />
         <Nav />

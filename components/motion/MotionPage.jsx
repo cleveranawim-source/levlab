@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { enhanceWit } from "../wit/enhanceWit";
 
 // Existing editorial pages opt in by their established semantic classes; their
 // content stays server-rendered and no component needs to become client-only.
@@ -25,6 +26,7 @@ function MotionSurface({ children }) {
     const seen = new WeakSet();
     const cleanups = [];
     const frames = new Set();
+    const preparations = new Map();
     let pointerFrame = 0;
     let activeCard;
     const nextFrame = (callback) => {
@@ -67,12 +69,33 @@ function MotionSurface({ children }) {
           item.classList.remove("motion-check");
         });
       });
+      page.querySelectorAll(".prep:has([data-motion-check])").forEach((prep) => {
+        if (preparations.has(prep)) return;
+        const stamp = document.createElement("span");
+        stamp.className = "motion-prep-stamp";
+        stamp.textContent = "수업 준비 완료!";
+        stamp.setAttribute("aria-hidden", "true");
+        stamp.hidden = true;
+        const live = document.createElement("span");
+        live.className = "motion-prep-status";
+        live.setAttribute("role", "status");
+        live.setAttribute("aria-live", "polite");
+        live.setAttribute("aria-atomic", "true");
+        preparations.set(prep, { stamp, live, complete: false });
+        prep.classList.add("motion-prep");
+        prep.append(stamp, live);
+        cleanups.push(() => { stamp.remove(); live.remove(); prep.classList.remove("motion-prep"); });
+      });
     };
     scan();
     page.classList.add("motion-page");
     page.querySelector(".home-hero")?.classList.add("motion-hero");
-    const mutations = new MutationObserver(scan);
+    const mutations = new MutationObserver((records) => {
+      // Counter text and live announcements do not introduce reveal targets.
+      if (records.some((record) => [...record.addedNodes].some((node) => node.nodeType === 1))) scan();
+    });
     mutations.observe(page, { childList: true, subtree: true });
+    cleanups.push(enhanceWit(page, reduced));
 
     const resetCard = () => {
       cancelAnimationFrame(pointerFrame);
@@ -103,7 +126,17 @@ function MotionSurface({ children }) {
     };
     const toggleCheck = (item) => {
       const box = item?.querySelector('.box[role="checkbox"]');
-      if (box) box.setAttribute("aria-checked", box.getAttribute("aria-checked") === "true" ? "false" : "true");
+      if (!box) return;
+      box.setAttribute("aria-checked", box.getAttribute("aria-checked") === "true" ? "false" : "true");
+      const prep = item.closest(".prep");
+      const state = preparations.get(prep);
+      if (!state) return;
+      const boxes = [...prep.querySelectorAll('.box[role="checkbox"]')];
+      const complete = boxes.length > 0 && boxes.every((checkbox) => checkbox.getAttribute("aria-checked") === "true");
+      if (complete === state.complete) return;
+      state.complete = complete;
+      state.stamp.hidden = !complete;
+      state.live.textContent = complete ? "준비물을 모두 챙겼어요" : "";
     };
     const onClick = (event) => toggleCheck(event.target.closest("[data-motion-check]"));
     const onKey = (event) => {

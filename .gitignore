@@ -11,3 +11,4 @@ docs/
 # Next.js output
 .next/
 out/
+.impeccable/

@@ -1,6 +1,7 @@
 // SEL 수업 첫 화면 — 학년으로 찾기, 영역·기술로 찾기, 3년 학습 주제
 import Link from "next/link";
 import ContentImage from "../../components/ContentImage";
+import LessonSearch from "../../components/LessonSearch";
 import { getLessonsByGrade, getStandards, getStandardsSource, AREAS, GRADES } from "./data";
 import { AreaTag, GradePanel, areaImage, areaKey } from "./shared";
 
@@ -11,7 +12,8 @@ export default function CurriculumIndex() {
       <section className="cur-head">
         <div className="wrap">
           <h1>중학교 3년, 사회정서교육 수업</h1>
-          <p className="ch-desc">서울 사회정서교육의 4개 영역·17개 사회정서기술에 맞춘 학년별 34차시 가운데, <b>학년별 핵심 15차시</b>를 공개합니다. 학년으로 찾거나, 가르치고 싶은 기술로 찾아보세요.</p>
+          <p className="ch-desc">서울 사회정서교육의 4개 영역·17개 사회정서기술에 맞춘 학년별 34차시 가운데, <b>학년별 핵심 15차시</b>를 공개합니다. 학년으로 찾거나, 가르치고 싶은 기술로 찾아보세요. 교실에서 쓰는 말로 찾아도 됩니다.</p>
+          <div className="cur-search"><LessonSearch variant="page" /></div>
           <div className="grade-panels" data-motion-stagger>
             {GRADES.map((n) => <GradePanel key={n} n={n} lessons={getLessonsByGrade(n)} />)}
           </div>

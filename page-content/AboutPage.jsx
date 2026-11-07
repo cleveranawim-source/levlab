@@ -1,7 +1,5 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
-import MakerBadge from "../components/MakerBadge";
-import { TOOLS } from "../data/tools";
 
 const LEV = [
   { ko: "마음", en: "Heart", d: "감정을 알아차리는 힘" },
@@ -24,13 +22,14 @@ const TIMELINE = [
   { y: "NOW", h: "핵심 15차시 공개", d: "학년별 핵심 15차시를 수업 흐름·교사 발문·웹앱과 함께 공개했습니다. 원본 자료와 새 웹앱을 차례로 더합니다." },
 ];
 
-// 스티커 네 칸 — 그림 속 아이콘 그대로
-const CLASSES = [
-  { k: "bible", h: "교목", d: "아침묵상으로 학교의 하루를 엽니다" },
-  { k: "board", h: "교사", d: "교실에서 사회정서교육 수업을 합니다" },
-  { k: "code", h: "개발자", d: "수업에 쓸 웹앱과 게임을 직접 만듭니다" },
-  { k: "heart", h: "마음", d: "모든 작업이 사회정서교육으로 모입니다" },
+// 서울특별시교육청 디지털 배지 (Open Badges 2.0, 발급처 서버에서 누구나 진위 확인)
+const OB = "https://nlp.netlearning.co.jp/api/v1.0/openbadge/v2/Assertion/";
+const BADGES = [
+  { img: "ai-convergence", name: "인공지능 창의융합교육", on: "2026-11-01", id: "RWN5VXIvS1NMQU1HVWtuNUtOTDBCQT09" },
+  { img: "ai-digital-content", name: "AI·디지털 교육자료", on: "2026-11-01", id: "cndFTHJib0FPMEJXZnlQUmFNcjF2dz09" },
+  { img: "digital-lms", name: "디지털 교수학습", on: "2024-12-16", id: "UzBwRHhtVTNqY083SVQyVmdTYjlCUT09" },
 ];
+const fmtDate = (d) => d.replace(/^(\d{4})-(\d{2})-(\d{2})$/, (_, y, m, day) => `${y}. ${Number(m)}. ${Number(day)}.`);
 
 const DIFFS = [
   { h: "교실에서 태어난 수업", d: "명지중학교 교실에서 먼저 돌려 보고, 학생 반응을 보며 고칩니다." },
@@ -88,7 +87,7 @@ export default function AboutPage() {
               <span>2026 서울 사회정서교육 현장지원단</span>
               <span>학교로 찾아가는 사회정서교육 강사</span>
               <span>「마음의 한줄」 저자</span>
-              <span>교사개발자 2호</span>
+              <span>서울시교육청 교사개발자 2호</span>
               <span>LevLab 유튜브</span>
             </div>
           </div>
@@ -96,31 +95,21 @@ export default function AboutPage() {
       </section>
 
       <section className="content-section maker" id="maker" aria-labelledby="maker-h">
-        <h2 className="content-h2" id="maker-h">교사개발자 2호</h2>
         <div className="maker-card">
-          <figure className="maker-sticker">
-            <img src="/images/maker/sen-dev-sticker.webp" alt="픽셀 그림 스티커. 위에 ‘멀티클래스’, 가운데 지팡이를 든 목자와 양, ‘YEOL Lv.MAX’ 글자와 성경·칠판·코드·하트 네 칸, 아래에 큰 숫자 2와 ‘교사개발자 SEN DEV’." width={228} height={256} />
-            <figcaption>서명 스티커</figcaption>
-          </figure>
+          <img className="maker-sticker" src="/images/maker/sen-dev-sticker.webp" alt="교사개발자 2호 서명 스티커" width={471} height={512} />
           <div className="maker-copy">
-            <p className="maker-lead serif">교실에서 쓸 앱은, 교실을 아는 사람이 만듭니다.</p>
-            <p>레브랩의 웹앱과 게임 {TOOLS.filter((t) => t.url).length}개는 모두 대표가 <b>교사개발자 2호 Yeol</b>로서 직접 기획하고 만들었습니다. 수업에서 막힌 순간을 앱으로 풀고, 다음 수업에서 학생들과 다시 고칩니다.</p>
-            <ul className="maker-classes" aria-label="스티커 네 칸이 뜻하는 것">
-              {CLASSES.map((c) => <li key={c.k} className={`mc-${c.k}`}><b>{c.h}</b><span>{c.d}</span></li>)}
+            <h2 className="content-h2" id="maker-h">서울시교육청 교사개발자 2호</h2>
+            <ul className="maker-badges">
+              {BADGES.map((b) => (
+                <li key={b.id}>
+                  <a href={`${OB}${b.id}`} target="_blank" rel="noopener noreferrer">
+                    <img src={`/images/maker/badges/${b.img}.webp`} alt="" width={250} height={250} loading="lazy" />
+                    <b>{b.name}</b>
+                    <span>{fmtDate(b.on)}<span className="sr-only"> 발급, 발급 기록 보기 (새 창)</span></span>
+                  </a>
+                </li>
+              ))}
             </ul>
-          </div>
-        </div>
-
-        <div className="maker-sign">
-          <div>
-            <h3>앱마다 남기는 디지털 배지</h3>
-            <p>「AI와 함께하는 사회정서교육」 깡통이·하린이 수업을 만들면서, 앱 첫 화면과 끝 인사에 이 스티커를 서명으로 붙였습니다. 수업 중인 화면에는 넣지 않고, 학생 시작 화면과 선생님 화면 바닥에만 작게 남깁니다. 레브랩 사이트 맨 아래에도 같은 배지가 있습니다.</p>
-            <p><a href="https://ai-sel.vercel.app/" target="_blank" rel="noopener noreferrer">깡통이 수업 첫 화면에서 보기<span className="sr-only"> (새 창)</span></a> · <Link href="/tools">레브랩 콘텐츠 전체</Link></p>
-          </div>
-          <div className="maker-demo" aria-label="앱 바닥글에 붙는 배지 예시">
-            <span className="md-bar" aria-hidden="true"><i /><i /><i /></span>
-            <span className="md-screen" aria-hidden="true">선생님이세요? 수업 열기</span>
-            <MakerBadge size="md" href={null} />
           </div>
         </div>
       </section>
