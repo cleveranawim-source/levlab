@@ -15,6 +15,11 @@ const unpublishedLessonRedirects = [1, 2, 3].flatMap((g) =>
 const nextConfig = {
   // App Store links use both forms. Serve both without a redirect round trip.
   skipTrailingSlashRedirect: true,
+  // 페이지가 빌드 때 public/ 파일이 있는지 fs 로 확인하므로, 추적기가 public/·영상 원본까지 서버 함수에 넣지 않게 뺀다
+  // (안 빼면 함수 하나가 600MB를 넘어 Vercel 배포가 실패한다). 서버에서 실제로 읽는 것은 content/slides 뿐이다.
+  outputFileTracingExcludes: {
+    "*": ["public/**", "content/teasers/**", "content/art/**", "content/worksheets/**", "docs/**", "scripts/**"],
+  },
   async redirects() {
     return [
       // 목록 페이지가 따로 없는 상위 주소
