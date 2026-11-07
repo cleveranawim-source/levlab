@@ -46,10 +46,10 @@ export function GradeTag({ grade }) {
 export function AppList({ apps }) {
   if (!apps.length) return <p className="muted">이 성취기준에 맞춘 레브랩 콘텐츠는 준비 중입니다.</p>;
   return (
-    <ul className="app-cards">
+    <ul className="app-cards" data-motion-stagger>
       {apps.map((a) => (
         <li key={a.n}>
-          <a href={a.url} target="_blank" rel="noopener noreferrer" className={`app-card a-${areaKey(a.dom)}`}>
+          <a href={a.url} target="_blank" rel="noopener noreferrer" className={`app-card a-${areaKey(a.dom)}`} data-motion="card" data-motion-card>
             {a.img && <ContentImage src={a.img} alt={`${a.n} 첫 화면`} width={960} height={600} className="app-shot" />}
             <span className="app-body">
               <span className="app-type">{a.t}</span>
@@ -82,7 +82,7 @@ export function Breadcrumb({ items }) {
 export function GradePanel({ n, lessons }) {
   const g = GRADE_THEME[n];
   return (
-    <Link href={`/curriculum/grade-${n}`} className="grade-panel">
+    <Link href={`/curriculum/grade-${n}`} className="grade-panel" data-motion="card" data-motion-card>
       <ContentImage {...gradeImage(n)} className="gp-img" />
       <span className="gp-body">
         <span className="gp-label">{g.label}</span>
@@ -97,7 +97,7 @@ export function GradePanel({ n, lessons }) {
 /** 차시 카드 — 학년·영역 목록에서 쓰는 그림 카드 */
 export function LessonCard({ l, showGrade = false }) {
   return (
-    <Link href={`/lessons/${l.slug}`} className={`lesson-card2 a-${areaKey(l.area)}`}>
+    <Link href={`/lessons/${l.slug}`} className={`lesson-card2 a-${areaKey(l.area)}`} data-motion="card" data-motion-card>
       <ContentImage {...lessonImage(l.slug, l.title)} className="lc2-img" />
       <span className="lc2-body">
         <span className="lc2-tags">

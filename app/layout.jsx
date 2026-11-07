@@ -3,10 +3,12 @@ import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import SkipLink from "../components/SkipLink";
 import ScrollToTop from "../components/ScrollToTop";
+import MotionRoot from "../components/motion/MotionRoot";
 import { ORIGIN, PAGE_META, createPageMetadata } from "../lib/pageMeta";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "../styles/content.css";
 import "../styles/theme.css";
+import "../styles/motion.css";
 
 // Preload only the small common-character subset. Other glyphs are fetched from
 // the package's local unicode-range faces as needed, all under /_next/static/.
@@ -48,6 +50,7 @@ export default function RootLayout({ children }) {
     <html lang="ko" className={`${pretendard.variable} ${gowunBatang.variable}`} suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head>
       <body>
+        <MotionRoot />
         <SkipLink />
         <ScrollToTop />
         <Nav />

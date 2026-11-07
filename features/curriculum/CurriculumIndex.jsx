@@ -12,7 +12,7 @@ export default function CurriculumIndex() {
         <div className="wrap">
           <h1>중학교 3년, 사회정서교육 수업</h1>
           <p className="ch-desc">서울 사회정서교육의 4개 영역·17개 사회정서기술에 맞춘 학년별 34차시 가운데, <b>학년별 핵심 15차시</b>를 공개합니다. 학년으로 찾거나, 가르치고 싶은 기술로 찾아보세요.</p>
-          <div className="grade-panels">
+          <div className="grade-panels" data-motion-stagger>
             {GRADES.map((n) => <GradePanel key={n} n={n} lessons={getLessonsByGrade(n)} />)}
           </div>
         </div>
@@ -22,9 +22,9 @@ export default function CurriculumIndex() {
         <div className="wrap">
           <h2 className="sec-title" id="by-skill-h">기술로 찾기</h2>
           <p className="muted">기술을 누르면 성취기준 원문, 3년 동안의 학습 주제, 핵심 차시, 연결된 콘텐츠를 볼 수 있습니다.</p>
-          <div className="area-blocks">
+          <div className="area-blocks" data-motion-stagger>
             {AREAS.map((a) => (
-              <section key={a} className={`area-block a-${areaKey(a)}`} aria-labelledby={`ab-${areaKey(a)}`}>
+              <section key={a} className={`area-block a-${areaKey(a)}`} data-motion="domain" aria-labelledby={`ab-${areaKey(a)}`}>
                 <ContentImage {...areaImage(a)} className="ab-img" />
                 <div className="ab-body">
                   <h3 id={`ab-${areaKey(a)}`}>{a}</h3>

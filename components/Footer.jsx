@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import MakerBadge from "./MakerBadge";
 import { CONTACT_EMAIL, YOUTUBE_URL } from "../data/site";
 
 export default function Footer() {
@@ -12,6 +13,7 @@ export default function Footer() {
             <span className="wm">LEV&nbsp;LAB</span>
           </Link>
           <p className="desc">서울 사회정서교육에 맞춘 중학교 SEL 수업과 웹앱을 만드는 교육 콘텐츠 연구소.</p>
+          <MakerBadge size="sm" className="foot-maker" />
         </div>
         <div>
           <h2 className="foot-h">둘러보기</h2>

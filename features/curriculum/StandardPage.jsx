@@ -30,15 +30,15 @@ export default function StandardPage({ code }) {
       <section className="band">
         <div className="wrap">
           <h2 className="sec-title" id="years-h">3년 동안 이렇게 깊어집니다</h2>
-          <ol className="year-steps">
+          <ol className="year-steps" data-motion-stagger>
             {[1, 2, 3].map((g) => (
-              <li key={g}><span className="ys-g">{GRADE_THEME[g].label} {GRADE_THEME[g].theme}</span><span className="ys-t">{s.topics[g]}</span></li>
+              <li key={g} data-motion="year"><span className="ys-g">{GRADE_THEME[g].label} {GRADE_THEME[g].theme}</span><span className="ys-t">{s.topics[g]}</span></li>
             ))}
           </ol>
 
           <h2 className="sec-title" id="lessons-h">레브랩 핵심 차시</h2>
           {lessons.length ? (
-            <ol className="lesson-grid">{lessons.map((l) => <li key={l.slug}><LessonCard l={l} showGrade /></li>)}</ol>
+            <ol className="lesson-grid" data-motion-stagger>{lessons.map((l) => <li key={l.slug}><LessonCard l={l} showGrade /></li>)}</ol>
           ) : (
             <p className="muted">이 기술은 이번 핵심 15차시에 들어가지 않은 학년이 있습니다. 전체 34차시 과정에서는 모든 학년이 다룹니다.</p>
           )}

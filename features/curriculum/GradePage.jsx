@@ -16,7 +16,7 @@ export default function GradePage({ grade }) {
           <Breadcrumb items={[{ label: "SEL 수업", href: "/curriculum" }, { label: `${g.label} ${g.theme}` }]} />
           <div className="ch-grid">
             <div>
-              <nav className="grade-switch" aria-label="학년 바꾸기">
+              <nav className="grade-switch" data-motion-grade-switch aria-label="학년 바꾸기">
                 {GRADES.map((x) => (
                   <Link key={x} href={`/curriculum/grade-${x}`} aria-current={x === n ? "page" : undefined}>{GRADE_THEME[x].label}</Link>
                 ))}
@@ -40,8 +40,8 @@ export default function GradePage({ grade }) {
             if (!ls.length) return null;
             return (
               <section key={a} className={`area-group a-${areaKey(a)}`} aria-labelledby={`ag-${areaKey(a)}`}>
-                <h2 id={`ag-${areaKey(a)}`} className="ag-title"><AreaTag area={a} /> <span>{ls.length}차시</span></h2>
-                <ol className="lesson-grid">
+                <h2 id={`ag-${areaKey(a)}`} className="ag-title" data-motion="stripe"><AreaTag area={a} /> <span>{ls.length}차시</span></h2>
+                <ol className="lesson-grid" data-motion-stagger>
                   {ls.map((l) => <li key={l.slug}><LessonCard l={l} /></li>)}
                 </ol>
               </section>

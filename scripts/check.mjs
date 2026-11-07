@@ -84,6 +84,10 @@ try {
     const lesson = lessons.find(({ slug }) => path === `/lessons/${slug}`);
     if (lesson?.status !== "published" && lesson) assert(head.includes('name="robots" content="noindex, nofollow"'), `${path} draft robots`);
   }
+  for (const [path, to] of [["/lessons", "/curriculum"], ["/standards", "/curriculum#by-skill-h"], ["/lessons/g2-01", "/curriculum/grade-2"], ["/index.html", "/"]]) {
+    const res = await request(path, { redirect: "manual" });
+    assert.ok([307, 308].includes(res.status) && res.headers.get("location")?.endsWith(to), `${path} must redirect to ${to} (got ${res.status} ${res.headers.get("location")})`);
+  }
   for (const path of ["/__check_unknown__", "/curriculum/grade-4", "/curriculum/grade-01", "/standards/99-99", "/lessons/not-a-lesson"]) {
     assert.equal((await request(path)).status, 404, `${path} GET must return real HTTP 404`);
     assert.equal((await request(path, { method: "HEAD" })).status, 404, `${path} HEAD must return real HTTP 404`);

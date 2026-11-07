@@ -2,6 +2,7 @@ import Link from "next/link";
 import ContentImage from "../components/ContentImage";
 import ToolCard from "../components/ToolCard";
 import Newsletter from "../components/Newsletter";
+import MakerBadge from "../components/MakerBadge";
 import { CURRICULUM } from "../data/site";
 import { SEL_DOMAINS } from "../data/sel";
 import { TOOLS } from "../data/tools";
@@ -25,11 +26,17 @@ export default function HomePage() {
       <section className="home-hero" aria-labelledby="home-title">
         <div className="wrap home-hero-grid">
           <div className="home-hero-copy">
-            <h1 className="serif" id="home-title">감정을 다루는 힘은<br />가르칠 수 있습니다</h1>
+            <h1 className="serif" id="home-title"><span className="hero-word" style={{ "--word": 0 }}>감정을</span>{" "}<span className="hero-word" style={{ "--word": 1 }}>다루는</span>{" "}<span className="hero-word" style={{ "--word": 2 }}>힘은</span><br /><span className="hero-highlight"><span className="hero-word" style={{ "--word": 3 }}>가르칠</span>{" "}<span className="hero-word" style={{ "--word": 4 }}>수</span>{" "}<span className="hero-word" style={{ "--word": 5 }}>있습니다</span></span></h1>
             <p className="sub">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 3년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</p>
             <div className="cta-row"><Link className="btn btn-solid" href="/curriculum">수업 찾기 <span aria-hidden="true">→</span></Link><Link className="btn btn-ghost" href="/tools">콘텐츠 체험하기</Link></div>
+            <MakerBadge size="md" />
           </div>
-          <ContentImage className="home-hero-art" src="/images/home-hero.webp" alt="교실에서 감정 카드와 활동지를 펼치고 함께 이야기하는 학생들" width={1200} height={900} priority />
+          <div className="home-hero-scene">
+            <ContentImage className="home-hero-art" src="/images/home-hero.webp" alt="교실에서 감정 카드와 활동지를 펼치고 함께 이야기하는 학생들" width={1200} height={900} priority />
+            <nav className="hero-domain-tabs" aria-label="네 영역 바로 보기">
+              {SEL_DOMAINS.map((d, i) => <a key={d.key} href={`#domain-${d.key}`} className={`hero-domain-tab domain-${d.key}`} style={{ "--tab": i }}>{d.nm}<span aria-hidden="true">↙</span></a>)}
+            </nav>
+          </div>
         </div>
         <div className="wrap"><p className="home-facts">3년 {CURRICULUM.totalLessons}차시 <span aria-hidden="true">·</span> {CURRICULUM.skills}개 사회정서기술 <span aria-hidden="true">·</span> 학년별 핵심 {CURRICULUM.coreLessonsPerGrade}차시</p></div>
       </section>
@@ -37,8 +44,8 @@ export default function HomePage() {
       <section className="band" aria-labelledby="home-grades">
         <div className="wrap">
           <div className="sec-head"><h2 id="home-grades">학년으로 시작하세요</h2><p>알아차리기에서 탐색하기, 실천하기로. 한 해씩 깊어지는 수업.</p></div>
-          <div className="home-grade-grid">
-            {GRADES.map((n) => <Link key={n} className="home-grade" href={`/curriculum/grade-${n}`}>
+          <div className="home-grade-grid" data-motion-stagger>
+            {GRADES.map((n) => <Link key={n} className="home-grade" data-motion="card" data-motion-card href={`/curriculum/grade-${n}`}>
               <ContentImage src={`/images/grades/g${n}.webp`} alt={GRADE_COPY[n].alt} width={800} height={600} />
               <div className="home-grade-copy"><h3><span>중{n}</span> {GRADE_COPY[n].theme}</h3><ul>{GRADE_COPY[n].topics.map((t) => <li key={t}>{t}</li>)}</ul><span className="home-grade-link">핵심 15차시 <span aria-hidden="true">→</span></span></div>
             </Link>)}
@@ -49,8 +56,8 @@ export default function HomePage() {
       <section className="band home-domains" aria-labelledby="home-domains">
         <div className="wrap">
           <div className="sec-head"><h2 id="home-domains">마음은 네 개의 결로 자랍니다</h2><p>네 영역, 17개 사회정서기술. 레브랩의 모든 수업과 콘텐츠가 이어지는 틀입니다.</p></div>
-          <div className="home-domain-grid">
-            {SEL_DOMAINS.map((d) => <section className={`home-domain domain-${d.key}`} key={d.key} aria-labelledby={`domain-${d.key}`}>
+          <div className="home-domain-grid" data-motion-stagger>
+            {SEL_DOMAINS.map((d) => <section className={`home-domain domain-${d.key}`} data-motion="domain" key={d.key} aria-labelledby={`domain-${d.key}`}>
               <div className="home-domain-heading"><h3 id={`domain-${d.key}`}>{d.nm}</h3><p>{d.tagline}</p></div>
               <ContentImage src={`/images/domains/${d.key}.webp`} alt={DOMAIN_SCENES[d.key]} width={800} height={600} />
               <ul>{standards.filter((s) => s.area === d.nm).map((s) => <li key={s.code}><Link href={`/standards/${s.code}`}>{s.skill}<span aria-hidden="true">↗</span></Link></li>)}</ul>
@@ -62,8 +69,8 @@ export default function HomePage() {
       <section className="band home-lessons" aria-labelledby="home-lessons">
         <div className="wrap">
           <div className="sec-head section-heading-row"><h2 id="home-lessons">먼저 둘러볼 만한 수업</h2><Link className="text-link" href="/curriculum">전체 수업 <span aria-hidden="true">→</span></Link></div>
-          <div className="featured-lessons">
-            {lessons.map((l) => <Link className="featured-lesson" href={`/lessons/${l.slug}`} key={l.slug}>
+          <div className="featured-lessons" data-motion-stagger>
+            {lessons.map((l) => <Link className={`featured-lesson domain-${SEL_DOMAINS.find((d) => d.nm === l.area)?.key || "self"}`} data-motion="card" data-motion-card href={`/lessons/${l.slug}`} key={l.slug}>
               <ContentImage src={`/images/lessons/${l.slug}.webp`} alt={`중${l.grade} ${l.title} 수업 활동 장면`} width={800} height={600} />
               <div className="featured-lesson-copy"><p className="lesson-label"><span>중{l.grade}</span><span className={`domain-label domain-${SEL_DOMAINS.find((d) => d.nm === l.area)?.key || "self"}`}>{l.area}</span></p><h3>{l.title}</h3><p className="featured-question serif">{l.keyQuestion}</p></div>
             </Link>)}
@@ -74,7 +81,7 @@ export default function HomePage() {
       <section className="band" aria-labelledby="home-tools">
         <div className="wrap">
           <div className="sec-head section-heading-row"><div><h2 id="home-tools">AI 수업과 게임</h2><p>설치 없이 웹 브라우저에서 바로 실행됩니다.</p></div><Link className="text-link" href="/tools">전체 콘텐츠 <span aria-hidden="true">→</span></Link></div>
-          <div className="tool-grid home-tool-grid">{featuredTools.map((tool) => <ToolCard key={tool.n} tool={tool} />)}</div>
+          <div className="tool-grid home-tool-grid" data-motion-stagger>{featuredTools.map((tool) => <ToolCard key={tool.n} tool={tool} />)}</div>
         </div>
       </section>
 

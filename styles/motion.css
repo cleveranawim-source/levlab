@@ -1,0 +1,145 @@
+/* A lesson notebook opening: type, a highlighter stroke, then colored index tabs.
+   All content is visible by default. Nothing waits in an opacity:0 state for JS. */
+:root { --motion-ease: cubic-bezier(.16, 1, .3, 1); --motion-hl: var(--hl); }
+:root[data-theme="dark"] { --motion-hl: color-mix(in srgb, var(--hl) 24%, var(--paper)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --motion-hl: color-mix(in srgb, var(--hl) 24%, var(--paper)); }
+}
+
+.hero-word { display: inline-block; }
+.hero-highlight { position: relative; isolation: isolate; display: inline-block; }
+.hero-highlight::before { content: ""; position: absolute; z-index: -1; inset: 66% -.025em 7%; background: var(--motion-hl); transform-origin: left center; }
+.home-hero-copy > .maker-badge { margin-top: 24px; }
+.home-hero-scene { min-width: 0; }
+.hero-domain-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding-inline: 14px; }
+.hero-domain-tab { display: flex; align-items: center; justify-content: space-between; gap: 4px; min-height: 44px; padding: 9px 12px; background: var(--domain); color: var(--domain-on); border-radius: 0 0 var(--r-sm) var(--r-sm); font-size: 14px; font-weight: 700; transform-origin: center top; }
+.hero-domain-tab span { font-size: 18px; }
+.hero-domain-tab:focus-visible { outline-offset: 4px; }
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* The last sticker lands at 1.5 seconds. No loops or scroll-linked parallax. */
+  html.js-motion .motion-hero .hero-word { animation: motion-word .64s var(--motion-ease) calc(var(--word) * 65ms) backwards; }
+  html.js-motion .motion-hero .hero-highlight::before { animation: motion-stroke .5s var(--motion-ease) .55s backwards; }
+  html.js-motion .motion-hero .home-hero-art { animation: motion-art .85s var(--motion-ease) .14s backwards; }
+  html.js-motion .motion-hero .home-hero-art img { animation: motion-picture 1s var(--motion-ease) .14s backwards; }
+  html.js-motion .motion-hero .sub { animation: motion-rise .55s var(--motion-ease) .32s backwards; }
+  html.js-motion .motion-hero .cta-row { animation: motion-rise .55s var(--motion-ease) .43s backwards; }
+  html.js-motion .motion-hero .hero-domain-tab { animation: motion-tab .55s var(--motion-ease) calc(.6s + var(--tab) * 85ms) backwards; }
+  html.js-motion .motion-hero .maker-badge { animation: motion-sticker .5s var(--motion-ease) 1s backwards; }
+  html.js-motion .motion-hero .home-facts { animation: motion-fade .5s ease .55s backwards; }
+
+  /* Entrance classes are added once by IntersectionObserver, never by SSR. */
+  html.js-motion .motion-target.motion-seen { animation: motion-rise .6s var(--motion-ease) var(--motion-delay, 0ms) backwards; }
+  html.js-motion :is(.ch-img, .lh-img, .page-hero-image).motion-seen { animation-name: motion-art; animation-duration: .75s; }
+  html.js-motion [data-motion="domain"].motion-seen { animation-name: motion-domain; animation-duration: .7s; }
+  html.js-motion [data-motion="year"].motion-seen { animation-name: motion-tab; }
+  html.js-motion [data-motion="step"].motion-seen .step-icon { animation: motion-icon .45s var(--motion-ease) calc(var(--motion-delay, 0ms) + .14s) backwards; }
+  html.js-motion .motion-target:focus-within,
+  html.js-motion .motion-focused,
+  html.js-motion .motion-hero :is(.cta-row, .maker-badge, .hero-domain-tab):focus-within { animation: none !important; }
+
+  /* An index stripe sweeps across each domain, without changing its box size. */
+  html.js-motion [data-motion="domain"] { position: relative; }
+  html.js-motion [data-motion="domain"]::before { content: ""; position: absolute; z-index: 1; inset: 0 0 auto; height: 5px; border-radius: var(--r-lg) var(--r-lg) 0 0; background: var(--domain-on); opacity: .55; transform-origin: left; pointer-events: none; }
+  html.js-motion [data-motion="domain"].motion-seen::before { animation: motion-stroke .72s var(--motion-ease) calc(var(--motion-delay, 0ms) + .12s) backwards; }
+  html.js-motion [data-motion="stripe"] { position: relative; border-bottom-color: transparent; }
+  html.js-motion [data-motion="stripe"]::after { content: ""; position: absolute; inset: auto 0 -3px; height: 3px; background: var(--ac); transform-origin: left; }
+  html.js-motion [data-motion="stripe"].motion-seen::after { animation: motion-stroke .7s var(--motion-ease) .1s backwards; }
+
+  /* Per-word ink supports wrapped Korean questions at 360px. */
+  html.js-motion .key-q[data-motion="highlight"] mark { background: none; }
+  html.js-motion .motion-ink { display: inline-block; position: relative; isolation: isolate; }
+  html.js-motion .motion-ink::before { content: ""; position: absolute; z-index: -1; inset: 52% 0 8%; background: var(--motion-hl); transform-origin: left; }
+  html.js-motion [data-motion="highlight"].motion-seen { animation: none; }
+  html.js-motion [data-motion="highlight"].motion-seen .motion-ink::before { animation: motion-stroke .45s var(--motion-ease) calc(min(var(--ink-word), 10) * 45ms + .12s) backwards; }
+
+  /* Segment widths remain the actual minute proportions throughout the fill. */
+  html.js-motion .lesson-timeline[data-motion] { animation: none; }
+  html.js-motion .lesson-timeline[data-motion] .tl-seg { position: relative; isolation: isolate; background: transparent; --segment: 0; --segment-color: color-mix(in srgb, var(--ac) 70%, var(--tl-mix)); }
+  html.js-motion .lesson-timeline[data-motion] .tl-seg::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--segment-color); transform-origin: left; }
+  html.js-motion .lesson-timeline[data-motion] .s1 { --segment: 1; --segment-color: color-mix(in srgb, var(--ac) 85%, var(--tl-mix)); }
+  html.js-motion .lesson-timeline[data-motion] .s2 { --segment: 2; --segment-color: var(--ac); }
+  html.js-motion .lesson-timeline[data-motion] .s3 { --segment: 3; --segment-color: color-mix(in srgb, var(--ac) 85%, var(--tl-mix)); }
+  html.js-motion .lesson-timeline[data-motion] .s4 { --segment: 4; }
+  html.js-motion .lesson-timeline.motion-seen .tl-seg::before { animation: motion-stroke .5s var(--motion-ease) calc(var(--segment) * 100ms) backwards; }
+  html.js-motion .lesson-timeline.motion-seen .tl-seg > * { animation: motion-fade .25s ease calc(var(--segment) * 100ms + 100ms) backwards; }
+
+  html.js-motion [data-motion-card] { position: relative; --motion-color: var(--tool-color, var(--domain, var(--ac, var(--forest)))); transition: transform .32s var(--motion-ease); }
+  html.js-motion [data-motion-card]::after { content: ""; pointer-events: none; position: absolute; inset: 0; border: 2px solid var(--motion-color); border-radius: inherit; opacity: 0; box-shadow: 0 10px 22px -16px var(--motion-color); transition: opacity .2s ease; }
+  html.js-motion [data-motion-card] .content-image img { transition: transform .6s var(--motion-ease); }
+  html.js-motion [data-motion-card]:focus-visible { transform: translateY(-3px); }
+  html.js-motion [data-motion-card]:focus-visible::after { opacity: .8; }
+  html.js-motion [data-motion-card]:focus-visible .content-image img { transform: scale(1.035); }
+  html.js-motion .hero-domain-tab:focus-visible { transform: translateY(3px); }
+  html.js-motion .home-domain:focus-within li { animation: motion-skill .4s var(--motion-ease) calc(var(--skill-order, 0) * 45ms) backwards; }
+  html.js-motion .home-domain li:nth-child(2) { --skill-order: 1; }
+  html.js-motion .home-domain li:nth-child(3) { --skill-order: 2; }
+  html.js-motion .home-domain li:nth-child(4) { --skill-order: 3; }
+  html.js-motion .home-domain li:nth-child(5) { --skill-order: 4; }
+  html.js-motion .home-domain li:nth-child(6) { --skill-order: 5; }
+  html.js-motion .motion-grade-ready::after { transition: transform .3s var(--motion-ease); }
+  html.js-motion .motion-check .box::before,
+  html.js-motion .motion-check .box::after { transition: transform .16s var(--motion-ease); }
+  html.js-motion .motion-check .box[aria-checked="true"]::after { transition-delay: .08s; }
+
+  /* Template fade is also the navigation fallback on browsers without the API. */
+  html.js-motion:not([data-motion-navigation]) .motion-page:not(:has(.home-hero)) { animation: motion-fade .2s ease backwards; }
+  ::view-transition-old(root) { animation: motion-page-out .16s ease both; }
+  ::view-transition-new(root) { animation: motion-fade .2s ease both; }
+  ::view-transition-group(root) { animation: none; }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html.js-motion [data-motion-card][data-motion-pointer] { transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateY(-3px); }
+  html.js-motion [data-motion-card]:hover::after { opacity: .8; }
+  html.js-motion [data-motion-card]:hover .content-image img { transform: scale(1.035); }
+  html.js-motion .hero-domain-tab { transition: transform .25s var(--motion-ease); }
+  html.js-motion .hero-domain-tab:hover { transform: translateY(3px); }
+  html.js-motion .home-domain:hover li { animation: motion-skill .4s var(--motion-ease) calc(var(--skill-order, 0) * 45ms) backwards; }
+}
+
+/* The underline and checklist are enhancements, independent of motion preference. */
+@media screen {
+  .key-q[data-motion="highlight"] mark { background: linear-gradient(transparent 52%, var(--motion-hl) 52%, var(--motion-hl) 92%, transparent 92%); }
+  .grade-switch.motion-grade-ready { position: relative; }
+  .grade-switch.motion-grade-ready::after { content: ""; position: absolute; bottom: -5px; left: 0; width: 1px; height: 3px; background: var(--forest); transform: translateX(var(--grade-x, 0px)) scaleX(var(--grade-width, 1)); transform-origin: left; pointer-events: none; }
+  .checklist .motion-check { cursor: pointer; }
+  .checklist .motion-check .box { position: relative; border-radius: 3px; color: var(--forest); border-color: currentColor; }
+  .motion-check .box::before, .motion-check .box::after { content: ""; position: absolute; height: 2px; background: currentColor; transform-origin: left; }
+  .motion-check .box::before { width: 5px; left: 1px; top: 5px; transform: rotate(45deg) scaleX(0); }
+  .motion-check .box::after { width: 9px; left: 4px; top: 8px; transform: rotate(-48deg) scaleX(0); }
+  .motion-check .box[aria-checked="true"]::before { transform: rotate(45deg) scaleX(1); }
+  .motion-check .box[aria-checked="true"]::after { transform: rotate(-48deg) scaleX(1); }
+}
+
+@keyframes motion-word { from { opacity: .08; transform: translateY(.55em) rotate(2deg); } to { opacity: 1; transform: none; } }
+@keyframes motion-rise { from { opacity: .12; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes motion-art { from { opacity: .2; transform: translateY(22px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes motion-picture { from { transform: scale(1.055); } to { transform: scale(1); } }
+@keyframes motion-stroke { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes motion-tab { from { opacity: .1; transform: translateY(-14px) scaleY(.78); } 70% { opacity: 1; transform: translateY(2px) scaleY(1.025); } to { opacity: 1; transform: none; } }
+@keyframes motion-sticker { from { opacity: .1; transform: translateY(10px) rotate(-7deg) scale(.88); } 70% { opacity: 1; transform: rotate(2deg) scale(1.02); } to { opacity: 1; transform: none; } }
+@keyframes motion-domain { from { opacity: .2; transform: translateX(-16px) translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes motion-icon { from { transform: scale(.65) rotate(-10deg); } 70% { transform: scale(1.1) rotate(3deg); } to { transform: none; } }
+@keyframes motion-skill { from { transform: translateX(-6px); } to { transform: none; } }
+@keyframes motion-fade { from { opacity: .2; } to { opacity: 1; } }
+@keyframes motion-page-out { from { opacity: 1; } to { opacity: 0; } }
+
+@media (max-width: 440px) {
+  .hero-domain-tabs { gap: 4px; padding-inline: 4px; }
+  .hero-domain-tab { padding-inline: 8px; font-size: 12px; }
+  .hero-domain-tab span { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Also covers the browser's snapshot pseudo-elements, which aren't DOM nodes. */
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  .motion-target, .hero-word, .hero-domain-tab, [data-motion-card] { transform: none !important; opacity: 1 !important; }
+}
+
+@media print {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .motion-page, .motion-target, .hero-word, .hero-highlight, .home-hero-art, .hero-domain-tab, [data-motion-card], .step-icon, .tl-seg, .tl-seg > *, .maker-badge, .maker-badge img { transform: none !important; opacity: 1 !important; }
+  .motion-ink { display: contents !important; }
+  .motion-ink::before, .motion-check .box::before, .motion-check .box::after, .motion-grade-ready::after, [data-motion-card]::after, [data-motion="domain"]::before, [data-motion="stripe"]::after { display: none !important; }
+}

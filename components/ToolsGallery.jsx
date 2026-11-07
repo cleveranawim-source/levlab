@@ -62,7 +62,7 @@ function Gallery({ full, params }) {
   );
 
   const grid = (
-    <div className="tool-grid">
+    <div className="tool-grid" data-motion-stagger key={`${type}:${aud}`}>
       {list.length
         ? list.map((a) => <ToolCard key={a.n} tool={a} />)
         : <div className="empty"><p>해당하는 콘텐츠가 없어요.</p><button type="button" className="btn btn-ghost" onClick={() => { updateFilters({ type: "전체", aud: "전체" }); firstFilter.current?.focus(); }}>필터 초기화</button></div>}

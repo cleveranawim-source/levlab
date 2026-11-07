@@ -16,6 +16,6 @@ export default function ToolCard({ tool }) {
     </div>
   </>;
   return tool.url
-    ? <a className="tcard" style={{ "--tool-color": color }} href={tool.url} target="_blank" rel="noopener noreferrer">{inner}</a>
-    : <div className="tcard soon" style={{ "--tool-color": color }}>{inner}</div>;
+    ? <a className="tcard" data-motion="card" data-motion-card style={{ "--tool-color": color }} href={tool.url} target="_blank" rel="noopener noreferrer">{inner}</a>
+    : <div className="tcard soon" data-motion="card" style={{ "--tool-color": color }}>{inner}</div>;
 }

@@ -51,7 +51,7 @@ export default function LessonPage({ slug }) {
               </p>
               <h1>{L.title}</h1>
               {L.keyQuestion && (
-                <p className="key-q serif"><span className="sr-only">핵심 질문: </span><mark>{L.keyQuestion}</mark></p>
+                <p className="key-q serif" data-motion="highlight"><span className="sr-only">핵심 질문: </span><mark>{L.keyQuestion.split(" ").map((word, i, words) => <span key={i}><span className="motion-ink" style={{ "--ink-word": i }}>{word}</span>{i < words.length - 1 ? " " : ""}</span>)}</mark></p>
               )}
               <h2 className="lh-sub">이 시간이 끝나면</h2>
               <ol className="goals">{L.objectives.map((o) => <li key={o}>{o}</li>)}</ol>
@@ -63,7 +63,7 @@ export default function LessonPage({ slug }) {
             </div>
           </div>
 
-          <div className="lesson-timeline" role="img" aria-label={`45분 수업 흐름: ${L.flow.map((f) => `${f.stage} ${f.minutes}분`).join(", ")}`}>
+          <div className="lesson-timeline" data-motion="timeline" role="img" aria-label={`45분 수업 흐름: ${L.flow.map((f) => `${f.stage} ${f.minutes}분`).join(", ")}`}>
             {L.flow.map((f, i) => (
               <span key={f.stage} className={`tl-seg s${i}`} style={{ flexGrow: f.minutes }}>
                 <StageIcon stage={f.stage} size={20} />
@@ -80,9 +80,9 @@ export default function LessonPage({ slug }) {
           <div className="lm-flow">
             <h2 className="sec-title" id="flow-h">수업 흐름 <span className="h-sub">{total}분</span></h2>
             <p className="muted small">본문의 ‘다음 시간’·‘지난 시간’ 안내는 34차시 전체 과정 순서 기준입니다. 핵심 15차시로 하실 때는 학급에 맞게 바꿔 주세요.</p>
-            <ol className="steps">
+            <ol className="steps" data-motion-stagger>
               {L.flow.map((f, i) => (
-                <li key={f.stage} className={`step s${i}`}>
+                <li key={f.stage} className={`step s${i}`} data-motion="step">
                   <div className="step-head">
                     <span className="step-icon"><StageIcon stage={f.stage} /></span>
                     <h3>{f.stage}</h3>
@@ -112,7 +112,7 @@ export default function LessonPage({ slug }) {
             <div className="prep">
               <h2 className="prep-title">준비물</h2>
               {materials.length ? (
-                <ul className="checklist">{materials.map((m) => <li key={m}><span className="box" aria-hidden="true" />{m}</li>)}</ul>
+                <ul className="checklist">{materials.map((m) => <li key={m} data-motion-check><span className="box" aria-hidden="true" />{m}</li>)}</ul>
               ) : <p className="muted small">따로 준비할 것이 없습니다.</p>}
               {L.edutech && <p className="prep-note"><b>세안의 에듀테크</b> {L.edutech}</p>}
               <PrintButton />

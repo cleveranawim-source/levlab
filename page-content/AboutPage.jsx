@@ -1,5 +1,7 @@
 import Link from "next/link";
 import PageShell from "../components/PageShell";
+import MakerBadge from "../components/MakerBadge";
+import { TOOLS } from "../data/tools";
 
 const LEV = [
   { ko: "마음", en: "Heart", d: "감정을 알아차리는 힘" },
@@ -20,6 +22,14 @@ const TIMELINE = [
   { y: "2026", h: "중학교 3년 102차시 · SEL 웹앱", d: "서울 사회정서교육 성취기준에 맞춘 학년별 34차시와, 수업에 쓰는 게임·웹앱을 만들었습니다." },
   { y: "2026", h: "「AI와 함께하는 사회정서교육」 공개수업 설계", d: "AI를 ‘틀리는 거울’과 ‘연습 상대’로 쓰는 중1 수업과 교실 웹앱을, 다른 학교 선생님들께 공개하는 수업으로 설계했습니다." },
   { y: "NOW", h: "핵심 15차시 공개", d: "학년별 핵심 15차시를 수업 흐름·교사 발문·웹앱과 함께 공개했습니다. 원본 자료와 새 웹앱을 차례로 더합니다." },
+];
+
+// 스티커 네 칸 — 그림 속 아이콘 그대로
+const CLASSES = [
+  { k: "bible", h: "교목", d: "아침묵상으로 학교의 하루를 엽니다" },
+  { k: "board", h: "교사", d: "교실에서 사회정서교육 수업을 합니다" },
+  { k: "code", h: "개발자", d: "수업에 쓸 웹앱과 게임을 직접 만듭니다" },
+  { k: "heart", h: "마음", d: "모든 작업이 사회정서교육으로 모입니다" },
 ];
 
 const DIFFS = [
@@ -78,8 +88,39 @@ export default function AboutPage() {
               <span>2026 서울 사회정서교육 현장지원단</span>
               <span>학교로 찾아가는 사회정서교육 강사</span>
               <span>「마음의 한줄」 저자</span>
+              <span>교사개발자 2호</span>
               <span>LevLab 유튜브</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="content-section maker" id="maker" aria-labelledby="maker-h">
+        <h2 className="content-h2" id="maker-h">교사개발자 2호</h2>
+        <div className="maker-card">
+          <figure className="maker-sticker">
+            <img src="/images/maker/sen-dev-sticker.webp" alt="픽셀 그림 스티커. 위에 ‘멀티클래스’, 가운데 지팡이를 든 목자와 양, ‘YEOL Lv.MAX’ 글자와 성경·칠판·코드·하트 네 칸, 아래에 큰 숫자 2와 ‘교사개발자 SEN DEV’." width={228} height={256} />
+            <figcaption>서명 스티커</figcaption>
+          </figure>
+          <div className="maker-copy">
+            <p className="maker-lead serif">교실에서 쓸 앱은, 교실을 아는 사람이 만듭니다.</p>
+            <p>레브랩의 웹앱과 게임 {TOOLS.filter((t) => t.url).length}개는 모두 대표가 <b>교사개발자 2호 Yeol</b>로서 직접 기획하고 만들었습니다. 수업에서 막힌 순간을 앱으로 풀고, 다음 수업에서 학생들과 다시 고칩니다.</p>
+            <ul className="maker-classes" aria-label="스티커 네 칸이 뜻하는 것">
+              {CLASSES.map((c) => <li key={c.k} className={`mc-${c.k}`}><b>{c.h}</b><span>{c.d}</span></li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div className="maker-sign">
+          <div>
+            <h3>앱마다 남기는 디지털 배지</h3>
+            <p>「AI와 함께하는 사회정서교육」 깡통이·하린이 수업을 만들면서, 앱 첫 화면과 끝 인사에 이 스티커를 서명으로 붙였습니다. 수업 중인 화면에는 넣지 않고, 학생 시작 화면과 선생님 화면 바닥에만 작게 남깁니다. 레브랩 사이트 맨 아래에도 같은 배지가 있습니다.</p>
+            <p><a href="https://ai-sel.vercel.app/" target="_blank" rel="noopener noreferrer">깡통이 수업 첫 화면에서 보기<span className="sr-only"> (새 창)</span></a> · <Link href="/tools">레브랩 콘텐츠 전체</Link></p>
+          </div>
+          <div className="maker-demo" aria-label="앱 바닥글에 붙는 배지 예시">
+            <span className="md-bar" aria-hidden="true"><i /><i /><i /></span>
+            <span className="md-screen" aria-hidden="true">선생님이세요? 수업 열기</span>
+            <MakerBadge size="md" href={null} />
           </div>
         </div>
       </section>
