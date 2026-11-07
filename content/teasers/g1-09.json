@@ -4,7 +4,6 @@
     "engine": "gemini",
     "voice": "Sulafat"
   },
-  "bgm": "content/teasers/music/curious-1.mp3",
   "scenes": [
     {
       "kind": "image",

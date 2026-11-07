@@ -1,4 +1,5 @@
-"""차시 여는 영상 만들기 — content/teasers/{slug}.json → public/video/lessons/{slug}.mp4 (+ .webp 포스터)
+"""차시 여는 영상 만들기 (배경 음악은 영역마다 한 곡: content/teasers/music/{self,inter,comm,well}.mp3)
+ — content/teasers/{slug}.json → public/video/lessons/{slug}.mp4 (+ .webp 포스터)
 
 장면마다 내레이션을 만들고, 그 길이에 맞춰 HTML 애니메이션을 30fps로 한 장씩 찍어 ffmpeg로 묶는다.
 
@@ -17,6 +18,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PUBLIC = ROOT / "public"
 OUT = PUBLIC / "video" / "lessons"
+AREA_KEY = {"자기": "self", "대인관계": "inter", "공동체": "comm", "마음건강": "well"}
+MUSIC = ROOT / "content" / "teasers" / "music"
 AREA = {"자기": "#6D4FC2", "대인관계": "#BF4027", "공동체": "#17784E", "마음건강": "#2F6FB8"}
 FPS, W, H = 30, 1920, 1080
 FADE = 0.45
@@ -182,8 +185,11 @@ def build(slug, lessons, page):
         ins += ["-i", str(files[i])]
         ms = int((st + 0.35) * 1000); flt.append(f"[{i + 1}:a]adelay={ms}|{ms}[a{i}]")
     nar = "".join(f"[a{i}]" for i in range(len(starts))) + f"amix=inputs={len(starts)}:normalize=0,apad=whole_dur={total:.2f}"
-    if spec.get("bgm"):  # 배경 음악: 앞뒤를 부드럽게 열고 닫고, 내레이션이 나올 때는 저절로 작아진다
-        ins += ["-i", str(ROOT / spec["bgm"])]; b = len(starts) + 1
+    # 배경 음악: 같은 영역은 같은 곡(content/teasers/music/{self|inter|comm|well}.mp3). spec 의 "bgm" 이 있으면 그것을 쓴다.
+    # 앞뒤를 부드럽게 열고 닫고, 내레이션이 나올 때는 저절로 작아진다
+    bgm = ROOT / spec["bgm"] if spec.get("bgm") else MUSIC / f"{AREA_KEY.get(L['area'], 'self')}.mp3"
+    if bgm.exists():
+        ins += ["-i", str(bgm)]; b = len(starts) + 1
         vol = spec.get("bgmVolume", 0.32)
         mix = (f"{nar},asplit=2[nar][key];"
                f"[{b}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{total:.2f},afade=t=in:d=0.8,"
