@@ -1,10 +1,17 @@
 """차시 여는 영상 만들기 — content/teasers/{slug}.json → public/video/lessons/{slug}.mp4 (+ .webp 포스터)
 
-장면마다 macOS 'say'(기본 유나)로 내레이션을 만들고, 그 길이에 맞춰 HTML 애니메이션을 30fps로 한 장씩 찍어 ffmpeg로 묶는다.
-필요: macOS say, ffmpeg, python3 + playwright(chromium) + Pillow
-실행: python3 scripts/teasers/build.py [slug ...]
+장면마다 내레이션을 만들고, 그 길이에 맞춰 HTML 애니메이션을 30fps로 한 장씩 찍어 ffmpeg로 묶는다.
+
+내레이션 (장면 i = 01, 02, …):
+  1) content/teasers/audio/{slug}/NN.(wav|mp3|m4a|flac) 가 있으면 그 파일을 쓴다
+     — Google AI Studio 에서 직접 받은 파일을 이 이름으로 넣어도 된다.
+  2) 없으면 spec 의 "tts" 설정대로 Google Gemini TTS 로 만들어 위 자리에 저장한다(한 번 만들면 다시 부르지 않음).
+     키: 환경 변수 GEMINI_API_KEY, 또는 저장소 루트 .env.local 의 GEMINI_API_KEY=… (깃에 올라가지 않음)
+  3) "tts": {"engine": "say"} 이면 macOS say(유나)로 만든다(시험용).
+필요: ffmpeg, python3 + playwright(chromium) + Pillow
+실행: python3 scripts/teasers/build.py [slug ...]   (--renarrate: 저장된 내레이션을 지우고 다시 만든다)
 """
-import html, json, shutil, subprocess, sys, tempfile
+import base64, html, json, os, shutil, subprocess, sys, tempfile, urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -20,13 +27,63 @@ e = lambda s: html.escape(str(s or ""))
 def dur(p):
     return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(p)]).strip())
 
+AUDIO = ROOT / "content" / "teasers" / "audio"
+TTS = {"engine": "gemini", "model": "gemini-3.8-flash-tts", "voice": "Sulafat",
+       "style": "중학교 학생들에게 수업을 여는 따뜻하고 밝은 선생님 목소리. 궁금증이 생기도록 차분하고 또박또박, 너무 빠르지 않게."}
+
+def api_key():
+    if os.environ.get("GEMINI_API_KEY"):
+        return os.environ["GEMINI_API_KEY"]
+    for env in (ROOT / ".env.local", Path(__file__).with_name(".env.local")):
+        if not env.exists():
+            continue
+        for line in env.read_text().splitlines():
+            k, _, v = line.partition("=")
+            if k.strip() == "GEMINI_API_KEY" and v.strip():
+                return v.strip().strip('"\'')
+    sys.exit("내레이션 키가 없습니다: 저장소 루트 .env.local 에 GEMINI_API_KEY=… 를 넣거나,\n"
+             f"AI Studio 에서 받은 음성 파일을 {AUDIO.relative_to(ROOT)}/{{slug}}/01.wav … 로 넣어 주세요.")
+
+def gemini_tts(text, cfg, out):
+    body = {"contents": [{"role": "user", "parts": [{"text": text, "speech_metadata": {"style": cfg["style"]}}]}],
+            "generationConfig": {"responseModalities": ["AUDIO"], "speechConfig": {"voiceConfig": {"voice": cfg["voice"]}}}}
+    req = urllib.request.Request(f"https://generativelanguage.googleapis.com/v1beta/models/{cfg['model']}:generateContent",
+                                 data=json.dumps(body).encode(), method="POST",
+                                 headers={"x-goog-api-key": api_key(), "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            res = json.load(r)
+    except urllib.error.HTTPError as err:
+        sys.exit(f"Gemini TTS 오류 {err.code}: {err.read().decode()[:400]}")
+    part = res["candidates"][0]["content"]["parts"][0]["inlineData"]
+    raw = base64.b64decode(part["data"])
+    if raw[:4] == b"RIFF":
+        out.write_bytes(raw)
+    else:  # 머리 없는 16비트 PCM 24kHz 로 온 경우
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", "24000", "-ac", "1", "-i", "pipe:0", str(out)], input=raw, check=True)
+
 def narrate(spec, tmp):
-    lens = []
+    cfg = {**TTS, **spec.get("tts", {})}
+    adir = AUDIO / spec["slug"]
+    adir.mkdir(parents=True, exist_ok=True)
+    if "--renarrate" in sys.argv:
+        for f in adir.glob("[0-9][0-9].*"):
+            f.unlink()
+    lens, files = [], []
     for i, sc in enumerate(spec["scenes"]):
-        a = tmp / f"n{i}.aiff"
-        subprocess.run(["say", "-v", spec.get("voice", "Yuna"), "-r", str(spec.get("rate", 168)), "-o", str(a), sc["say"]], check=True)
+        n = f"{i + 1:02d}"
+        a = next((f for ext in ("wav", "mp3", "m4a", "flac") if (f := adir / f"{n}.{ext}").exists()), None)
+        if a is None:
+            if cfg["engine"] == "say":
+                a = tmp / f"n{i}.aiff"
+                subprocess.run(["say", "-v", cfg.get("voice", "Yuna"), "-r", str(cfg.get("rate", 168)), "-o", str(a), sc["say"]], check=True)
+            else:
+                a = adir / f"{n}.wav"
+                gemini_tts(sc["say"], cfg, a)
+                print(f"  내레이션 {n} {dur(a):.1f}s  {sc['say']}")
+        files.append(a)
         lens.append(dur(a))
-    return lens
+    return lens, files
 
 def scene_html(sc, i, t0, d, L, acc):
     out = f'<section class="sc{" cont" if sc.get("cont") else ""}" style="--t0:{t0}s;--d:{d}s;--bg:{sc.get("bg", "#F5F6F2")}">'
@@ -80,7 +137,7 @@ def build(slug, lessons, page):
     spec = json.load(open(ROOT / f"content/teasers/{slug}.json", encoding="utf-8"))
     L = lessons[slug]; acc = AREA.get(L["area"], "#1F5C3F")
     tmp = Path(tempfile.mkdtemp(prefix=f"teaser-{slug}-"))
-    lens = narrate(spec, tmp)
+    lens, files = narrate(spec, tmp)
     durs = [max(2.8, n + 0.9) for n in lens]; durs[-1] += 1.6
     starts, t = [], 0.0
     for i, d in enumerate(durs):
@@ -101,7 +158,7 @@ def build(slug, lessons, page):
     # 내레이션을 장면 시작 0.35초 뒤에 깐다
     ins, flt = [], []
     for i, st in enumerate(starts):
-        ins += ["-i", str(tmp / f"n{i}.aiff")]
+        ins += ["-i", str(files[i])]
         ms = int((st + 0.35) * 1000); flt.append(f"[{i + 1}:a]adelay={ms}|{ms}[a{i}]")
     mix = "".join(f"[a{i}]" for i in range(len(starts))) + f"amix=inputs={len(starts)}:normalize=0,apad=whole_dur={total:.2f},loudnorm=I=-16:TP=-1.5[a]"
     OUT.mkdir(parents=True, exist_ok=True)

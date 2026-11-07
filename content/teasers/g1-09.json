@@ -1,7 +1,9 @@
 {
   "slug": "g1-09",
-  "voice": "Yuna",
-  "rate": 168,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
   "scenes": [
     {
       "kind": "image",
