@@ -31,7 +31,7 @@ export default function HomePage() {
           <div className="home-hero-copy">
             <WitControls />
             <h1 className="serif" id="home-title"><span className="hero-word" style={{ "--word": 0 }}>감정을</span>{" "}<span className="hero-word" style={{ "--word": 1 }}>다루는</span>{" "}<span className="hero-word" style={{ "--word": 2 }}>힘은</span><br /><span className="hero-highlight"><span className="hero-word" style={{ "--word": 3 }}>가르칠</span>{" "}<span className="hero-word" style={{ "--word": 4 }}>수</span>{" "}<span className="hero-word" style={{ "--word": 5 }}>있습니다</span></span></h1>
-            <p className="sub">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 3년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</p>
+            <p className="sub">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 1~3학년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</p>
             <LessonSearch variant="hero" />
             <div className="cta-row"><Link className="btn btn-solid" href="/curriculum">수업 찾기 <span aria-hidden="true">→</span></Link><Link className="btn btn-ghost" href="/tools">콘텐츠 체험하기</Link></div>
             <YeolSticker />
@@ -48,7 +48,7 @@ export default function HomePage() {
 
       <section className="band" aria-labelledby="home-grades">
         <div className="wrap">
-          <div className="sec-head"><h2 id="home-grades">학년으로 시작하세요</h2><p>알아차리기에서 탐색하기, 실천하기로. 한 해씩 깊어지는 수업.</p></div>
+          <div className="sec-head"><h2 id="home-grades">학년으로 시작하세요</h2><p>알아차리기에서 탐색하기, 실천하기로. 한 해씩 깊어지는 수업. 고등학교 1~3학년 수업도 이어서 공개할 예정입니다.</p></div>
           <div className="home-grade-grid" data-motion-stagger>
             {GRADES.map((n) => <Link key={n} className="home-grade" data-motion="card" data-motion-card href={`/curriculum/grade-${n}`}>
               <ContentImage src={`/images/grades/g${n}.webp`} alt={GRADE_COPY[n].alt} width={800} height={600} />

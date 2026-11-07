@@ -1,4 +1,4 @@
-// 성취기준별 페이지 — 원문, 3년 심화, 핵심 차시, 연결 콘텐츠
+// 성취기준별 페이지 — 원문, 학년별 심화, 핵심 차시, 연결 콘텐츠
 import Link from "next/link";
 import ContentImage from "../../components/ContentImage";
 import { getStandard, getStandards, getLessonsByStandard, getStandardsSource } from "./data";
@@ -29,7 +29,7 @@ export default function StandardPage({ code }) {
 
       <section className="band">
         <div className="wrap">
-          <h2 className="sec-title" id="years-h">3년 동안 이렇게 깊어집니다</h2>
+          <h2 className="sec-title" id="years-h">중1에서 중3까지 이렇게 깊어집니다</h2>
           <ol className="year-steps" data-motion-stagger>
             {[1, 2, 3].map((g) => (
               <li key={g} data-motion="year"><span className="ys-g">{GRADE_THEME[g].label} {GRADE_THEME[g].theme}</span><span className="ys-t">{s.topics[g]}</span></li>

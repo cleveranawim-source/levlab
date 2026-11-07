@@ -45,9 +45,9 @@ export function HomeFacts() {
   const tools = TOOLS.filter((tool) => tool.url).length;
   const coreTotal = CURRICULUM.grades * CURRICULUM.coreLessonsPerGrade;
   const facts = [
-    { domain: "self", label: `${CURRICULUM.grades}년 ${CURRICULUM.totalLessons}차시`, body: <><span><Count value={CURRICULUM.grades} />년 <Count value={CURRICULUM.totalLessons} />차시</span><small>중학교 마음 수업</small></> },
+    { domain: "self", label: `중1~중3 전체 과정 ${CURRICULUM.totalLessons}차시`, body: <><span><Count value={CURRICULUM.totalLessons} />차시</span><small>중1~중3 전체 과정</small></> },
     { domain: "inter", label: `${CURRICULUM.skills}개 사회정서기술`, body: <><span><Count value={CURRICULUM.skills} />개</span><small>사회정서기술</small></> },
-    { domain: "comm", label: `학년별 핵심 ${CURRICULUM.coreLessonsPerGrade}차시, 총 ${coreTotal}차시`, body: <><span><Count value={CURRICULUM.coreLessonsPerGrade} />차시 <small className="wit-fact-total">× {CURRICULUM.grades}년 = {coreTotal}</small></span><small>학년별 핵심 수업</small></> },
+    { domain: "comm", label: `학년별 핵심 ${CURRICULUM.coreLessonsPerGrade}차시, 총 ${coreTotal}차시`, body: <><span><Count value={CURRICULUM.coreLessonsPerGrade} />차시 <small className="wit-fact-total">× {CURRICULUM.grades}개 학년 = {coreTotal}</small></span><small>학년별 핵심 수업</small></> },
     { domain: "well", label: `웹앱·게임 ${tools}개`, body: <><span><Count value={tools} />개</span><small>웹앱·게임</small></> },
   ];
   return <ul className="home-facts wit-facts" aria-label="레브랩 수업과 콘텐츠" data-wit-facts>
