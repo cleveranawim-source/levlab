@@ -287,11 +287,17 @@ def to_docx(L, W, out):
     from docx import Document
     from docx.shared import Pt, Mm, RGBColor
     from docx.enum.table import WD_TABLE_ALIGNMENT
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    from docx.text.paragraph import Paragraph
     d = Document()
     for s in d.sections:
         s.page_width = Mm(210); s.page_height = Mm(297)
         s.left_margin = s.right_margin = Mm(15); s.top_margin = s.bottom_margin = Mm(13)
     st = d.styles["Normal"]; st.font.name = "맑은 고딕"; st.font.size = Pt(10.5)
+    dense = sum(len(s.get("rows", [])) for s in W["sections"]) >= 6 or sum(s.get("lines", 0) for s in W["sections"]) >= 8
+    st.paragraph_format.space_after = Pt(2 if dense else 3)
+    st.paragraph_format.line_spacing = 1.05
     st.element.rPr.rFonts.set("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}eastAsia", "맑은 고딕")
     acc = RGBColor.from_string(AREA.get(L["area"], "#1F5C3F")[1:])
     t = d.add_table(rows=1, cols=4); t.style = "Table Grid"
@@ -303,7 +309,7 @@ def to_docx(L, W, out):
         paragraph_start = len(d.paragraphs)
         hp = d.add_paragraph(); r = hp.add_run(f"{STAGE_NO.get(s['stage'], '')}. {s['title']}  ({s['stage']})"); r.bold = True; r.font.size = Pt(12.5); r.font.color.rgb = acc
         hp.paragraph_format.keep_with_next = True
-        if s.get("lead"): d.add_paragraph(s["lead"])
+        if s.get("lead"): d.add_paragraph(s["lead"]).paragraph_format.keep_with_next = True
         ty = s["type"]
         if ty == "illusion":
             tb = d.add_table(rows=1, cols=2); tb.style = "Table Grid"
@@ -333,6 +339,8 @@ def to_docx(L, W, out):
             d.add_paragraph("   ".join(f"○ {word}" for word in s["options"]))
             d.add_paragraph(s["then"])
             for _ in range(2): d.add_paragraph("_" * 70)
+            for paragraph in d.paragraphs[paragraph_start:-1]:
+                paragraph.paragraph_format.keep_with_next = True
         elif ty == "scale":
             tb = d.add_table(rows=len(s["items"]) + 1, cols=len(s["scale"]) + 1); tb.style = "Table Grid"
             tb.autofit = False
@@ -357,6 +365,28 @@ def to_docx(L, W, out):
             tb = d.add_table(rows=2, cols=len(s["meta"])); tb.style = "Table Grid"
             for c, m in zip(tb.rows[0].cells, s["meta"]): c.text = f"{m['title']} ({m['hint']})"
             for c in tb.rows[1].cells: c.text = "\n\n"
+        # Keep the section heading and every introductory paragraph with the
+        # table it describes, without chaining the previous section to it.
+        element = hp._p
+        prefix = []
+        while element is not None and element.tag != qn("w:tbl"):
+            if element.tag == qn("w:p"): prefix.append(element)
+            element = element.getnext()
+        if element is not None:
+            for element in prefix:
+                Paragraph(element, d).paragraph_format.keep_with_next = True
+    for table in d.tables:
+        for index, row in enumerate(table.rows):
+            properties = row._tr.get_or_add_trPr()
+            properties.append(OxmlElement("w:cantSplit"))
+            if index == 0: properties.append(OxmlElement("w:tblHeader"))
+            # Small exercises travel as a unit. Larger tables may continue,
+            # with a repeated heading and intact response rows on each page.
+            keep = index < len(table.rows) - 1 and (len(table.rows) <= 6 or index == 0)
+            for cell in row.cells:
+                if dense and cell.text == "\n\n": cell.text = "\n"
+                for paragraph in cell.paragraphs:
+                    paragraph.paragraph_format.keep_with_next = keep
     f = d.add_paragraph(); r = f.add_run("Lev Lab 레브랩 · www.levlab.co.kr"); r.font.size = Pt(8)
     d.save(out)
 
@@ -367,9 +397,17 @@ def main():
     parser.add_argument("slugs", nargs="*")
     parser.add_argument("--source-dir", type=Path, default=ROOT / "content/worksheets")
     parser.add_argument("--out", type=Path, default=OUT)
+    parser.add_argument("--docx-only", action="store_true", help="Regenerate editable worksheets without touching PDF files")
     args = parser.parse_args()
     slugs = args.slugs or sorted(p.stem for p in args.source_dir.glob("*.json"))
     args.out.mkdir(parents=True, exist_ok=True)
+    if args.docx_only:
+        for slug in slugs:
+            W = json.load(open(args.source_dir / f"{slug}.json", encoding="utf-8"))
+            out = args.out / f"{slug}-worksheet.docx"
+            to_docx(lessons[slug], W, out)
+            print(f"{slug}: {out.name} {out.stat().st_size // 1024}KB")
+        return
     with sync_playwright() as pw:
         b = pw.chromium.launch(); page = b.new_page()
         for slug in slugs:

@@ -64,7 +64,8 @@ export function validateLesson(slug, root = ROOT) {
       if (!SLIDE_TYPES.has(s.type)) fail(`${w}.type: unsupported ${s.type}`);
       if (s.stage !== undefined && !STAGES.has(s.stage)) fail(`${w}.stage: invalid ${s.stage}`);
       short(s.heading, 30, `${w}.heading`); short(s.story, 120, `${w}.story`);
-      for (const field of ['steps', 'ask']) if (s[field] !== undefined) list(s[field], `${w}.${field}`).forEach((v, j) => short(v, 60, `${w}.${field}[${j}]`));
+      for (const field of ['steps', 'ask']) if (s[field] !== undefined || (s.type === 'ask' && field === 'ask')) list(s[field], `${w}.${field}`, s.type === 'ask' && field === 'ask' ? 1 : 0).forEach((v, j) => short(v, 60, `${w}.${field}[${j}]`));
+      if (s.type === 'ask' && s.steps?.length > 3) warn(`${w}.steps: ${s.steps.length} instructions (recommended ≤ 3 on ask slides)`);
       if (s.image !== undefined && record(s.image, `${w}.image`)) asset(s.image.src, `${w}.image.src`);
       if (s.timer !== undefined && (typeof s.timer !== 'number' || s.timer <= 0)) fail(`${w}.timer: expected positive minutes`);
       if (s.type === 'goals') list(s.goals, `${w}.goals`, 3, 3);

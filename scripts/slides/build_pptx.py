@@ -5,13 +5,13 @@
       python3 scripts/slides/build_pptx.py g1-09      # 한 차시
 글꼴은 학교 PC에 늘 있는 '맑은 고딕'을 쓴다. 교사 메모(notes)는 발표자 노트로 들어간다.
 """
-import argparse, io, json, math, os, sys
+import argparse, io, json, math, os, re, sys, unicodedata
 from PIL import Image
 from pptx import Presentation
 from pptx.util import Emu, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from pptx.enum.text import PP_ALIGN, MSO_ANCHOR, MSO_AUTO_SIZE
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PUBLIC = os.path.join(ROOT, "public")
@@ -45,13 +45,37 @@ def text(slide, x, y, w, h, runs, size=24, color=INK, bold=False, align=PP_ALIGN
     tf = tb.text_frame; tf.word_wrap = True; tf.vertical_anchor = anchor
     tf.margin_left = tf.margin_right = E(0.05); tf.margin_top = tf.margin_bottom = E(0.03)
     paras = runs if isinstance(runs, list) else [runs]
+    # Reserve full wrapped lines, including paragraph gaps. Short copy keeps its
+    # original sizes; crowded boxes shrink together instead of losing text.
+    def height_at(scale):
+        height = 0
+        for i, p in enumerate(paras):
+            value, options = (p, {}) if isinstance(p, str) else p
+            font = options.get("size", size) * scale
+            lines = 0
+            for line in value.split("\n"):
+                # PowerPoint keeps Korean words together when possible, so a
+                # character-count estimate alone undercounts wrapped lines.
+                used = 0; lines += 1; width = max(1, (w - .1) * 72)
+                for word in re.findall(r"\S+\s*", line):
+                    advance = sum(.95 if unicodedata.east_asian_width(c) in "WF" else .28 if c.isspace() else .55 for c in word) * font
+                    if used and used + advance > width: lines += 1; used = 0
+                    while advance > width: lines += 1; advance -= width
+                    used += advance
+            height += lines * font * spacing * 1.06 + (options.get("gap", 10) * scale if i else 0)
+        return height
+    scale = 1.0
+    while height_at(scale) > (h - .06) * 72 and scale > .4:
+        scale = round(scale - .02, 2)
+    if scale < 1:
+        tf.auto_size = MSO_AUTO_SIZE.TEXT_TO_FIT_SHAPE
     for i, p in enumerate(paras):
         t, o = (p, {}) if isinstance(p, str) else p
         para = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
         para.alignment = align; para.line_spacing = spacing
-        if i: para.space_before = Pt(o.get("gap", 10))
+        if i: para.space_before = Pt(o.get("gap", 10) * scale)
         r = para.add_run(); r.text = t
-        f = r.font; f.name = FONT; f.size = Pt(o.get("size", size)); f.bold = o.get("bold", bold)
+        f = r.font; f.name = FONT; f.size = Pt(o.get("size", size) * scale); f.bold = o.get("bold", bold)
         f.color.rgb = rgb(o.get("color", color))
     return tb
 
@@ -105,7 +129,7 @@ def ask_box(slide, asks, x, y, w, h, acc, size=21):
     box(slide, x, y, w, h, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
     box(slide, x, y, 0.12, h, fill=acc)
     paras = [("생각해 봐요", {"size": 15, "color": acc, "bold": True})] + [(f"“{a}”", {"size": size, "gap": 6}) for a in asks[:3]]
-    text(slide, x + 0.35, y + 0.18, w - 0.6, h - 0.3, paras)
+    text(slide, x + 0.35, y + 0.18, w - 0.6, h - 0.18, paras)
 
 def notes(slide, s):
     parts = []
@@ -135,16 +159,16 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             image(sl, f"/images/lessons/{slug}.webp", W * 0.52, 0, W * 0.48, H, mode="cover")
             box(sl, 0.6, 1.2, 1.9, 0.5, fill=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.5)
             text(sl, 0.6, 1.24, 1.9, 0.45, L["area"], size=16, bold=True, color="FFFFFF", align=PP_ALIGN.CENTER)
-            text(sl, 2.65, 1.26, 4.5, 0.45, f"중{L['grade']} · {L['skill']}", size=16, color=INK2)
+            text(sl, 2.65, 1.26, 4.5, 0.7, f"중{L['grade']} · {L['skill']}", size=16, color=INK2)
             text(sl, 0.6, 2.0, W * 0.52 - 1.0, 2.4, L["title"], size=48, bold=True, spacing=1.05)
-            text(sl, 0.6, 4.6, W * 0.52 - 1.0, 1.2, L.get("keyQuestion", ""), size=22, color=INK2)
+            text(sl, 0.6, 4.6, W * 0.52 - 1.0, 1.5, L.get("keyQuestion", ""), size=22, color=INK2)
             text(sl, 0.6, 6.4, 6, 0.4, f"[9사회정서{L['standard']}]  ·  {L['minutes']}분", size=14, color=INK2)
         elif t == "question":
             chrome(sl, L, n, total)
             text(sl, 1.0, 1.4, W - 2.0, 0.5, "오늘의 질문", size=20, bold=True, color=acc, align=PP_ALIGN.CENTER)
             q = L.get("keyQuestion", "")
             box(sl, 1.4, 3.55, W - 2.8, 0.5, fill=HL)
-            text(sl, 1.0, 2.2, W - 2.0, 3.0, q, size=44, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.2)
+            text(sl, 0.5, 2.2, W - 1.0, 3.0, q, size=36 if len(q) > 52 else 40 if len(q) > 36 else 44, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.2)
         elif t == "goals":
             chrome(sl, L, n, total); heading(sl, "이 시간이 끝나면")
             goals = s.get("goals") or L["objectives"]
@@ -161,7 +185,7 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
                 shade = [acc, acc, acc, acc, acc][i]
                 b = box(sl, x + 0.04, 2.3, w - 0.08, 1.1, fill=shade if i % 2 == 0 else "FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.15)
                 text(sl, x + 0.1, 2.38, w - 0.2, 1.0, [(f["stage"], {"size": 18, "bold": True, "color": "FFFFFF" if i % 2 == 0 else acc}), (f"{f['minutes']}분", {"size": 15, "color": "FFFFFF" if i % 2 == 0 else INK2, "gap": 2})], align=PP_ALIGN.CENTER)
-                text(sl, x + 0.05, 3.6, w - 0.1, 2.6, (s.get("titles") or {}).get(f["stage"], f.get("title", "")), size=16, color=INK, align=PP_ALIGN.CENTER)
+                text(sl, x + 0.05, 3.6, w - 0.1, 2.8, (s.get("titles") or {}).get(f["stage"], f.get("title", "")), size=16, color=INK, align=PP_ALIGN.CENTER)
                 x += w
         elif t == "picture":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
@@ -172,24 +196,28 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             ask_box(sl, s.get("ask"), 0.6, 4.25, copy_w, 2.25, acc, size=20)
         elif t == "story":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
-            image(sl, s.get("image", {}).get("src"), 0.6, 1.9, W * 0.48, 3.7, mode="cover")
-            rx = W * 0.48 + 1.0 if s.get("image") else 0.6; rw = W - rx - 0.6
-            text(sl, rx, 1.9, rw, 1.6, s.get("story", ""), size=26, bold=True, spacing=1.25)
             ch = s.get("choices", [])
-            pitch = min(1.0, 2.1 / max(1, math.ceil(len(ch) / 2)))
+            compact = len(ch) > 4 or any(len(c) > 12 for c in ch) or len(s.get("story", "")) > 50 or sum(map(len, s.get("steps", []))) > 90 or sum(map(len, ch)) > 60
+            iw = W * (.32 if compact else .48)
+            image(sl, s.get("image", {}).get("src"), 0.6, 1.9, iw, 3.3 if compact else 3.7, mode="cover")
+            rx = iw + 1.0 if s.get("image") else 0.6; rw = W - rx - 0.6
+            text(sl, rx, 1.9, rw, 1.7, s.get("story", ""), size=24 if compact else 26, bold=True, spacing=1.25)
+            columns = 3 if len(ch) > 4 else 2
+            pitch = min(1.0, 2.1 / max(1, math.ceil(len(ch) / columns)))
             for i, c in enumerate(ch):
-                cx = rx + (i % 2) * (rw / 2 + 0.05); cy = 3.7 + (i // 2) * pitch
-                box(sl, cx, cy, rw / 2 - 0.1, pitch - 0.15, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.2)
-                text(sl, cx, cy + 0.06 if len(ch) > 4 else cy + 0.12, rw / 2 - 0.1, pitch - 0.25 if len(ch) > 4 else 0.6, c, size=19 if len(ch) > 4 else 22, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+                cx = rx + (i % columns) * (rw / columns + 0.05); cy = 3.7 + (i // columns) * pitch
+                box(sl, cx, cy, rw / columns - 0.1, pitch - 0.15, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.2)
+                text(sl, cx, cy + 0.06 if len(ch) > 4 else cy + 0.12, rw / columns - 0.1, pitch - 0.25 if len(ch) > 4 else 0.6, c, size=19 if compact else 22, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
             bullets(sl, s.get("steps", []), 0.6, 5.75, W - 1.2, 1.0, size=20, color=INK2)
         elif t == "cards":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
             cards = s.get("cards", []); cw = (W - 1.2 - 0.4 * (len(cards) - 1)) / max(1, len(cards))
             for i, c in enumerate(cards):
                 x = 0.6 + i * (cw + 0.4)
+                compact = len(c["title"]) > 6 or len(c["text"]) + len(c.get("example", "")) > 70
                 box(sl, x, 2.0, cw, 3.0, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
                 box(sl, x, 2.0, cw, 0.12, fill=acc)
-                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7, [(c["title"], {"size": 26 if len(cards) == 4 else 34, "bold": True, "color": acc}), (c["text"], {"size": 19 if len(cards) == 4 else 22, "gap": 12}), (c.get("example", ""), {"size": 17, "color": INK2, "gap": 14})])
+                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7 if compact else 3.0, [(c["title"], {"size": (22 if len(cards) == 4 else 26) if compact else (26 if len(cards) == 4 else 34), "bold": True, "color": acc}), (c["text"], {"size": (18 if len(cards) == 4 else 20) if compact else (19 if len(cards) == 4 else 22), "gap": 10 if compact else 12}), (c.get("example", ""), {"size": 15 if compact else 17, "color": INK2, "gap": 10 if compact else 14})])
             if s.get("steps"):
                 bullets(sl, s["steps"], 0.6, 5.2, W - 1.2, 1.7, size=20)
             else:
@@ -198,7 +226,9 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
             fr = s.get("frames", [])
             copy_w = W * 0.55 if fr or s.get("image") else W - 1.2
-            bullets(sl, s.get("steps", []), 0.6, 1.95, copy_w, 3.2, size=24, num=True)
+            thumbnail = bool(fr and s.get("image"))
+            bullets(sl, s.get("steps", []), 0.6, 1.95, copy_w - 1.8 if thumbnail else copy_w, 3.5, size=20 if thumbnail else 22 if sum(map(len, s.get("steps", []))) > 120 else 24, num=True)
+            if thumbnail: image(sl, s["image"].get("src"), copy_w - 1.0, 1.95, 1.5, 1.5)
             if s.get("image") and not fr: image(sl, s["image"].get("src"), W * 0.6, 1.95, W * 0.4 - 0.6, 3.5)
             fx = W * 0.6; fw = W - fx - 0.6
             for i, f in enumerate(fr):
@@ -213,10 +243,16 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
                 text(sl, 0.6, 5.7, W * 0.55, 0.8, [("레브랩 앱으로 해도 돼요", {"size": 15, "bold": True, "color": acc}), (f"{s['app']['name']}  {s['app']['url']}", {"size": 15, "color": INK2, "gap": 4})])
         elif t == "ask":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
+            instructions = s.get("steps", [])
+            has_art = bool(s.get("image"))
+            copy_w = W - (4.5 if has_art else 1.2)
+            if has_art: image(sl, s["image"].get("src"), W - 3.5, 2.0, 2.9, 2.4)
+            if instructions:
+                text(sl, 0.6, 1.95, copy_w, 1.1, [(f"{i + 1}.  {step}", {"size": 17, "gap": 5, "color": INK2}) for i, step in enumerate(instructions)])
             for i, a in enumerate(s.get("ask", [])[:4]):
-                y = 2.0 + i * 1.15
-                box(sl, 0.6, y, 0.12, 0.9, fill=acc)
-                text(sl, 1.0, y, W - 1.8, 0.95, f"“{a}”", size=28, anchor=MSO_ANCHOR.MIDDLE)
+                y = 3.15 + i * .85 if instructions else 2.0 + i * 1.15
+                box(sl, 0.6, y, 0.12, .65 if instructions else 0.9, fill=acc)
+                text(sl, 1.0, y, copy_w - .6, .75 if instructions else 0.95, f"“{a}”", size=24 if instructions else 28, anchor=MSO_ANCHOR.MIDDLE)
         elif t == "compare":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
             lw = (W - 1.2 - 1.0) / 2
@@ -231,12 +267,14 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             for i in range(min(len(s["left"]["items"]), 4)):
                 ar = sl.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, E(0.6 + lw + 0.25), E(2.95 + i * 0.95), E(0.5), E(0.4))
                 ar.fill.solid(); ar.fill.fore_color.rgb = rgb(acc); ar.line.fill.background()
-            bullets(sl, s.get("steps", []), 0.6, 5.9, W - 1.2, 1.0, size=17, color=INK2)
+            bullets(sl, s.get("steps", []), 0.6, 5.9, W - (3.4 if s.get("image") else 1.2), 1.0, size=17, color=INK2)
+            if s.get("image"): image(sl, s["image"].get("src"), W - 2.6, 5.55, 2.0, 1.25)
         elif t == "exit":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
-            box(sl, 0.6, 2.2, W - 1.2, 2.4, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
-            text(sl, 1.0, 2.3, W - 2.0, 2.2, s.get("prompt", "").replace("____", "__________"), size=34, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.3)
-            bullets(sl, s.get("steps", []), 0.6, 5.0, W - 1.2, 0.7, size=22)
+            compact = len(s.get("steps", [])) > 2 or sum(map(len, s.get("steps", []))) > 90 or len(s.get("prompt", "")) > 55
+            box(sl, 0.6, 2.2, W - 1.2, 1.6 if compact else 2.4, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
+            text(sl, 1.0, 2.3, W - 2.0, 1.4 if compact else 2.2, s.get("prompt", "").replace("____", "__________"), size=30 if compact else 34, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.3)
+            bullets(sl, s.get("steps", []), 0.6, 4.0 if compact else 5.0, W - 1.2, 1.5 if compact else 0.7, size=18 if compact else 22)
             ask_box(sl, s.get("ask"), 0.6, 5.7, W - 1.2, 1.15, acc)
         elif t == "next":
             chrome(sl, L, n, total, "정리")

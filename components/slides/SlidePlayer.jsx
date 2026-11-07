@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import SlideContent, { AREA_COLORS, STAGES, revealCount, slideHeading } from "./SlideContent";
+import SlideContent, { AREA_COLORS, STAGES, revealCount, slideDensity, slideHeading } from "./SlideContent";
 import { LiveControl } from "../live";
 
 function ControlIcon({ kind }) {
@@ -183,7 +183,7 @@ export default function SlidePlayer({ deck }) {
     <div className="slide-reading-intro"><a href={`/lessons/${lesson.slug}`}>차시 페이지로 돌아가기</a><p>수업 화면 · 세로 읽기</p><span>넓은 화면에서는 발표 모드로 열립니다.</span></div>
     <div className="slide-viewport">
       <div className="slide-stage">
-        {slides.map((item, number) => <section key={number} id={String(number + 1)} className={`slide-page slide-type-${item.type}`} role="group" aria-roledescription="slide" aria-label={`${number + 1} / ${total}`} hidden={presentation && number !== index}>
+        {slides.map((item, number) => <section key={number} id={String(number + 1)} className={`slide-page slide-type-${item.type}`} data-density={slideDensity(item, lesson)} role="group" aria-roledescription="slide" aria-label={`${number + 1} / ${total}`} hidden={presentation && number !== index}>
           <div className="slide-topline"><span>LEV LAB</span><span>{item.stage} <span aria-hidden="true">·</span> 중{lesson.grade}</span></div>
           <div className="slide-content"><SlideContent slide={item} deck={deck} index={number} interactive={presentation} enabled={ready} active={number === index} motion={motion} revealed={number === index ? revealed : 1} choice={choices[number]} onChoose={ready ? (selected) => setChoices((all) => ({ ...all, [number]: all[number] === selected ? null : selected })) : undefined} flipped={presentation ? number === index ? position.flipped || [] : [] : readingFlips[number] || []} onFlip={(card) => {
             if (presentation) setPosition((current) => { const all = current.flipped || []; const flipped = all.includes(card) ? all.filter((i) => i !== card) : [...all, card]; return { ...current, flipped, revealed: flipped.length + 1 }; });
@@ -215,7 +215,7 @@ export default function SlidePlayer({ deck }) {
       </aside>
       {presentation && <nav className="slide-progress" aria-label="수업 단계">{STAGES.map((stage, i) => { const first = slides.findIndex((item) => item.stage === stage); return <button type="button" key={stage} className={`slide-stage-${i}`} aria-label={`${stage} 단계로 이동`} aria-current={currentStage === i ? "step" : undefined} disabled={first === -1} onClick={() => { setPosition({ index: first, revealed: 1 }); wake(); }}><span>{stage}</span><span className="slide-progress-fill" style={{ transform: `scaleX(${i < currentStage ? 1 : i > currentStage ? 0 : (index - first + 1) / slides.filter((item) => item.stage === stage).length})` }} /></button>; })}</nav>}
     </>}
-    <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{ready ? `${index + 1} / ${total}. ${slideHeading(slide, lesson)}${presentation && slide.type === "ask" ? `. ${slide.ask[revealed - 1]}` : ""}` : ""}</p>
+    <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{ready ? `${index + 1} / ${total}. ${slideHeading(slide, lesson)}${presentation && slide.type === "ask" && slide.ask?.[revealed - 1] ? `. ${slide.ask[revealed - 1]}` : ""}` : ""}</p>
     <p className="slide-notice" role="status" aria-live="polite">{notice || (done ? "정해 둔 시간이 끝났어요." : "")}</p>
   </div>;
 }

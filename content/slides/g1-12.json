@@ -147,7 +147,7 @@
       }
     },
     {
-      "type": "ask",
+      "type": "activity",
       "stage": "연습하기",
       "heading": "우리 반 ‘너-전달법’ 모으기",
       "steps": [

@@ -89,7 +89,11 @@ def narrate(spec, tmp):
     return lens, files
 
 def scene_html(sc, i, t0, d, L, acc, clip=None):
-    out = f'<section class="sc{" cont" if sc.get("cont") else ""}" style="--t0:{t0}s;--d:{d}s;--bg:{sc.get("bg", "#F5F6F2")}">'
+    # 칩·말풍선이 많아도 다음 장면 전에 모두 보이도록 간격을 줄인다(마지막 것이 최소 0.9초 보이게)
+    def stag(n, base, default):
+        return default if n < 2 else max(0.25, min(default, (d - FADE - 0.9 - base) / (n - 1)))
+    sv = f";--stag-chip:{stag(len(sc.get('chips', [])), .5, 1.1):.2f}s;--stag-bub:{stag(len(sc.get('bubbles', [])), .4, .9):.2f}s"
+    out = f'<section class="sc{" cont" if sc.get("cont") else ""}" style="--t0:{t0}s;--d:{d}s;--bg:{sc.get("bg", "#F5F6F2")}{sv}">'
     if sc["kind"] == "image":
         fit = sc.get("fit", "cover")
         if clip:  # 움직이는 장면: 미리 뽑은 프레임을 시간에 맞춰 바꿔 끼운다
@@ -126,10 +130,10 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family
 .cap{position:absolute;left:0;right:0;bottom:90px;text-align:center}
 .cap span{display:inline-block;font-family:G,serif;font-size:72px;color:#1E2A24;background:rgba(255,255,255,.92);padding:14px 40px 18px;border-radius:24px;box-shadow:0 10px 40px rgba(0,0,0,.12);animation:up .7s cubic-bezier(.2,1.2,.4,1) calc(var(--t0) + .35s) both}
 @keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
-.chip{position:absolute;transform:translate(-50%%,-50%%);font-size:96px;font-weight:900;color:#fff;background:#BF4027;padding:8px 40px 14px;border-radius:999px;box-shadow:8px 8px 0 #1E2A24;animation:pop .55s cubic-bezier(.2,1.6,.4,1) calc(var(--t0) + .5s + var(--k) * 1.1s) both}
+.chip{position:absolute;transform:translate(-50%%,-50%%);font-size:96px;font-weight:900;color:#fff;background:#BF4027;padding:8px 40px 14px;border-radius:999px;box-shadow:8px 8px 0 #1E2A24;animation:pop .55s cubic-bezier(.2,1.6,.4,1) calc(var(--t0) + .5s + var(--k) * var(--stag-chip, 1.1s)) both}
 .chip:nth-of-type(2){background:#6D4FC2}
 @keyframes pop{from{transform:translate(-50%%,-50%%) scale(0) rotate(-12deg)}to{transform:translate(-50%%,-50%%) scale(1) rotate(-3deg)}}
-.bub{position:absolute;transform:translate(-50%%,-50%%);font-size:46px;font-weight:800;color:#1E2A24;background:#fff;border:5px solid #1E2A24;padding:10px 28px 14px;border-radius:40px;white-space:nowrap;animation:pop .5s cubic-bezier(.2,1.6,.4,1) calc(var(--t0) + .4s + var(--k) * .9s) both}
+.bub{position:absolute;transform:translate(-50%%,-50%%);font-size:46px;font-weight:800;color:#1E2A24;background:#fff;border:5px solid #1E2A24;padding:10px 28px 14px;border-radius:40px;white-space:nowrap;animation:pop .5s cubic-bezier(.2,1.6,.4,1) calc(var(--t0) + .4s + var(--k) * var(--stag-bub, .9s)) both}
 .bub::after{content:"";position:absolute;left:50%%;bottom:-26px;width:26px;height:26px;background:#fff;border-right:5px solid #1E2A24;border-bottom:5px solid #1E2A24;transform:translateX(-50%%) rotate(45deg)}
 .ttl{position:absolute;inset:0;background:var(--ac);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:0 200px}
 .ttl .k{font-size:40px;opacity:.9;animation:up .6s ease calc(var(--t0) + .2s) both}

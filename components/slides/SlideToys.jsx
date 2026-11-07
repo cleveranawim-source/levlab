@@ -31,7 +31,7 @@ export function StoryChoices({ lesson, slide, index, enabled, choice, onChoose }
   const tally = enabled && slide.toy?.kind === "tally";
   const change = (i, amount) => setCounts((all) => all.map((count, n) => n === i ? Math.max(0, count + amount) : count));
   return <div className="slide-voting">
-    <div className="slide-choices" role="group" aria-label="이야기의 주인공 고르기">{slide.choices?.map((item, i) => <div className="slide-choice-cell" key={i}>
+    <div className="slide-choices" data-choice-count={slide.choices.length} role="group" aria-label="이야기의 주인공 고르기">{slide.choices?.map((item, i) => <div className="slide-choice-cell" key={i}>
       {enabled ? <button className="slide-choice" type="button" aria-pressed={choice === i} onClick={() => onChoose?.(i)}><span className="slide-choice-index">{i + 1}</span><span>{choiceText(item)}</span><span className="slide-choice-state">{choice === i ? "선택" : ""}</span></button> : <p className="slide-choice slide-choice-static"><span className="slide-choice-index">{i + 1}</span>{choiceText(item)}</p>}
       {tally && <div className="slide-tally-controls"><div className="slide-tally-track" aria-hidden="true"><span style={{ transform: `scaleX(${total ? counts[i] / total : 0})` }} /></div><div className="slide-tally-counter"><button type="button" onClick={() => change(i, -1)} disabled={counts[i] === 0} aria-label={`${choiceText(item)} 한 표 빼기`}>−</button><span aria-label={`${choiceText(item)} ${counts[i]}표`}>{counts[i]}<small>표</small></span><button type="button" onClick={() => change(i, 1)} aria-label={`${choiceText(item)} 한 표 더하기`}>+</button></div></div>}
     </div>)}</div>

@@ -476,3 +476,95 @@ html[data-motion-paused="true"] .lesson-slides .live-bar-track > span { transiti
 .lesson-slides .slide-cards-steps { margin-top: 30px; }
 .lesson-slides .slide-cards-steps .slide-steps li { font-size: 32px; }
 @media (max-width: 767px) { .lesson-slides .slide-cards-steps .slide-steps li { font-size: 21px; } }
+
+/* Instructions stay visible while ask questions advance one at a time. */
+.lesson-slides .slide-ask-steps { margin-bottom: 26px; }
+.lesson-slides .slide-ask-steps .slide-steps { gap: 12px; }
+.lesson-slides .slide-ask-steps .slide-steps li { grid-template-columns: 36px minmax(0, 1fr); gap: 14px; font-size: 32px; line-height: 1.4; }
+.lesson-slides .slide-ask-steps .slide-step-number { font-size: 28px; line-height: 1.6; }
+.lesson-slides .slide-ask-instructions .slide-questions { padding: 0; }
+.lesson-slides .slide-ask-instructions .slide-question-number { font-size: 28px; margin-bottom: 16px; }
+.lesson-slides .slide-ask-instructions .slide-discussion-question { font-size: 80px; line-height: 1.4; }
+.lesson-slides .slide-ask-instructions:has(.slide-live-wall:not(:empty)) .slide-discussion-question { font-size: 54px; }
+
+@media (min-width: 768px) {
+  .slide-page[data-density] .slide-question-layout { padding-top: 20px; }
+  .slide-page[data-density] .slide-question-layout h2 { margin-bottom: 60px; }
+  .slide-page[data-density="compact"] .slide-big-question { font-size: 88px; line-height: 1.5; }
+  .slide-page[data-density="dense"] .slide-big-question { font-size: 76px; line-height: 1.5; }
+
+  .slide-page[data-density] .slide-picture-layout { grid-template-columns: .85fr 1.15fr; gap: 45px; }
+  .slide-page[data-density] .slide-picture-copy { gap: 28px; }
+  .slide-page[data-density] .slide-picture-copy .slide-steps { gap: 16px; }
+  .slide-page[data-density] .slide-picture-copy .slide-steps li { font-size: 32px; line-height: 1.4; grid-template-columns: 38px minmax(0, 1fr); gap: 16px; }
+  .slide-page[data-density] .slide-picture-copy .slide-step-number { font-size: 28px; }
+  .slide-page[data-density] .slide-picture-ask { font-size: 36px; line-height: 1.45; padding-top: 18px; }
+  .slide-page[data-density] .slide-picture-ask + .slide-picture-ask { padding-top: 12px; }
+  .slide-page[data-density="dense"] .slide-picture-ask { font-size: 32px; }
+  .slide-page[data-density="dense"] .slide-picture-copy .slide-steps li { font-size: 30px; }
+
+  .slide-page[data-density] .slide-story-layout { grid-template-columns: .65fr 1.35fr; gap: 40px; }
+  .slide-page[data-density] .slide-story-layout .slide-art { height: 500px; }
+  .slide-page[data-density] .slide-story-copy .slide-story-text { font-size: 34px; line-height: 1.45; margin-bottom: 18px; }
+  .slide-page[data-density] .slide-story-copy .slide-steps li { font-size: 28px; line-height: 1.4; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
+  .slide-page[data-density] .slide-story-copy .slide-step-number { font-size: 26px; line-height: 1.5; }
+  .slide-page[data-density] .slide-story-copy .slide-steps { gap: 10px; }
+  .slide-page[data-density] .slide-choices { margin-top: 18px; gap: 12px; }
+  .slide-page[data-density] .slide-choices:is([data-choice-count="5"], [data-choice-count="6"], [data-choice-count="7"], [data-choice-count="8"]) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .slide-page[data-density] .slide-choice { font-size: 28px; line-height: 1.35; min-height: 64px; padding: 10px 14px; gap: 10px; }
+  .slide-page[data-density] .slide-choice-index { font-size: 20px; }
+  .slide-page[data-density] .slide-choice-state { font-size: 18px; }
+  .slide-page[data-density] .slide-tally-controls { padding: 5px 5px 0; }
+  .slide-page[data-density] .slide-tally-counter { margin-top: 4px; gap: 12px; }
+  .slide-page[data-density] .slide-tally-counter button { width: 54px; height: 44px; font-size: 30px; }
+  .slide-page[data-density] .slide-tally-counter > span { font-size: 28px; }
+  .slide-page[data-density] .slide-tally-counter small { font-size: 18px; }
+  .slide-page[data-density] .slide-tally-footer { font-size: 22px; }
+  .slide-page[data-density] .slide-live-slot:not(:empty) { max-height: none; overflow: visible; margin-top: 16px; }
+  .slide-page[data-density] .slide-live-slot .live-slot { margin-top: 0; padding: 16px 20px; }
+  .slide-page[data-density] .slide-live-slot .live-bars { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; }
+  .slide-page[data-density] .slide-live-slot .live-bar-label { font-size: 24px; }
+  .slide-page[data-density="dense"] .slide-story-copy .slide-story-text { font-size: 30px; }
+  .slide-page[data-density="dense"] .slide-choice { font-size: 26px; }
+
+  .lesson-slides .slide-activity-copy { display: grid; grid-template-columns: minmax(0, 1fr) 180px; align-items: start; gap: 24px; }
+  .lesson-slides .slide-activity-copy .slide-steps li { font-size: 30px; grid-template-columns: 32px minmax(0, 1fr); gap: 12px; }
+  .lesson-slides .slide-activity-copy .slide-step-number { font-size: 28px; }
+  .lesson-slides .slide-activity-thumbnail { height: 220px; }
+  .lesson-slides .slide-activity-thumbnail figcaption { font-size: 16px; }
+
+  .slide-page[data-density] .slide-exit-prompt { font-size: 64px; line-height: 1.45; margin: 24px 0 32px; }
+  .slide-page[data-density] .slide-blank { min-width: 180px; padding-inline: 18px; }
+  .slide-page[data-density] .slide-wall-main > .slide-steps { margin-top: 26px; gap: 12px; }
+  .slide-page[data-density] .slide-wall-main > .slide-steps li { font-size: 30px; }
+}
+@media (max-width: 767px) {
+  .lesson-slides .slide-ask-steps .slide-steps li { font-size: 20px; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; }
+  .lesson-slides .slide-ask-steps .slide-step-number, .lesson-slides .slide-ask-instructions .slide-question-number { font-size: 20px; }
+  .lesson-slides .slide-ask-instructions .slide-discussion-question,
+  .lesson-slides .slide-ask-instructions:has(.slide-live-wall:not(:empty)) .slide-discussion-question { font-size: 32px; }
+  .lesson-slides .slide-activity-thumbnail { height: 180px; margin-top: 24px; }
+}
+
+/* Optional discussion art shares space with the copy instead of replacing it. */
+@media (min-width: 768px) {
+  .lesson-slides .slide-ask-with-art { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 0 32px; }
+  .lesson-slides .slide-ask-with-art .slide-ask-art { grid-column: 2; grid-row: 1 / span 2; height: 250px; }
+  .lesson-slides .slide-ask-with-art > :not(.slide-art) { grid-column: 1; }
+  .lesson-slides .slide-ask-with-art .slide-discussion-question { font-size: 64px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-ask-with-art { grid-template-columns: minmax(0, 1fr) 200px; gap: 0 24px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-ask-with-art .slide-discussion-question { font-size: 48px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-ask-with-art .slide-ask-art { height: 180px; }
+  .lesson-slides .slide-compare-note { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 28px; align-items: center; margin-top: 24px; }
+  .lesson-slides .slide-compare-note .slide-art { height: 150px; }
+  .lesson-slides .slide-compare-note .slide-steps li { font-size: 30px; }
+  .lesson-slides .slide-page[data-density] .slide-flip-card { height: 280px; }
+  .lesson-slides .slide-page[data-density] :is(.slide-flip-front, .slide-flip-back) { padding: 24px; }
+  .lesson-slides .slide-page[data-density] .slide-flip-card strong { font-size: 36px; }
+  .lesson-slides .slide-page[data-density] .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-flip-card { height: 110px; }
+  .lesson-slides .slide-page[data-density] .slide-with-wall:has(.slide-live-wall:not(:empty)) :is(.slide-flip-front, .slide-flip-back) { padding: 12px 22px; gap: 4px; }
+  .lesson-slides .slide-page[data-density] .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-flip-card strong { font-size: 32px; }
+}
+@media (max-width: 767px) {
+  .lesson-slides .slide-ask-art, .lesson-slides .slide-compare-note .slide-art { height: 200px; margin-bottom: 24px; }
+}
