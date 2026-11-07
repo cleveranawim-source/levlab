@@ -3,6 +3,7 @@ import Link from "next/link";
 import ContentImage from "../../components/ContentImage";
 import { StageIcon, NoteIcon } from "../../components/icons/StageIcon";
 import PrintButton from "./PrintButton";
+import { hasLessonSlides, getSlideDownload } from "../slides/data";
 import { getLesson, getLessonsByGrade, getStandard } from "./data";
 import { GRADE_THEME, StdChip, AreaTag, GradeTag, AppList, Breadcrumb, appsForStandard, lessonImage, areaKey } from "./shared";
 
@@ -30,6 +31,8 @@ export default function LessonPage({ slug }) {
   const apps = appsForStandard(L.standard);
   const total = L.flow.reduce((s, f) => s + f.minutes, 0) || 45;
   const materials = splitMaterials(L.materials);
+  const slidesAvailable = hasLessonSlides(slug);
+  const slideDownload = getSlideDownload(slug);
 
   return (
     <article className={`lesson a-${areaKey(L.area)}`}>
@@ -115,6 +118,7 @@ export default function LessonPage({ slug }) {
                 <ul className="checklist">{materials.map((m) => <li key={m} data-motion-check><span className="box" aria-hidden="true" />{m}</li>)}</ul>
               ) : <p className="muted small">따로 준비할 것이 없습니다.</p>}
               {L.edutech && <p className="prep-note"><b>세안의 에듀테크</b> {L.edutech}</p>}
+              {slidesAvailable && <Link href={`/lessons/${slug}/slides`} className="btn btn-solid lesson-slides-link" style={{ display: "flex", marginBlock: "16px 8px" }}>수업 화면 열기</Link>}
               <PrintButton />
             </div>
             {std && (
@@ -162,11 +166,12 @@ export default function LessonPage({ slug }) {
           {L.models?.length > 0 && <details className="more"><summary>적용한 수업 모형</summary><ul>{L.models.map((m) => <li key={m}>{m}</li>)}</ul></details>}
 
           <h2 className="sec-title" id="files-h">수업 자료</h2>
+          {slideDownload && <ul className="file-list"><li><a href={slideDownload.href} download>{slideDownload.label} <span className="muted">{slideDownload.meta}</span></a></li></ul>}
           {L.files?.length > 0 ? (
             <ul className="file-list">{L.files.map((f) => <li key={f.href}><a href={f.href} download>{f.label} <span className="muted">{f.meta}</span></a></li>)}</ul>
-          ) : (
+          ) : !slideDownload ? (
             <p className="muted">지도안·활동지·수업 슬라이드 원본 파일은 준비되는 대로 이 자리에 올립니다. 먼저 필요하시면 <Link href="/contact">문의</Link>해 주세요.</p>
-          )}
+          ) : null}
 
           <nav className="lesson-pager" aria-label={`${g.label} 핵심 차시 이동`}>
             {prev ? <Link href={`/lessons/${prev.slug}`} rel="prev"><span>이전 차시</span>{prev.title}</Link> : <span />}

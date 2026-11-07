@@ -84,6 +84,9 @@ try {
     const lesson = lessons.find(({ slug }) => path === `/lessons/${slug}`);
     if (lesson?.status !== "published" && lesson) assert(head.includes('name="robots" content="noindex, nofollow"'), `${path} draft robots`);
   }
+  for (const path of ["/lessons/g1-09/slides", "/files/slides/g1-09.pptx"]) {
+    assert.equal((await request(path)).status, 200, `${path} must be served`);
+  }
   for (const [path, to] of [["/lessons", "/curriculum"], ["/standards", "/curriculum#by-skill-h"], ["/lessons/g2-01", "/curriculum/grade-2"], ["/index.html", "/"]]) {
     const res = await request(path, { redirect: "manual" });
     assert.ok([307, 308].includes(res.status) && res.headers.get("location")?.endsWith(to), `${path} must redirect to ${to} (got ${res.status} ${res.headers.get("location")})`);
