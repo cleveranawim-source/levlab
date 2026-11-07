@@ -3,6 +3,8 @@
 import { useLayoutEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { enhanceWit } from "../wit/enhanceWit";
+import { enhanceSurface } from "./enhanceSurface";
+import { MOTION_CHANGE, motionAllowed } from "./preference";
 
 // Existing editorial pages opt in by their established semantic classes; their
 // content stays server-rendered and no component needs to become client-only.
@@ -22,13 +24,10 @@ function MotionSurface({ children }) {
   useLayoutEffect(() => {
     const page = root.current;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    const fine = matchMedia("(hover: hover) and (pointer: fine)");
     const seen = new WeakSet();
     const cleanups = [];
     const frames = new Set();
     const preparations = new Map();
-    let pointerFrame = 0;
-    let activeCard;
     const nextFrame = (callback) => {
       const id = requestAnimationFrame(() => { frames.delete(id); callback(); });
       frames.add(id);
@@ -51,7 +50,7 @@ function MotionSurface({ children }) {
           const items = [...group.querySelectorAll(REVEALS)].filter((item) => item.closest("[data-motion-stagger], .year-steps, .about-timeline, .maker-classes, .std-links") === group);
           element.style.setProperty("--motion-delay", `${Math.min(items.indexOf(element) % 4, 3) * 65}ms`);
         }
-        if (observer && !reduced.matches) observer.observe(element);
+        if (observer && motionAllowed(reduced)) observer.observe(element);
         else reveal(element);
       });
       page.querySelectorAll("[data-motion-check]").forEach((item) => {
@@ -97,33 +96,8 @@ function MotionSurface({ children }) {
     mutations.observe(page, { childList: true, subtree: true });
     cleanups.push(enhanceWit(page, reduced));
 
-    const resetCard = () => {
-      cancelAnimationFrame(pointerFrame);
-      if (!activeCard) return;
-      activeCard.style.removeProperty("--tilt-x");
-      activeCard.style.removeProperty("--tilt-y");
-      activeCard.removeAttribute("data-motion-pointer");
-      activeCard = null;
-    };
-    const onPointerMove = (event) => {
-      if (!fine.matches || reduced.matches || event.pointerType !== "mouse") return;
-      const card = event.target.closest("[data-motion-card]");
-      if (!card || !page.contains(card)) { resetCard(); return; }
-      if (card !== activeCard) resetCard();
-      activeCard = card;
-      cancelAnimationFrame(pointerFrame);
-      pointerFrame = requestAnimationFrame(() => {
-        const rect = card.getBoundingClientRect();
-        const x = Math.max(-.5, Math.min(.5, (event.clientX - rect.left) / rect.width - .5));
-        const y = Math.max(-.5, Math.min(.5, (event.clientY - rect.top) / rect.height - .5));
-        card.style.setProperty("--tilt-x", `${-y * 4}deg`);
-        card.style.setProperty("--tilt-y", `${x * 4}deg`);
-        card.dataset.motionPointer = "active";
-      });
-    };
-    const onPointerOut = (event) => {
-      if (activeCard && !activeCard.contains(event.relatedTarget)) resetCard();
-    };
+    cleanups.push(enhanceSurface(page, reduced));
+
     const toggleCheck = (item) => {
       const box = item?.querySelector('.box[role="checkbox"]');
       if (!box) return;
@@ -184,38 +158,31 @@ function MotionSurface({ children }) {
     }
 
     const preferenceChanged = () => {
-      resetCard();
-      if (reduced.matches) {
+      if (reduced.matches || document.documentElement.dataset.motionPaused === "true") {
         observer?.disconnect();
         page.querySelectorAll(".motion-target").forEach(reveal);
       }
     };
     const beforePrint = () => {
-      resetCard();
       page.querySelectorAll(".motion-target").forEach(reveal);
     };
-    page.addEventListener("pointermove", onPointerMove, { passive: true });
-    page.addEventListener("pointerout", onPointerOut, { passive: true });
     page.addEventListener("click", onClick);
     page.addEventListener("keydown", onKey);
     page.addEventListener("focusin", onFocus);
     reduced.addEventListener("change", preferenceChanged);
     window.addEventListener("beforeprint", beforePrint);
-    window.addEventListener("blur", resetCard);
+    document.addEventListener(MOTION_CHANGE, preferenceChanged);
     return () => {
       observer?.disconnect();
       mutations.disconnect();
-      resetCard();
       frames.forEach(cancelAnimationFrame);
       cleanups.forEach((cleanup) => cleanup());
-      page.removeEventListener("pointermove", onPointerMove);
-      page.removeEventListener("pointerout", onPointerOut);
       page.removeEventListener("click", onClick);
       page.removeEventListener("keydown", onKey);
       page.removeEventListener("focusin", onFocus);
       reduced.removeEventListener("change", preferenceChanged);
       window.removeEventListener("beforeprint", beforePrint);
-      window.removeEventListener("blur", resetCard);
+      document.removeEventListener(MOTION_CHANGE, preferenceChanged);
     };
   }, []);
 

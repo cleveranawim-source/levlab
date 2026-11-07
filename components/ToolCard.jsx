@@ -4,7 +4,10 @@ import { DOMAIN_COLOR } from "../data/tools";
 export default function ToolCard({ tool }) {
   const color = DOMAIN_COLOR[tool.dom] || "var(--forest)";
   const inner = <>
-    <ContentImage className="tthumb" src={tool.img} alt={`${tool.n} 콘텐츠 화면`} width={800} height={500} />
+    <span className="tthumb-wrap">
+      <ContentImage className="tthumb" src={tool.img} alt={`${tool.n} 콘텐츠 화면`} width={800} height={500} />
+      {tool.teaser && <span className="tteaser">예고편 있음</span>}
+    </span>
     <div className="tbody">
       <p className="tool-kind">{tool.t} · {tool.aud}</p>
       <h3>{tool.n}</h3>
@@ -16,6 +19,6 @@ export default function ToolCard({ tool }) {
     </div>
   </>;
   return tool.url
-    ? <a className="tcard" data-motion="card" data-motion-card style={{ "--tool-color": color }} href={tool.url} target="_blank" rel="noopener noreferrer">{inner}</a>
-    : <div className="tcard soon" data-motion="card" style={{ "--tool-color": color }}>{inner}</div>;
+    ? <a className="tcard" data-motion="card" data-motion-card data-motion-key={tool.n} style={{ "--tool-color": color }} href={tool.url} target="_blank" rel="noopener noreferrer">{inner}</a>
+    : <div className="tcard soon" data-motion="card" data-motion-key={tool.n} style={{ "--tool-color": color }}>{inner}</div>;
 }

@@ -24,7 +24,7 @@
   html.js-motion .motion-hero .home-hero-art img { animation: motion-picture 1s var(--motion-ease) .14s backwards; }
   html.js-motion .motion-hero .sub { animation: motion-rise .55s var(--motion-ease) .32s backwards; }
   html.js-motion .motion-hero .cta-row { animation: motion-rise .55s var(--motion-ease) .43s backwards; }
-  html.js-motion .motion-hero .hero-domain-tab { animation: motion-tab .55s var(--motion-ease) calc(.6s + var(--tab) * 85ms) backwards; }
+  html.js-motion .motion-hero .hero-domain-tab { animation: motion-tab .55s var(--motion-ease) calc(.6s + var(--tab) * 85ms) backwards, motion-tab-float 4.8s ease-in-out calc(1.6s + var(--tab) * -.8s) infinite; animation-play-state: running, paused; }
   html.js-motion .motion-hero .maker-badge { animation: motion-sticker .5s var(--motion-ease) 1s backwards; }
   html.js-motion .motion-hero .home-facts { animation: motion-fade .5s ease .55s backwards; }
 
@@ -70,7 +70,7 @@
   html.js-motion [data-motion-card]:focus-visible { transform: translateY(-3px); }
   html.js-motion [data-motion-card]:focus-visible::after { opacity: .8; }
   html.js-motion [data-motion-card]:focus-visible .content-image img { transform: scale(1.035); }
-  html.js-motion .hero-domain-tab:focus-visible { transform: translateY(3px); }
+  html.js-motion .hero-domain-tab:focus-visible { transform: translateY(-5px); }
   html.js-motion .home-domain:focus-within li { animation: motion-skill .4s var(--motion-ease) calc(var(--skill-order, 0) * 45ms) backwards; }
   html.js-motion .home-domain li:nth-child(2) { --skill-order: 1; }
   html.js-motion .home-domain li:nth-child(3) { --skill-order: 2; }
@@ -94,7 +94,7 @@
   html.js-motion [data-motion-card]:hover::after { opacity: .8; }
   html.js-motion [data-motion-card]:hover .content-image img { transform: scale(1.035); }
   html.js-motion .hero-domain-tab { transition: transform .25s var(--motion-ease); }
-  html.js-motion .hero-domain-tab:hover { transform: translateY(3px); }
+  html.js-motion .hero-domain-tab:hover { transform: translateY(-6px) rotate(-1deg); }
   html.js-motion .home-domain:hover li { animation: motion-skill .4s var(--motion-ease) calc(var(--skill-order, 0) * 45ms) backwards; }
 }
 
@@ -128,7 +128,7 @@
 @keyframes motion-tab { from { opacity: .1; transform: translateY(-14px) scaleY(.78); } 70% { opacity: 1; transform: translateY(2px) scaleY(1.025); } to { opacity: 1; transform: none; } }
 @keyframes motion-sticker { from { opacity: .1; transform: translateY(10px) rotate(-7deg) scale(.88); } 70% { opacity: 1; transform: rotate(2deg) scale(1.02); } to { opacity: 1; transform: none; } }
 @keyframes motion-domain { from { opacity: .2; transform: translateX(-16px) translateY(12px); } to { opacity: 1; transform: none; } }
-@keyframes motion-icon { from { transform: scale(.65) rotate(-10deg); } 70% { transform: scale(1.1) rotate(3deg); } to { transform: none; } }
+@keyframes motion-icon { from { transform: scale(.8) rotate(-12deg); } 35% { transform: scale(1.08) rotate(9deg); } 65% { transform: scale(1) rotate(-5deg); } to { transform: none; } }
 @keyframes motion-skill { from { transform: translateX(-6px); } to { transform: none; } }
 @keyframes motion-fade { from { opacity: .2; } to { opacity: 1; } }
 @keyframes motion-page-out { from { opacity: 1; } to { opacity: 0; } }
@@ -151,4 +151,60 @@
   .motion-ink { display: contents !important; }
   .motion-prep-stamp, .motion-prep-status { display: none !important; }
   .motion-ink::before, .motion-check .box::before, .motion-check .box::after, .motion-grade-ready::after, [data-motion-card]::after, [data-motion="domain"]::before, [data-motion="stripe"]::after { display: none !important; }
+}
+
+
+/* A moving classroom illustration, lifted index tabs and hand-drawn emphasis. */
+@media screen {
+  .motion-scroll-progress { display: none; position: fixed; inset: 0 0 auto; z-index: 101; height: 3px; background: linear-gradient(90deg, var(--d-self), var(--d-inter) 33%, var(--d-comm) 67%, var(--d-well)); transform: scaleX(var(--scroll-progress, 0)); transform-origin: left; pointer-events: none; }
+  html.js-motion .motion-scroll-progress { display: block; }
+  .motion-dock { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: 104px 44px; width: 156px; min-height: 44px; align-items: center; gap: 8px; pointer-events: none; }
+  .motion-dock button { pointer-events: auto; min-height: 44px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--paper); color: var(--ink); box-shadow: 0 3px 12px -6px var(--ink-2); }
+  .motion-global-toggle { grid-column: 1; grid-row: 1; padding: 8px 12px; font-size: 12px; }
+  html[data-motion-inline="true"] .motion-global-toggle { display: none; }
+  .motion-to-top { grid-column: 2; grid-row: 1; width: 44px; display: grid; place-items: center; }
+  .motion-title { position: relative; isolation: isolate; }
+  .motion-title::before { content: ""; position: absolute; z-index: -1; left: 0; bottom: .02em; height: .3em; width: min(100%, 16ch); border-radius: .08em; background: var(--motion-hl); transform-origin: left; pointer-events: none; }
+  .key-q { position: relative; }
+  .motion-question-mark { position: absolute; left: -.16em; top: -.3em; font-size: 3.2em; line-height: 1; color: var(--forest); opacity: .12; pointer-events: none; transform-origin: center 70%; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.js-motion .home-art-motion { transform: translate3d(var(--parallax-x, 0px), calc(var(--parallax-y, 0px) + var(--parallax-scroll, 0px)), 0) scale(var(--parallax-scale, 1)); transition: transform .4s var(--motion-ease); transform-origin: center bottom; }
+  html.js-motion [data-motion-playing="true"] .hero-domain-tab { animation-play-state: running, running; }
+  html.js-motion [data-motion-playing="true"] .hero-domain-tab:is(:hover, :focus-visible) { animation-play-state: running, paused; }
+  html.js-motion .motion-title-seen::before { animation: motion-stroke .65s var(--motion-ease) .12s backwards; }
+  html.js-motion .motion-to-top:not([hidden]) { animation: motion-top-arrive .45s var(--motion-ease); }
+  html.js-motion .motion-to-top:hover svg { animation: motion-top-nudge .4s var(--motion-ease); }
+  html.js-motion [data-motion-card]:active { scale: .98; }
+  html.js-motion [data-motion-card] { transition: transform .32s var(--motion-ease), scale .16s var(--motion-ease); }
+  html.js-motion .btn-solid > [aria-hidden="true"] { display: inline-block; transition: transform .22s var(--motion-ease); }
+  html.js-motion .btn-solid:is(:hover, :focus-visible) > [aria-hidden="true"] { transform: translateX(4px); }
+  html.js-motion .key-q.motion-seen .motion-question-mark { animation: motion-quote .55s var(--motion-ease) .2s backwards; }
+  html.js-motion .foot-maker.motion-wave img { animation: motion-wave .85s var(--motion-ease) .12s; }
+}
+@media screen and (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  html.js-motion :is(.btn-solid, [data-motion-magnetic]) { transform: translate(var(--magnet-x, 0px), var(--magnet-y, 0px)); transition: transform .22s var(--motion-ease), background-color .16s; }
+  html.js-motion [data-motion-card] .content-image::after { content: ""; position: absolute; inset: -50% auto -50% -45%; width: 75%; background: linear-gradient(105deg, transparent 24%, #FFFFFF52 50%, transparent 76%); transform: translateX(var(--sheen-x, -70%)) rotate(-12deg); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
+  html.js-motion [data-motion-card][data-motion-pointer] .content-image::after { opacity: 1; }
+}
+@keyframes motion-tab-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+@keyframes motion-top-arrive { from { opacity: .3; transform: translateY(9px); } 70% { opacity: 1; transform: translateY(-2px); } to { transform: none; } }
+@keyframes motion-top-nudge { 0%, 100% { transform: none; } 45% { transform: translateY(-4px); } }
+@keyframes motion-quote { from { transform: translateY(5px) rotate(-12deg) scale(.8); } 60% { transform: translateY(-2px) rotate(4deg) scale(1.06); } to { transform: none; } }
+@keyframes motion-wave { 0%, 100% { transform: none; } 22% { transform: rotate(-12deg); } 45% { transform: rotate(9deg); } 70% { transform: rotate(-5deg); } }
+
+/* One preference covers every existing and new decoration, including CSS-only
+   hover effects. Content and essential state feedback remain fully available. */
+@media screen {
+  html[data-motion-paused="true"] *, html[data-motion-paused="true"] *::before, html[data-motion-paused="true"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  html[data-motion-paused="true"] :is(.home-art-motion, .hero-domain-tab, [data-motion-card], .maker-badge img, .maker-sticker, .maker-badges img) { transform: none !important; translate: none !important; scale: none !important; }
+  html[data-motion-paused="true"] .wit-maker-image { transform: rotate(-5deg) !important; }
+  html[data-motion-suspended="true"] *, html[data-motion-suspended="true"] *::before, html[data-motion-suspended="true"] *::after { animation-play-state: paused !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-art-motion, .hero-domain-tab, [data-motion-card] { translate: none !important; scale: none !important; transform: none !important; }
+}
+@media print {
+  .motion-scroll-progress, .motion-dock, .motion-question-mark, .motion-title::before, [data-motion-card] .content-image::after { display: none !important; }
+  .home-art-motion, [data-motion-key], .hero-domain-tab, [data-motion-card] { transform: none !important; translate: none !important; scale: none !important; }
 }

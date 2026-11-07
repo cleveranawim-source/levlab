@@ -37,11 +37,13 @@
   .wit-facts small { font-size: 14px; }
   .wit-facts .wit-fact-total { font-size: 12px; font-weight: 500; }
 
-  .wit-tape { overflow: clip; padding-block: 22px; margin-block: -14px; }
-  .wit-tape-strip { background: var(--hl); color: #1E2A24; transform: rotate(-1deg) scaleX(1.015); padding-block: 14px; }
-  .wit-tape-track { display: flex; width: max-content; background: var(--hl); font: 600 14px/1.5 var(--wit-mono); }
-  .wit-tape-track > span { display: flex; align-items: center; flex: none; white-space: nowrap; padding-left: 30px; }
-  .wit-tape-track i { font-style: normal; margin-left: 30px; }
+  .wit-tape { overflow: clip; padding-block: 32px; margin-block: -14px; }
+  .wit-tape-strip { position: relative; z-index: 1; background: var(--hl); color: #1E2A24; transform: rotate(-1.4deg) scaleX(1.03); padding-block: 12px; }
+  .wit-tape-reverse { --tape-paper: color-mix(in srgb, var(--hl) 70%, #FFFFFF); z-index: 0; margin-top: 16px; background: color-mix(in srgb, var(--hl) 70%, #FFFFFF); transform: rotate(1.1deg) scaleX(1.03); }
+  .wit-tape-track { background: var(--tape-paper, var(--hl)); display: flex; width: max-content; font: 600 14px/1.5 var(--wit-mono); }
+  .wit-tape-copy { background: var(--tape-paper, var(--hl)); display: flex; flex: none; justify-content: space-around; min-width: 100vw; }
+  .wit-tape-copy > span { display: flex; align-items: center; flex: none; gap: 30px; white-space: nowrap; padding-left: 30px; }
+  .wit-tape-copy svg { flex: none; }
 
   .home-grade { --wit-angle: -.45deg; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: 3px 4px 0 var(--wit-shadow); transform: rotate(var(--wit-angle)); }
   .home-grade:nth-child(even) { --wit-angle: .45deg; }
@@ -54,15 +56,21 @@
 @media screen and (prefers-reduced-motion: no-preference) {
   .heart-code-line { animation: wit-code-drift 24s ease-in-out calc(var(--code-line) * -2.4s) infinite alternate; animation-play-state: paused; }
   .wit-cursor { animation: wit-cursor 1.2s steps(1, end) infinite; animation-play-state: paused; }
-  .wit-tape-track { animation: wit-tape-drift 45s linear infinite alternate; animation-play-state: paused; }
+  .wit-tape-track { animation: wit-tape-drift 18s linear infinite; animation-play-state: paused; }
+  .wit-tape-reverse .wit-tape-track { animation-direction: reverse; }
   [data-wit-playing="true"] :is(.heart-code-line, .wit-cursor, .wit-tape-track) { animation-play-state: running; }
+  html.js-motion .wit-maker[data-wit-greeting]:not([data-wit-dismissed]) .wit-maker-bubble { visibility: visible; opacity: 1; transform: rotate(-2deg); }
+  html.js-motion .wit-maker[data-wit-greeting] .wit-maker-image { animation: wit-hello .65s var(--motion-ease); }
+  html.js-motion [data-wit-counted="true"] .wit-count { animation: wit-count-land .38s var(--motion-ease); }
   .wit-maker-bubble { transition: transform .2s var(--motion-ease), opacity .16s ease; }
   .wit-maker-image { transition: transform .25s var(--motion-ease); }
   .wit-maker:is(:hover, :focus-visible) .wit-maker-image { transform: rotate(-2deg) translateY(-2px); }
 }
 @keyframes wit-code-drift { from { transform: translate3d(-16px, 14px, 0); } to { transform: translate3d(22px, -16px, 0); } }
 @keyframes wit-cursor { 0%, 48% { opacity: 1; } 49%, 100% { opacity: 0; } }
-@keyframes wit-tape-drift { from { transform: translateX(0); } to { transform: translateX(min(-72px, calc(100vw - 100% - 40px))); } }
+@keyframes wit-tape-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes wit-hello { 0%, 100% { transform: rotate(-5deg); } 35% { transform: translateY(-9px) rotate(1deg); } 65% { transform: translateY(1px) rotate(-7deg); } }
+@keyframes wit-count-land { 0%, 100% { transform: translateY(0) scale(1); } 40% { transform: translateY(-4px) scale(1.06); } 70% { transform: translateY(1px) scale(.99); } }
 
 @media (max-width: 700px) {
   .heart-code-line:nth-child(n + 5) { display: none; }

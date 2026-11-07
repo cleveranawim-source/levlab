@@ -59,6 +59,10 @@ const TAPE = ['감정 == 정보', '화나도 괜찮아, 행동은 골라', 'git 
 
 export function WitTape() {
   return <div className="wit-tape" aria-hidden="true" data-wit-loop data-nosnippet>
-    <div className="wit-tape-strip"><div className="wit-tape-track">{TAPE.map((line) => <span key={line}>{line}<i>✦</i></span>)}</div></div>
+    {[0, 1].map((row) => <div className={`wit-tape-strip${row ? " wit-tape-reverse" : ""}`} key={row}>
+      <div className="wit-tape-track">{[0, 1].map((copy) => <div className="wit-tape-copy" key={copy}>
+        {(row ? [...TAPE].reverse() : TAPE).map((line) => <span key={line}>{line}<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M6 0 7.7 4.3 12 6 7.7 7.7 6 12 4.3 7.7 0 6 4.3 4.3Z" fill="currentColor" /></svg></span>)}
+      </div>)}</div>
+    </div>)}
   </div>;
 }

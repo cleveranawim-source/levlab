@@ -51,7 +51,7 @@ export default function LessonPage({ slug }) {
               </p>
               <h1>{L.title}</h1>
               {L.keyQuestion && (
-                <p className="key-q serif" data-motion="highlight"><span className="sr-only">핵심 질문: </span><mark>{L.keyQuestion.split(" ").map((word, i, words) => <span key={i}><span className="motion-ink" style={{ "--ink-word": i }}>{word}</span>{i < words.length - 1 ? " " : ""}</span>)}</mark></p>
+                <p className="key-q serif" data-motion="highlight"><span className="motion-question-mark" aria-hidden="true">“</span><span className="sr-only">핵심 질문: </span><mark>{L.keyQuestion.split(" ").map((word, i, words) => <span key={i}><span className="motion-ink" style={{ "--ink-word": i }}>{word}</span>{i < words.length - 1 ? " " : ""}</span>)}</mark></p>
               )}
               <h2 className="lh-sub">이 시간이 끝나면</h2>
               <ol className="goals">{L.objectives.map((o) => <li key={o}>{o}</li>)}</ol>

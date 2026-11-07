@@ -11,6 +11,7 @@ import "../styles/content.css";
 import "../styles/theme.css";
 import "../styles/motion.css";
 import "../styles/search.css";
+import "../styles/teaser.css";
 
 // Preload only the small common-character subset. Other glyphs are fetched from
 // the package's local unicode-range faces as needed, all under /_next/static/.

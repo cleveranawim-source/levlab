@@ -37,8 +37,8 @@ export default function HomePage() {
             <YeolSticker />
           </div>
           <div className="home-hero-scene">
-            <ContentImage className="home-hero-art" src="/images/home-hero.webp" alt="교실에서 감정 카드와 활동지를 펼치고 함께 이야기하는 학생들" width={1200} height={900} priority />
-            <nav className="hero-domain-tabs" aria-label="네 영역 바로 보기">
+            <div className="home-art-motion" data-motion-parallax><ContentImage className="home-hero-art" src="/images/home-hero.webp" alt="교실에서 감정 카드와 활동지를 펼치고 함께 이야기하는 학생들" width={1200} height={900} priority /></div>
+            <nav className="hero-domain-tabs" data-motion-loop aria-label="네 영역 바로 보기">
               {SEL_DOMAINS.map((d, i) => <a key={d.key} href={`#domain-${d.key}`} className={`hero-domain-tab domain-${d.key}`} style={{ "--tab": i }}>{d.nm}<span aria-hidden="true">↙</span></a>)}
             </nav>
           </div>

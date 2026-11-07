@@ -1,0 +1,50 @@
+/* 예고편 영상관 */
+.treel { margin: 8px 0 44px; }
+.treel-head h2 { font-size: clamp(22px, 2.6vw, 28px); margin: 0 0 6px; }
+.treel-head p { margin: 0 0 18px; color: var(--ink-2, #4A5650); }
+.treel-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+.treel-stage { margin: 0; overflow: hidden; border-radius: var(--r-lg, 20px); background: #0F1714; color: #fff; box-shadow: 6px 6px 0 var(--ink, #1E2A24); }
+.treel-stage video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #000; }
+.treel-stage figcaption { display: grid; grid-template-columns: 1fr auto; gap: 2px 16px; align-items: center; padding: 14px 18px 16px; }
+.treel-kind { grid-column: 1; font-size: 13px; color: #BFD2C6; }
+.treel-stage b { grid-column: 1; font-size: 19px; }
+.treel-note { grid-column: 1; font-size: 14px; color: #D5E2DA; }
+.treel-open, .treel-soon { grid-column: 2; grid-row: 1 / span 3; align-self: center; white-space: nowrap; }
+.treel-open { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 10px; background: var(--hl, #FFE45C); color: #1E2A24; font-weight: 700; text-decoration: none; }
+.treel-open:hover { filter: brightness(1.05); }
+.treel-open:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.treel-soon { font-size: 14px; color: #BFD2C6; }
+.treel-list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.treel-item { position: relative; display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center; width: 100%; padding: 8px; border: 2px solid transparent; border-radius: 14px; background: var(--paper-2, #F5F6F2); color: var(--ink, #1E2A24); font: inherit; text-align: left; cursor: pointer; transition: transform .2s cubic-bezier(.3, 1.4, .6, 1), border-color .15s; }
+.treel-item:hover { transform: translateX(-3px) rotate(-.4deg); }
+.treel-item[aria-current="true"] { border-color: var(--ink, #1E2A24); background: var(--paper, #fff); box-shadow: 4px 4px 0 var(--hl, #FFE45C); }
+.treel-item:focus-visible { outline: 3px solid var(--d-self, #6D4FC2); outline-offset: 2px; }
+.treel-thumb { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 9px; background: #0F1714; }
+.treel-thumb img, .treel-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.treel-play { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(255, 255, 255, .9); transition: transform .2s; }
+.treel-play::after { content: ""; position: absolute; left: 11px; top: 8px; border-style: solid; border-width: 7px 0 7px 11px; border-color: transparent transparent transparent #1E2A24; }
+.treel-item:hover .treel-play { transform: scale(1.15); }
+.treel-item[aria-current="true"] .treel-play { opacity: 0; }
+.treel-txt { display: grid; gap: 2px; min-width: 0; }
+.treel-txt span { font-size: 12.5px; color: var(--ink-2, #4A5650); }
+.treel-txt b { font-size: 15px; line-height: 1.35; word-break: keep-all; }
+:root[data-theme="dark"] .treel-stage { box-shadow: 6px 6px 0 #3A463F; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .treel-stage { box-shadow: 6px 6px 0 #3A463F; } }
+@media (max-width: 900px) {
+  .treel-grid { grid-template-columns: minmax(0, 1fr); }
+  .treel-grid > * { min-width: 0; }
+  .treel-list { grid-auto-flow: column; grid-auto-columns: 200px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+  .treel-list li { scroll-snap-align: start; }
+  .treel-item { grid-template-columns: 1fr; }
+  .treel-item:hover { transform: none; }
+  .treel-stage figcaption { grid-template-columns: 1fr; }
+  .treel-open, .treel-soon { grid-column: 1; grid-row: auto; justify-self: start; margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .treel-item, .treel-play { transition: none; } .treel-item:hover { transform: none; } }
+html[data-motion-paused="true"] .treel-item:hover { transform: none; }
+@media print { .treel { display: none; } }
+
+/* 콘텐츠 카드 — 예고편 표시 */
+.tthumb-wrap { position: relative; display: block; }
+.tteaser { position: absolute; left: 10px; top: 10px; padding: 3px 10px 3px 22px; border-radius: 999px; background: #1E2A24; color: #fff; font-size: 12.5px; font-weight: 700; }
+.tteaser::before { content: ""; position: absolute; left: 10px; top: 50%; margin-top: -5px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--hl, #FFE45C); }
