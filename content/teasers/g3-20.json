@@ -1,0 +1,67 @@
+{
+  "slug": "g3-20",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-20/middle-friends.webp",
+      "focus": "50% 45%",
+      "caption": "일주일째 말을 안 하는 두 친구",
+      "say": "가장 친한 두 친구가 일주일째 말을 안 해요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-20/middle-friends.webp",
+      "focus": "50% 45%",
+      "bubbles": [
+        {
+          "x": 24,
+          "y": 9,
+          "text": "너는 내 편이지?"
+        },
+        {
+          "x": 76,
+          "y": 9,
+          "text": "너는 내 편이지?"
+        }
+      ],
+      "say": "그리고 둘 다 나에게 물어요. 너는 내 편이지?",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-20/mediation-talk.webp",
+      "focus": "50% 50%",
+      "caption": "편도, 모른 척도 아니라면?",
+      "say": "편을 드는 것도, 모른 척하는 것도 아니라면?",
+      "clip": "content/teasers/clips/g3-20-mediation-talk.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the three desks pushed together, the boy in the middle leans forward and nods slowly while the girl on one side speaks with small, hesitant hand gestures. The other girl, arms folded at first, slowly unfolds her arms and lifts her eyes to listen. Afternoon sunlight from the window shifts very gently. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-20/mediation-talk.webp",
+      "focus": "50% 50%",
+      "bubbles": [
+        {
+          "x": 50,
+          "y": 9,
+          "text": "네 이야기부터 끝까지 들을게."
+        }
+      ],
+      "say": "가운데에서 둘의 이야기를 끝까지 들어 볼 수 있을까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-20-mediation-talk.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the three desks pushed together, the boy in the middle leans forward and nods slowly while the girl on one side speaks with small, hesitant hand gestures. The other girl, arms folded at first, slowly unfolds her arms and lifts her eyes to listen. Afternoon sunlight from the window shifts very gently. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 편들지 않고, 함께 답을 찾는 중재자가 되어 봐요."
+    }
+  ]
+}

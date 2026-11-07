@@ -1,0 +1,77 @@
+{
+  "slug": "g3-04",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-04/pe-mistake.webp",
+      "focus": "50% 45%",
+      "caption": "내 실수로 진 경기",
+      "say": "내 실수로 경기를 졌을 때,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-04/career-worry.webp",
+      "focus": "50% 45%",
+      "caption": "나만 못 정한 것 같을 때",
+      "say": "나만 아직 아무것도 못 정한 것 같을 때,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-04/exam-night.webp",
+      "focus": "55% 45%",
+      "caption": "시험 전날 밤 11시",
+      "say": "시험 전날 밤, 글자가 하나도 안 들어올 때,",
+      "clip": "content/teasers/clips/g3-04-exam-night.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting at the desk under the small desk lamp rubs his eyes, stares at the open textbook for a moment, then slowly leans back in his chair and takes one long deep breath, his shoulders rising and then dropping as he relaxes a little. The lamp light and the room stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-04/exam-night.webp",
+      "focus": "55% 45%",
+      "cont": true,
+      "chips": [
+        {
+          "x": 18,
+          "y": 18,
+          "text": "① 자리 바꾸기"
+        },
+        {
+          "x": 82,
+          "y": 18,
+          "text": "② 노래 한 곡"
+        },
+        {
+          "x": 18,
+          "y": 78,
+          "text": "③ 핵심만 보자"
+        },
+        {
+          "x": 82,
+          "y": 78,
+          "text": "④ 숨 길게"
+        }
+      ],
+      "say": "여러분은 어떤 도구를 꺼내나요?",
+      "clip": "content/teasers/clips/g3-04-exam-night.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting at the desk under the small desk lamp rubs his eyes, stares at the open textbook for a moment, then slowly leans back in his chair and takes one long deep breath, his shoulders rising and then dropping as he relaxes a little. The lamp light and the room stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-04/career-worry.webp",
+      "focus": "50% 45%",
+      "caption": "늘 같은 도구만?",
+      "say": "혹시 늘 같은 도구 하나만 쓰고 있진 않나요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 감정 도구함을 열어 보고, 일주일 계획을 세워요."
+    }
+  ]
+}

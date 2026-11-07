@@ -1,0 +1,57 @@
+{
+  "slug": "g2-18",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-18/soccer-bench.webp",
+      "caption": "명단에 내 이름이 없던 날",
+      "say": "명단에 내 이름이 없던 날,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-18/stage-fright.webp",
+      "caption": "머리가 하얘진 날",
+      "say": "발표하다 머리가 하얘진 날."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-18/new-club.webp",
+      "caption": "그래도 우리는",
+      "say": "그래도 우리는 어떻게든 다시 일어서 왔어요.",
+      "clip": "content/teasers/clips/g2-18-new-club.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In an after-school club room, the girl standing shyly by the door on the right takes one small step forward. A student at the table on the left looks up, smiles warmly and waves her over, pulling out an empty chair. The girl's shoulders relax and she starts to smile. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-18/new-club.webp",
+      "bubbles": [
+        {
+          "x": 30,
+          "y": 9,
+          "text": "같이 할래?"
+        }
+      ],
+      "say": "그때 나를 다시 세운 건, 무엇이었을까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-18-new-club.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In an after-school club room, the girl standing shyly by the door on the right takes one small step forward. A student at the table on the left looks up, smiles warmly and waves her over, pulling out an empty chair. The girl's shoulders relax and she starts to smile. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-18/roly-poly.webp",
+      "caption": "다시 서는 힘",
+      "say": "밀려 넘어져도 다시 서는 오뚝이처럼."
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 나를 다시 일으키는 힘을 찾아봐요."
+    }
+  ]
+}

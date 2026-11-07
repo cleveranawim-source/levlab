@@ -1,0 +1,61 @@
+{
+  "slug": "g3-13",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-13/festival-meeting.webp",
+      "focus": "50% 45%",
+      "caption": "축제 부스를 정하는 회의",
+      "say": "학급 축제 부스를 정하는 회의 시간."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-13/festival-meeting.webp",
+      "focus": "50% 45%",
+      "bubbles": [
+        {
+          "x": 34,
+          "y": 9,
+          "text": "무조건 방탈출이지!"
+        },
+        {
+          "x": 68,
+          "y": 9,
+          "text": "사진관도 괜찮은데…"
+        }
+      ],
+      "say": "건우는 끝까지 밀어붙였고, 결국 이겼어요.",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-13/festival-prep.webp",
+      "focus": "50% 50%",
+      "caption": "그런데 다음 날",
+      "say": "그런데 다음 날, 반대했던 친구들은 준비에 오지 않았어요.",
+      "clip": "content/teasers/clips/g3-13-festival-prep.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy carrying a big cardboard box walks a few slow steps across the classroom, then stops and looks around at the empty chairs, his shoulders dropping a little. The two students in the corner keep cutting colored paper quietly without looking up. The sunset light through the window shifts very gently. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-13/festival-prep.webp",
+      "focus": "50% 50%",
+      "caption": "정말 이긴 걸까?",
+      "say": "건우는 정말 이긴 걸까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-13-festival-prep.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy carrying a big cardboard box walks a few slow steps across the classroom, then stops and looks around at the empty chairs, his shoulders dropping a little. The two students in the corner keep cutting colored paper quietly without looking up. The sunset light through the window shifts very gently. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 이기는 말 대신, 함께 답을 만드는 말을 배워요."
+    }
+  ]
+}

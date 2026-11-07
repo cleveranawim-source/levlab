@@ -1,0 +1,60 @@
+{
+  "slug": "g1-03",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-03/test-paper.webp",
+      "focus": "60% 45%",
+      "caption": "시험지를 받아 든 순간",
+      "say": "열심히 공부한 시험지를 받아 든 순간,",
+      "clip": "content/teasers/clips/g1-03-test-paper.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting at the desk looks down at the returned test paper and grips its edge tightly, his shoulders tensing and his face flushing. Then he slowly closes his eyes and takes one long deep breath, and his shoulders gently lower. Classmates in the background keep quietly looking at their own papers. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-03/test-paper.webp",
+      "focus": "60% 45%",
+      "cont": true,
+      "chips": [
+        {
+          "x": 30,
+          "y": 22,
+          "text": "심장 쿵쾅"
+        },
+        {
+          "x": 82,
+          "y": 22,
+          "text": "얼굴 화끈"
+        }
+      ],
+      "say": "심장은 쿵쾅, 얼굴은 화끈해져요.",
+      "clip": "content/teasers/clips/g1-03-test-paper.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting at the desk looks down at the returned test paper and grips its edge tightly, his shoulders tensing and his face flushing. Then he slowly closes his eyes and takes one long deep breath, and his shoulders gently lower. Classmates in the background keep quietly looking at their own papers. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-03/hallway-laugh.webp",
+      "focus": "55% 45%",
+      "caption": "억울하거나 당황한 순간에도",
+      "say": "억울하거나 당황한 순간에도 마찬가지예요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-03/presentation-freeze.webp",
+      "focus": "55% 45%",
+      "caption": "그럴 때 나는?",
+      "say": "그럴 때, 여러분은 어떻게 마음을 가라앉히나요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 나에게 꼭 맞는 진정 전략을 찾아봐요."
+    }
+  ]
+}

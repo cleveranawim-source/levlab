@@ -1,0 +1,74 @@
+{
+  "slug": "g2-12",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-12/night-message.webp",
+      "focus": "50% 50%",
+      "caption": "밤 11시, 친구의 메시지",
+      "say": "밤 열한 시, 친한 친구의 메시지."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-12/night-message.webp",
+      "focus": "50% 50%",
+      "bubbles": [
+        {
+          "x": 54,
+          "y": 9,
+          "text": "숙제 사진만 보내 줘!"
+        }
+      ],
+      "say": "“숙제 사진만 보내 줘, 이번 한 번만!”",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-12/photo-post.webp",
+      "focus": "55% 50%",
+      "caption": "싫은데, 말하기 어려워",
+      "say": "내가 싫다던 사진이 단톡방에 올라오고,",
+      "clip": "content/teasers/clips/g2-12-photo-post.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the classroom at break time, the group of friends huddled around one phone laugh and nudge each other, one of them points at the screen. The girl sitting apart looks at her own phone; her smile slowly fades, she lowers the phone a little and glances toward the group, hesitating, lips pressed together. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-12/photo-post.webp",
+      "focus": "55% 50%",
+      "bubbles": [
+        {
+          "x": 30,
+          "y": 9,
+          "text": "이거 봐 ㅋㅋ"
+        },
+        {
+          "x": 76,
+          "y": 9,
+          "text": "지워 달라고 할까…"
+        }
+      ],
+      "say": "‘안 돼’라는 말이 목까지 차오르지만, 꺼내기가 어려워요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-12-photo-post.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the classroom at break time, the group of friends huddled around one phone laugh and nudge each other, one of them points at the screen. The girl sitting apart looks at her own phone; her smile slowly fades, she lowers the phone a little and glances toward the group, hesitating, lips pressed together. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-12/store-money.webp",
+      "focus": "50% 50%",
+      "caption": "경계는 관계를 해칠까, 지킬까?",
+      "say": "경계를 세우면, 관계가 멀어질까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 관계를 지키는 부드러운 ‘안 돼’를 연습해요."
+    }
+  ]
+}

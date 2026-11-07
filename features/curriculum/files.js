@@ -7,6 +7,7 @@ const KINDS = [
   { file: (s) => `/files/worksheets/${s}-worksheet.pdf`, label: "활동지", type: "PDF", note: "A4 2쪽, 바로 인쇄" },
   { file: (s) => `/files/worksheets/${s}-worksheet.docx`, label: "활동지 (고쳐 쓰기용)", type: "Word", note: "우리 반에 맞게 고쳐 쓰기" },
   { file: (s) => `/files/worksheets/${s}-cards.pdf`, label: "이야기 카드", type: "PDF", note: "A4 1장, 잘라서 모둠에 한 장씩" },
+  { file: (s) => `/files/worksheets/${s}-cardsets.pdf`, label: "오려 쓰는 카드", type: "PDF", note: "단어·전략 카드, 잘라서 모둠에 한 벌씩" },
   { file: (s) => `/video/lessons/${s}.mp4`, label: "여는 영상", type: "MP4", note: "도입에 트는 짧은 영상" },
 ];
 const size = (bytes) => (bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`);

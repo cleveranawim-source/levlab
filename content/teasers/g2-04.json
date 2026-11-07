@@ -1,0 +1,57 @@
+{
+  "slug": "g2-04",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-04/exam-nerves.webp",
+      "caption": "시험 10분 전",
+      "say": "시험 10분 전, 들려오는 “이거 나온대!”"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-04/broken-promise.webp",
+      "caption": "약속 30분 전",
+      "say": "약속 30분 전, 도착한 “미안, 못 가.”"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-04/nagging-home.webp",
+      "caption": "그리고 또 잔소리",
+      "say": "집에 오자마자 또 잔소리.",
+      "clip": "content/teasers/clips/g2-04-nagging-home.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the living room, the mother standing on the left points toward the messy bedroom door and keeps talking, gesturing with one hand. The boy sitting on the sofa on the right lets out a long sigh, his shoulders drop, and he slowly tilts his head back to look at the ceiling. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-04/nagging-home.webp",
+      "bubbles": [
+        {
+          "x": 78,
+          "y": 9,
+          "text": "나 오늘 폰 거의 안 봤는데…"
+        }
+      ],
+      "say": "셋 다 화가 나는데, 정말 같은 화일까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-04-nagging-home.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the living room, the mother standing on the left points toward the messy bedroom door and keeps talking, gesturing with one hand. The boy sitting on the sofa on the right lets out a long sigh, his shoulders drop, and he slowly tilts his head back to look at the ceiling. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-04/calm-breath.webp",
+      "caption": "방법은 하나가 아니에요",
+      "say": "그럼 다루는 방법도 상황마다 달라야 하지 않을까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 상황마다 꼭 맞는 조절 방법을 골라 봐요."
+    }
+  ]
+}

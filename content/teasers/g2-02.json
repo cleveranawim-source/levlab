@@ -1,0 +1,79 @@
+{
+  "slug": "g2-02",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-02/missed-bus.webp",
+      "caption": "버스를 놓쳐도",
+      "say": "눈앞에서 버스를 놓쳐도, “아, 짜증나.”"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-02/kept-after.webp",
+      "caption": "억울하게 남아도",
+      "say": "준비 다 했는데 같이 남게 돼도, “짜증나.”"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-02/left-out-plan.webp",
+      "caption": "나만 빠진 약속에도",
+      "say": "나만 빠진 약속을 알게 돼도, “짜증나.”",
+      "clip": "content/teasers/clips/g2-02-left-out-plan.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the school hallway, the three friends on the left look at one phone together, laughing and nodding as they talk about weekend plans. The girl standing a little apart on the right slowly stops smiling, lowers her eyes and grips her backpack strap. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-02/left-out-plan.webp",
+      "bubbles": [
+        {
+          "x": 78,
+          "y": 9,
+          "text": "나도 끼고 싶었는데…"
+        }
+      ],
+      "say": "그런데 정말, 다 같은 마음일까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-02-left-out-plan.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the school hallway, the three friends on the left look at one phone together, laughing and nodding as they talk about weekend plans. The girl standing a little apart on the right slowly stops smiling, lowers her eyes and grips her backpack strap. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-02/emotion-wall.webp",
+      "caption": "마음에도 이름이 여러 개",
+      "chips": [
+        {
+          "x": 22,
+          "y": 22,
+          "text": "허탈"
+        },
+        {
+          "x": 42,
+          "y": 14,
+          "text": "억울"
+        },
+        {
+          "x": 62,
+          "y": 22,
+          "text": "서운"
+        },
+        {
+          "x": 80,
+          "y": 14,
+          "text": "답답"
+        }
+      ],
+      "say": "허탈, 억울, 서운… 마음에는 더 정확한 이름이 있어요."
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 ‘짜증’에 꼭 맞는 이름을 찾아 줘요."
+    }
+  ]
+}

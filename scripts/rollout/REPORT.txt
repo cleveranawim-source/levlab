@@ -1,0 +1,152 @@
+Lesson-kit pipeline handoff — 2026-11-07
+
+Completed in the working tree. No commit, push, deployment, real image generation,
+or edits to content/ were made by this worker. Generated QA artifacts are under
+/tmp/lesson-kit-evidence; production downloads were not replaced.
+
+FILES CHANGED BY THIS WORKER
+scripts/worksheets/build.py
+scripts/slides/build_pptx.py
+scripts/teasers/build.py
+scripts/art/gen.py
+scripts/art/style-ref.png
+scripts/rollout/validate.mjs
+scripts/rollout/build_all.sh
+scripts/rollout/test_validate.mjs
+scripts/rollout/REPORT.txt
+features/slides/README.md
+components/slides/SlideContent.jsx
+components/slides/SlideToys.jsx
+components/live/LiveSlot.jsx (explicitly authorized in the add-on)
+styles/slides.css
+
+IMPLEMENTATION
+Worksheet PDF/DOCX: all six generic sections, legacy sections retained, measured
+pagination with a whitespace-only compact mode, page count reporting and >2-page
+warnings, optional story-card roles, and no stale cards PDF for an empty list.
+Four story cards paginate 3+1. DOCX uses A4 and keeps a free-writing section intact.
+Image caches now distinguish full paths, avoiding same-basename collisions across
+lessons in a batch. Missing worksheet images warn and leave their space empty.
+
+Printable word/strategy cards: exact output is
+public/files/worksheets/{slug}-cardsets.pdf
+The optional worksheet field cardSets contains {title,note?,cards:[{front,back?}]}.
+Each A4 page has twenty equal 4x5 cells with dashed cutting lines. Sets start on
+fresh pages. back is a small hint on the same face, not a duplex reverse side.
+Empty/absent cardSets removes a stale generated cardsets PDF.
+
+The optional story-card tip lives at worksheet TOP LEVEL: cardTip.
+Activity frame labels read slide.rows (0–4 strings); absent rows leave blank boxes.
+Flip labels read toy.prompt or use left/right labels; wall headings read live.title
+or use generic defaults. Ask/activity walls, 2–4-card layouts, optional activity
+images, and authored card steps now render in the browser. No lesson slug is used
+to choose those strings.
+
+PPT: batch and fixture paths, complete 2–6-choice stories (no four-choice truncation),
+2–4 cards, optional images/frames/apps/rows, and missing-image/video/poster warnings.
+Absent video can retain its poster. Teacher questions remain in speaker notes,
+including where student steps or an app occupy the available slide space.
+Teaser: the only production change is missing-clip -> still-image fallback with a
+warning. clipPrompt remains ignored and no TTS or timing logic was changed.
+Art: original wrapper/rules and style reference copied, four workers, existing-file
+skip, per-image logging, errors return nonzero, --dry never invokes Codex.
+Validator: no dependencies, all required checks plus optional rows/cardSets/cardTip,
+toy.prompt/live.title, safe malformed-input errors, and per-lesson PASS/WARN/FAIL.
+Runner: validation, worksheet -> teaser -> PPT -> npm run check; interpreter overrides.
+
+HOW TO RUN
+Use the existing worksheet/teaser interpreter:
+  ~/.claude/skills/webapp-testing/.venv/bin/python scripts/worksheets/build.py g1-09
+  ~/.claude/skills/webapp-testing/.venv/bin/python scripts/teasers/build.py g1-09
+Use the existing PPT interpreter:
+  /private/tmp/claude-501/-Users-yeopro14-orca-workspaces-levlab-danio/8f5aadfa-7605-4f33-b837-904ec3ef88cd/scratchpad/venv/bin/python scripts/slides/build_pptx.py g1-09
+Other commands:
+  python3 scripts/art/gen.py --dry g1-09
+  node scripts/rollout/validate.mjs g1-09
+  node --test scripts/rollout/test_validate.mjs
+  bash scripts/rollout/build_all.sh g1-09
+
+All accept multiple slugs. With no slugs, individual builders/art use their source
+JSON directories; validator and build_all select published/core lessons. Set
+WORKSHEET_PYTHON, TEASER_PYTHON and PPT_PYTHON for portable interpreter paths.
+CODEX_IMAGE_CLI overrides the art generator CLI. Worksheets/PPT accept --source-dir
+and --out for fixtures. Teaser already supports --out=PATH.
+
+Worksheet dependencies: Playwright/Chromium, python-docx, Pillow, pypdfium2.
+PPT dependencies: python-pptx, Pillow. Teaser additionally requires ffmpeg/ffprobe.
+pypdfium2 was installed in the supplied worksheet venv for PDF page counting and QA.
+LibreOffice was installed for QA exports only; it is not a builder dependency.
+Teaser API credentials continue to use its existing lookup and were never printed.
+
+TEST EVIDENCE (all final checks exited 0)
+1. node scripts/rollout/validate.mjs: 45 PASS, 0 WARN, 0 FAIL.
+   Explicit g1-09, g2-09, g2-11 checks also PASS after owner-side version fixes.
+   Eight validator tests cover boundaries, null/malformed JSON, missing fields/files,
+   duplicate/bad live IDs, vote 8/9 choices, wall bounds, planned assets, cards,
+   rows, length warnings and published/default selection.
+2. Both real no-argument batches completed against all 45 authored source files:
+   45 worksheet PDFs, ALL exactly TWO A4 pages, plus DOCX/optional card outputs;
+   45 PPT files, no crashes with missing images/video. All outputs are in /tmp.
+3. Generic worksheet fixtures under /tmp/lesson-kit-evidence/fixtures/worksheets:
+   g1-01: four boxes, 4x4 table, custom before/after pairs, exit, four story cards
+          with optional roles; worksheet 2 pages, cards 2 pages.
+   g1-03: 16 choices, six scale statements, six writing lines, exit, empty cards;
+          worksheet 2 pages, no cards/cardsets PDF.
+   Both DOCX files were exported to PDF: 2 A4 pages each.
+   CardSets fixture: 40 emotion cards + 12 strategy cards -> 3 A4 pages.
+   Pages were rendered with pypdfium2 and inspected: aligned grids, readable Korean
+   labels, adequate writing room, intact writing sections, dashed cut lines, no
+   clipping. Dense real g1-01/g1-03/g3-10 pages were also inspected after pagination
+   fixes. Generic compact mode changes whitespace/cell heights, not font size.
+4. PPT fixture: 25 slides, every type; 2/3/4-card layouts, 2/3/4/5/6-choice stories,
+   with/without images, absent image/video/poster, zero/two/four activity frames,
+   optional app, compare and exit. OOXML assertions verify all choices/card text.
+   LibreOffice PDF export produced 25 pages; PNG review shows clear six-choice and
+   four-card layouts, editable content intact. LibreOffice used a temporary font
+   configuration pointing to installed Korean fonts; no project font was changed.
+5. g1-09 baseline comparison:
+   worksheet 2 pages, story cards 1 page: every rendered pixel unchanged.
+   Browser activity + compare content screenshots: every rendered pixel unchanged.
+   PPT 15 slides: 14 pages pixel-identical; only page 10 changes the third row label
+   from '속생각' to '속으로 한 생각', explicitly accepted by the coordinator.
+   That page's mean absolute pixel difference is 0.23092 on a 0–255 scale.
+6. Missing-clip teaser fixture: real 13.8-second MP4/poster rendered from five scenes,
+   four deliberately nonexistent clips, four fallback warnings. Narration was a
+   temporary silent WAV and FPS reduced to 2 for this test; no API call/content write.
+7. Art dry runs: g1-09 existing images skipped; a missing-output fixture printed its
+   prompt; no-argument dry run logged all manifest entries without image generation.
+8. Batch runner tested with temporary interpreter/npm stubs: arguments, overridable
+   interpreter paths and worksheet -> teaser -> PPT -> npm run check order verified.
+   The full real runner was not invoked because it would create narration in content
+   and consume API resources while art is still being authored/generated.
+9. Browser checks in the existing LOCAL development server: g2-14 ask/activity walls
+   and four-card layout rendered, temporary classroom was closed, no browser errors,
+   content stayed above the footer. g2-02 card steps also fit above the footer.
+10. npm run check PASS: 17 standards, 45 unique lessons, 74 sitemap URLs/static pages,
+    metadata, draft noindex, real 404 and original-link checks. Python compilation,
+    bash syntax and git diff --check pass.
+
+EVIDENCE LOCATIONS
+/tmp/lesson-kit-evidence/all-validation.log
+/tmp/lesson-kit-evidence/validator-tests.log
+/tmp/lesson-kit-evidence/npm-check-final.log
+/tmp/lesson-kit-evidence/authored-worksheets-final.log
+/tmp/lesson-kit-evidence/authored-ppt.log
+/tmp/lesson-kit-evidence/art-dry.log
+/tmp/lesson-kit-evidence/render-summary.json
+/tmp/lesson-kit-evidence/rebuilt/ (sample PDF, DOCX, PPT and rendered PNGs)
+/tmp/lesson-kit-evidence/variants/ (all fixture outputs and contact sheets)
+/tmp/lesson-kit-evidence/authored-worksheets/ (45 worksheets, dense-page contact sheets)
+/tmp/lesson-kit-evidence/ui/ (sample before/after and new-schema screenshots)
+/tmp/lesson-kit-evidence/teaser/g1-01.mp4
+Fixture creation, rendering comparison and browser/teaser test scripts also remain
+under /tmp/lesson-kit-evidence, with fixture JSON outside content/ as requested.
+
+REMAINING / LIMITS
+No schema errors remain in the 45-lesson validation snapshot. PASS permits planned
+art manifests: it does not claim all images/video/audio exist. Missing actual media
+still requires owner-approved generation; no image quota was consumed here.
+Production downloads and all 45 narrated teasers have not been regenerated by this
+worker. Run the documented pipeline once art/narration work is ready. Browser live
+interactions stay in the browser; exported PPT files are static teaching decks with
+notes and optional embedded video. No content fixes were made by this worker.

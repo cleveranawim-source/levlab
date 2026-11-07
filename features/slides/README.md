@@ -28,3 +28,74 @@ The player places `LiveControl` beside teacher notes. Story places `LiveSlot` af
 `SlideVideo.jsx` uses `video: {src, poster, captions}`. Assets must exist at build time; missing video falls back to a poster or labeled space. Video uses `preload="none"`, never autoplay, and starts with sound only after the play button/P. P toggles playback, while next/Space during playback advances the slide and pauses the old video. Without JavaScript the poster and teaching content remain readable.
 
 Browser evidence and repeatable checks are in `docs/audit/slides/toys-verify.py`, `toys-live-verify.py`, and `TOYS-REPORT.md`. The audit directory is gitignored in this repository; deliberately include evidence when integrating if needed.
+
+## Building all core lesson kits
+
+The shared schema is `docs/rollout/AUTHORING.md`. These commands accept multiple
+slugs; omitting slugs selects every JSON file in the relevant source directory:
+
+```sh
+python scripts/worksheets/build.py g1-09 g1-03
+python scripts/slides/build_pptx.py g1-09 g1-03
+python scripts/teasers/build.py g1-09 g1-03
+python scripts/art/gen.py --dry g1-09 g1-03
+node scripts/rollout/validate.mjs g1-09 g1-03
+bash scripts/rollout/build_all.sh g1-09 g1-03
+```
+
+Worksheet and teaser Python: `~/.claude/skills/webapp-testing/.venv/bin/python`.
+PPT Python defaults to the authoring scratchpad's python-pptx environment; see
+`build_all.sh` for its full path. Set `WORKSHEET_PYTHON`, `TEASER_PYTHON`, and
+`PPT_PYTHON` to other interpreter paths when needed. Worksheets need Playwright
+with Chromium, python-docx, Pillow and pypdfium2; PPT needs python-pptx and Pillow.
+Teasers additionally need ffmpeg/ffprobe. The runner validates, builds worksheets,
+teasers, and PPTs in that order, then runs `npm run check`. With no arguments it
+uses published/core lessons from `content/lessons.json` for every builder. It does
+not deploy or commit. Teaser credentials remain in the builder's existing key
+lookup; the runner never reads or echoes them.
+
+Worksheet outputs are `public/files/worksheets/{slug}-worksheet.pdf` and
+`{slug}-worksheet.docx`. Optional story cards produce `{slug}-cards.pdf`; optional
+word/strategy card sets produce **`{slug}-cardsets.pdf`** in the same directory.
+Empty/absent `cards` and `cardSets` remove stale corresponding generated PDFs.
+Every PDF reports its page count; worksheets above two pages emit a warning.
+Generic sections are measured with the actual print fonts before choosing the
+page split. When needed, generic sections use smaller gaps and writing-cell
+heights while preserving font sizes; excess content still produces a warning.
+`--source-dir` and `--out` on worksheet/PPT builders support temporary fixtures
+without editing content or replacing production downloads.
+
+`boxes`, `table`, `pairs`, `choose`, `scale`, `lines`, and `exit` render in PDF
+and editable DOCX. Legacy `illusion`, `reasons`, `frames`, `convert` retain the
+sample layout. `cardTip` is an optional worksheet **top-level** string printed on
+each story card. Card roles `a`/`b`/`c` are optional. `cardSets` is an array of
+`{title, note?, cards: [{front, back?}]}`; each set has 2–60 cards, with front text
+of at most 20 characters. Card sets use equal 4×5 cut-out cells per A4 page;
+`back` is a small hint beneath the front on the same side, not duplex printing.
+
+Activity `frames` can have optional `rows` (0–4 strings); omitted rows leave empty
+writing boxes. Flip instructions use `toy.prompt`, or a generic instruction
+using the left/right labels. Wall headings use `live.title`, then “우리 반의 한
+문장” for exit or “우리 반의 생각” otherwise. Ask/activity slides support the
+same classroom wall as compare/exit. Two to four concept cards use the available
+width. Missing optional activity images leave readable content.
+
+PPTs include all story choices (including five/six-choice layouts), optional
+activity frames/apps/rows and teacher notes. Interactive browser tools remain in
+the browser deck. Missing slide images, video files and video posters warn and
+are skipped; a missing video can retain its poster. Missing teaser `clip` files
+warn and use the scene's still `image`; `clipPrompt` is authoring metadata only.
+
+Art manifests are `content/art/{slug}.json` arrays of `{out,prompt}`. The ported
+generator retains the reference image and prompt wrapper/rules, skips existing
+outputs, and logs each result from four workers. `--dry` prints planned work
+without invoking Codex or using image quota. Omit `--dry` only for an intended
+image-generation run. `CODEX_IMAGE_CLI` overrides the Codex binary path.
+
+The validator checks parsed/versioned documents, schema fields, planned/existing
+image paths, live IDs and limits, allowed toys, worksheet fields/card sets, and
+teaser scenes/clip paths. Planned art satisfies validation before images exist;
+PASS does not mean assets have been generated. Student-text length and 2–3 live
+items are recommendations (WARN); errors cause exit 1. Regression checks:
+`node --test scripts/rollout/test_validate.mjs`. Rendering evidence and operational
+notes for this rollout are recorded in `scripts/rollout/REPORT.txt`.

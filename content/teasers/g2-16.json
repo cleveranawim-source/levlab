@@ -1,0 +1,60 @@
+{
+  "slug": "g2-16",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-16/alone-laptop.webp",
+      "focus": "65% 45%",
+      "caption": "발표 전날 밤 10시",
+      "say": "발표 전날 밤 열 시, 태윤이는 혼자 자료를 만들고 있어요.",
+      "clip": "content/teasers/clips/g2-16-alone-laptop.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy at the desk on the right types slowly on the laptop, then stops, rubs his tired eyes and glances at the phone lying next to the laptop as its screen lights up softly. He sighs, his shoulders drop, and he goes back to typing. The desk lamp glow stays steady. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-16/alone-laptop.webp",
+      "focus": "65% 45%",
+      "bubbles": [
+        {
+          "x": 40,
+          "y": 9,
+          "text": "수고해~"
+        },
+        {
+          "x": 78,
+          "y": 9,
+          "text": "ㅇㅇ 고마워!"
+        }
+      ],
+      "say": "모둠 단톡방에 올라온 건, ‘수고해’ 한 줄.",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-16-alone-laptop.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy at the desk on the right types slowly on the laptop, then stops, rubs his tired eyes and glances at the phone lying next to the laptop as its screen lights up softly. He sighs, his shoulders drop, and he goes back to typing. The desk lamp glow stays steady. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-16/same-papers.webp",
+      "focus": "60% 45%",
+      "caption": "‘다 같이 하자’ 했는데",
+      "say": "‘다 같이 하자’고 정한 모둠은, 똑같은 자료 네 장을 들고 왔죠."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-16/ad-rehearsal.webp",
+      "focus": "60% 45%",
+      "caption": "역할에 이름이 붙으면?",
+      "say": "그런데 일마다 맡은 사람의 이름이 붙으면, 모둠이 달라질까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 무임승차가 생기지 않는 모둠의 판을, 직접 짜 봐요."
+    }
+  ]
+}

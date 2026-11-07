@@ -75,7 +75,7 @@ body:has(.lesson-slides) > .motion-scroll-progress { display: none !important; }
 .slide-choice-index { font-size: 26px; color: var(--ink-2); }
 .slide-choices .slide-choice[aria-pressed="true"] { color: var(--forest); border-color: var(--forest); background: #e8f2ed; }
 .slide-choice-state { margin-left: auto; font-size: 22px; font-weight: 700; }
-.slide-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; margin-top: 88px; }
+.slide-cards { display: grid; grid-template-columns: repeat(var(--slide-card-count, 3), minmax(0, 1fr)); gap: 48px; margin-top: 88px; }
 .slide-concept { padding-top: 32px; border-top: 5px solid var(--slide-accent); }
 .slide-concept h3 { color: var(--slide-accent); font-size: 82px; margin-bottom: 36px; }
 .slide-concept > p { font-size: 44px; line-height: 1.6; }
@@ -83,7 +83,7 @@ body:has(.lesson-slides) > .motion-scroll-progress { display: none !important; }
 .slide-activity-layout { display: grid; grid-template-columns: .85fr 1.15fr; gap: 60px; align-items: start; }
 .slide-activity-layout .slide-steps { gap: 25px; }
 .slide-activity-layout .slide-steps li { font-size: 40px; }
-.slide-frames { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.slide-frames { display: grid; grid-template-columns: repeat(var(--slide-frame-count, 3), minmax(0, 1fr)); gap: 20px; }
 .slide-frame { background: var(--paper-2); border-radius: 14px; padding: 30px 22px; }
 .slide-frame h3 { font-size: 40px; min-height: 98px; color: var(--forest); }
 .slide-frame p { font-size: 40px; line-height: 1.35; color: var(--ink-2); margin-top: 18px; }
@@ -450,3 +450,29 @@ html[data-motion-paused="true"] .lesson-slides .live-bar-track > span { transiti
   .slide-controls .live-control-button { width: 90px; max-width: 90px; padding-inline: 8px; font-size: 11px; }
   .slide-controls .live-preparing { max-width: 90px; padding-inline: 6px; font-size: 11px; }
 }
+
+/* Authoring contract: variable card counts, optional frames, ask/activity walls. */
+.lesson-slides .slide-activity-no-frames { grid-template-columns: minmax(0, 1fr); }
+.lesson-slides .slide-activity-no-frames .slide-frames { display: none; }
+@media (min-width: 768px) {
+  .lesson-slides .slide-cards:has(> :nth-child(4)) { gap: 30px; margin-top: 48px; }
+  .lesson-slides .slide-cards:has(> :nth-child(4)) h3 { font-size: 60px; }
+  .lesson-slides .slide-cards:has(> :nth-child(4)) p { font-size: 34px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-questions { padding: 10px 0 0; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-discussion-question { font-size: 62px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-activity-layout { grid-template-columns: 1fr; gap: 24px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-frame { padding: 16px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-frame h3 { min-height: 0; font-size: 32px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-frame p { font-size: 26px; }
+  .lesson-slides .slide-with-wall:has(.slide-live-wall:not(:empty)) .slide-frame p span { height: 40px; }
+}
+
+.lesson-slides .slide-frame-empty { min-height: 240px; }
+@media (max-width: 767px) { .lesson-slides .slide-frame-empty { min-height: 120px; } }
+
+.lesson-slides .slide-frames[hidden] { display: none; }
+.lesson-slides .slide-activity-layout > .slide-art { max-height: 500px; }
+
+.lesson-slides .slide-cards-steps { margin-top: 30px; }
+.lesson-slides .slide-cards-steps .slide-steps li { font-size: 32px; }
+@media (max-width: 767px) { .lesson-slides .slide-cards-steps .slide-steps li { font-size: 21px; } }

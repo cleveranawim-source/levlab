@@ -1,0 +1,69 @@
+{
+  "slug": "g3-18",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-18/math-step.webp",
+      "focus": "45% 45%",
+      "caption": "어려운 문제 앞에서",
+      "say": "어려운 문제 앞에서,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-18/math-step.webp",
+      "focus": "45% 45%",
+      "cont": true,
+      "bubbles": [
+        {
+          "x": 34,
+          "y": 9,
+          "text": "난 원래 못 해…"
+        }
+      ],
+      "say": "‘난 원래 못 해’ 하고 펜을 내려놓은 적 있나요?"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-18/guitar-practice.webp",
+      "focus": "50% 45%",
+      "caption": "축제 무대 일주일 전",
+      "say": "축제 무대를 앞둔 지율이도 손이 떨려요.",
+      "clip": "content/teasers/clips/g3-18-guitar-practice.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the empty music room after school, the girl sitting on a chair with an acoustic guitar takes a small breath. Her fingers hesitate on the strings for a moment, then she begins strumming slowly; her shoulders gradually relax and a faint, determined smile appears. The sunlight through the window and the music stands stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-18/guitar-practice.webp",
+      "focus": "50% 45%",
+      "cont": true,
+      "bubbles": [
+        {
+          "x": 50,
+          "y": 9,
+          "text": "한 번만 더!"
+        }
+      ],
+      "say": "그래도 한 소절, 또 한 소절 끝까지 쳐 봐요.",
+      "clip": "content/teasers/clips/g3-18-guitar-practice.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the empty music room after school, the girl sitting on a chair with an acoustic guitar takes a small breath. Her fingers hesitate on the strings for a moment, then she begins strumming slowly; her shoulders gradually relax and a faint, determined smile appears. The sunlight through the window and the music stands stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-18/card-exchange.webp",
+      "focus": "50% 45%",
+      "caption": "그 마음은 어디서 올까?",
+      "say": "‘할 수 있다’는 마음은 어디서 생길까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 그 마음을 키우는 네 가지 원천을 찾아봐요."
+    }
+  ]
+}

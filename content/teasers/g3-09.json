@@ -1,0 +1,72 @@
+{
+  "slug": "g3-09",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-09/relay-order.webp",
+      "focus": "50% 45%",
+      "caption": "계주 순서표 앞에서",
+      "say": "체육대회 계주 순서로 크게 다툰 태오와 다인."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-09/relay-order.webp",
+      "focus": "50% 45%",
+      "bubbles": [
+        {
+          "x": 32,
+          "y": 9,
+          "text": "내가 먼저 말했잖아!"
+        },
+        {
+          "x": 64,
+          "y": 9,
+          "text": "기록대로 정한 거야!"
+        }
+      ],
+      "say": "태오는 억울하다 하고, 다인이는 공정했다고 해요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-09-relay-order.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In front of the relay order sheet on the board, the short-haired boy jabs his finger at the sheet and speaks with a frustrated face, while the girl with tied hair folds her arms and shakes her head firmly. The girl with glasses beside them glances back and forth between the two, worried. The teacher at the front door steps in slowly and stops. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-09/relay-order.webp",
+      "focus": "50% 45%",
+      "bubbles": [
+        {
+          "x": 22,
+          "y": 9,
+          "text": "둘 다 이기고 싶었던 거 아냐?"
+        },
+        {
+          "x": 82,
+          "y": 9,
+          "text": "무슨 일인지 들어 봐야겠다."
+        }
+      ],
+      "say": "지켜본 친구도, 선생님도 또 다르게 말해요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-09-relay-order.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In front of the relay order sheet on the board, the short-haired boy jabs his finger at the sheet and speaks with a frustrated face, while the girl with tied hair folds her arms and shakes her head firmly. The girl with glasses beside them glances back and forth between the two, worried. The teacher at the front door steps in slowly and stops. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-09/science-class.webp",
+      "focus": "50% 50%",
+      "caption": "모두 조금씩 맞다면?",
+      "say": "모두의 말이 조금씩 맞다면, 진실은 어디에 있을까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 여러 눈을 하나로 엮어, 사건을 다시 봐요."
+    }
+  ]
+}

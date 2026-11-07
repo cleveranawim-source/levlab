@@ -1,0 +1,67 @@
+{
+  "slug": "g3-15",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-15/recycle-bin.webp",
+      "focus": "50% 50%",
+      "caption": "‘이건 아닌데…’",
+      "say": "‘이건 아닌데’ 싶은 순간, 있죠?"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-15/group-chat-joke.webp",
+      "focus": "50% 50%",
+      "caption": "그런데 아무도 말하지 않아요",
+      "say": "그런데 아무도 먼저 말하지 않아요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-15/hallway-fall.webp",
+      "focus": "50% 50%",
+      "caption": "사람이 많을수록",
+      "say": "사람이 많을수록, 오히려 더 그래요.",
+      "clip": "content/teasers/clips/g3-15-hallway-fall.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the crowded school hallway, students keep walking past the younger student who fell and is gathering scattered books. The boy in the middle stops, hesitates for a moment, then slowly crouches down, picks up one book and holds it out to the younger student. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-15/hallway-fall.webp",
+      "focus": "50% 50%",
+      "bubbles": [
+        {
+          "x": 28,
+          "y": 9,
+          "text": "누가 도와주겠지"
+        },
+        {
+          "x": 72,
+          "y": 9,
+          "text": "괜히 나서면…"
+        }
+      ],
+      "say": "누가 하겠지. 괜히 나서면 어떡하지.",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-15-hallway-fall.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the crowded school hallway, students keep walking past the younger student who fell and is gathering scattered books. The boy in the middle stops, hesitates for a moment, then slowly crouches down, picks up one book and holds it out to the younger student. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-15/value-grid.webp",
+      "focus": "50% 50%",
+      "caption": "딱 1cm만 움직인다면?",
+      "say": "딱 1센티미터만 움직인다면, 무엇이 달라질까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 아는 것과 하는 것 사이를 좁혀 봐요."
+    }
+  ]
+}

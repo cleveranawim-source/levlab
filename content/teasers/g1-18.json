@@ -1,0 +1,61 @@
+{
+  "slug": "g1-18",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-18/poster-detail.webp",
+      "focus": "55% 45%",
+      "caption": "누구보다 꼼꼼한 이준이",
+      "say": "이준이는 누구보다 꼼꼼하게 그려요.",
+      "clip": "content/teasers/clips/g1-18-poster-detail.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the art classroom, the boy at the desk leans close and carefully adds tiny details to his poster with a fine brush. Around him, classmates stand up one by one and carry their finished posters to the teacher's desk; one girl glances back at him and taps her wrist as if asking about the time. He keeps painting calmly. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-18/poster-detail.webp",
+      "focus": "55% 45%",
+      "cont": true,
+      "bubbles": [
+        {
+          "x": 36,
+          "y": 9,
+          "text": "아직이야?"
+        },
+        {
+          "x": 78,
+          "y": 9,
+          "text": "또 마지막이네"
+        }
+      ],
+      "say": "그런데 늘 마지막으로 내요.",
+      "clip": "content/teasers/clips/g1-18-poster-detail.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In the art classroom, the boy at the desk leans close and carefully adds tiny details to his poster with a fine brush. Around him, classmates stand up one by one and carry their finished posters to the teacher's desk; one girl glances back at him and taps her wrist as if asking about the time. He keeps painting calmly. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-18/poster-detail.webp",
+      "focus": "55% 45%",
+      "cont": true,
+      "caption": "꼼꼼함일까, 느림일까?",
+      "say": "이건 강점일까요, 약점일까요?"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-18/chatty-group.webp",
+      "focus": "55% 45%",
+      "caption": "말이 많은 서아는?",
+      "say": "그럼 말이 많은 서아는요? 고집이 센 정우는요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 강점과 약점을 동전의 양면처럼 살펴봐요."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "slug": "g1-06",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-06/night-desk.webp",
+      "focus": "55% 45%",
+      "caption": "밤 11시, 아직 남은 숙제",
+      "say": "밤 열한 시, 아직 끝나지 않은 숙제.",
+      "clip": "content/teasers/clips/g1-06-night-desk.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the desk under the lamp, the girl slowly rubs her stiff shoulder and rolls her neck, lets out a long tired sigh, then pulls the pile of workbooks a little closer and picks up her pen again. The clock on the wall and the room stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-06/night-desk.webp",
+      "focus": "55% 45%",
+      "cont": true,
+      "chips": [
+        {
+          "x": 30,
+          "y": 24,
+          "text": "어깨 뻐근"
+        },
+        {
+          "x": 80,
+          "y": 24,
+          "text": "머리 지끈"
+        }
+      ],
+      "say": "어깨는 뻐근하고, 머리는 지끈거려요.",
+      "clip": "content/teasers/clips/g1-06-night-desk.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the desk under the lamp, the girl slowly rubs her stiff shoulder and rolls her neck, lets out a long tired sigh, then pulls the pile of workbooks a little closer and picks up her pen again. The clock on the wall and the room stay still. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-06/speech-contest.webp",
+      "focus": "55% 45%",
+      "caption": "이 떨림도 스트레스일까?",
+      "say": "그런데 대회 직전의 이 두근거림도 스트레스일까요?"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-06/stress-map.webp",
+      "focus": "50% 50%",
+      "caption": "내 스트레스는 어디서?",
+      "say": "내 스트레스는 어디서 와서, 어디에 나타날까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 마음의 스트레스 지도를 그려 봐요."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "slug": "g3-10",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-10/yuna-talk.webp",
+      "focus": "45% 45%",
+      "caption": "친구가 고민을 꺼냈어요",
+      "say": "발표를 망쳤다며, 친구가 조심스럽게 고민을 꺼냈어요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-10/two-rounds.webp",
+      "focus": "30% 50%",
+      "bubbles": [
+        {
+          "x": 28,
+          "y": 9,
+          "text": "응응…"
+        }
+      ],
+      "say": "휴대폰을 보며 ‘응응’ 하는 친구,",
+      "clip": "content/teasers/clips/g3-10-two-rounds.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. On the left of the hallway bench, the girl keeps talking with small hand gestures while the boy beside her scrolls his phone with his thumb and nods absently without looking up. On the right, the listening girl turns her whole body toward the boy who is talking, nods slowly and softly, and his shoulders relax as he keeps talking. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-10/two-rounds.webp",
+      "focus": "70% 50%",
+      "bubbles": [
+        {
+          "x": 72,
+          "y": 9,
+          "text": "많이 당황했겠다."
+        }
+      ],
+      "say": "몸을 돌려 눈을 맞추는 친구.",
+      "cont": true,
+      "clip": "content/teasers/clips/g3-10-two-rounds.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. On the left of the hallway bench, the girl keeps talking with small hand gestures while the boy beside her scrolls his phone with his thumb and nods absently without looking up. On the right, the listening girl turns her whole body toward the boy who is talking, nods slowly and softly, and his shoulders relax as he keeps talking. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g3-10/pair-listening.webp",
+      "focus": "50% 50%",
+      "caption": "둘 다 듣고 있는데?",
+      "say": "둘 다 듣고는 있는데, 무엇이 다를까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 진짜로 들어 주는 법을 연습해요."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "slug": "g1-15",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-15/belong-moment.webp",
+      "focus": "50% 45%",
+      "caption": "계주 마지막 바퀴",
+      "say": "계주 마지막 바퀴, 다 같이 소리 지르던 그 순간."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-15/belong-moment.webp",
+      "focus": "50% 45%",
+      "bubbles": [
+        {
+          "x": 30,
+          "y": 8,
+          "text": "달려!"
+        },
+        {
+          "x": 62,
+          "y": 8,
+          "text": "우리 반 파이팅!"
+        }
+      ],
+      "say": "그때 우리는 ‘나 여기 속해 있구나’ 하고 느껴요.",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-15/guild-night.webp",
+      "focus": "45% 50%",
+      "caption": "얼굴은 모르지만",
+      "say": "그럼 얼굴 한 번 본 적 없는 게임 친구들은 어떨까요?",
+      "clip": "content/teasers/clips/g1-15-guild-night.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In a dark bedroom, the boy wearing a headset at his desk leans toward the glowing monitor, laughs softly and nods as if talking to teammates, his fingers tapping the keyboard. The bluish screen light flickers gently on his face and the wall. Subtle natural movements, no new characters, no text on the screen, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-15/guild-night.webp",
+      "focus": "45% 50%",
+      "bubbles": [
+        {
+          "x": 40,
+          "y": 9,
+          "text": "오늘도 같이 가자!"
+        }
+      ],
+      "say": "그들도 나의 공동체일까요?",
+      "cont": true,
+      "clip": "content/teasers/clips/g1-15-guild-night.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. In a dark bedroom, the boy wearing a headset at his desk leans toward the glowing monitor, laughs softly and nods as if talking to teammates, his fingers tapping the keyboard. The bluish screen light flickers gently on his face and the wall. Subtle natural movements, no new characters, no text on the screen, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-15/community-map.webp",
+      "focus": "45% 50%",
+      "caption": "나는 어디에 속해 있을까?",
+      "say": "나는 어디에 속해 있고, 무엇을 주고받고 있을까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 나만의 공동체 지도를 그려 봐요."
+    }
+  ]
+}

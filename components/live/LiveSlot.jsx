@@ -17,7 +17,7 @@ export default function LiveSlot({ lesson, slide, index }) {
     finally { setHiding(null); }
   }
   return <section className={`live-slot live-slot-${item.kind}`} aria-label={item.kind === "vote" ? "우리 반 실시간 투표" : "우리 반 한 문장 벽"} data-live-index={index}>
-    <div className="live-result-heading"><h3>{item.kind === "vote" ? "우리 반은 이렇게 보았어요" : slide.type === "exit" ? "우리 반의 한 문장" : "우리 반의 다름 말"}</h3><span>{item.kind === "vote" ? `${result?.total ?? 0}표 · 정답은 없어요` : `${result?.posts?.length ?? 0}문장`}</span></div>
+    <div className="live-result-heading"><h3>{item.kind === "vote" ? "우리 반은 이렇게 보았어요" : item.title || (slide.type === "exit" ? "우리 반의 한 문장" : "우리 반의 생각")}</h3><span>{item.kind === "vote" ? `${result?.total ?? 0}표 · 정답은 없어요` : `${result?.posts?.length ?? 0}문장`}</span></div>
     {item.kind === "vote" ? <ul className="live-bars">{(slide.choices || []).map((choice, i) => {
       const count = result?.counts?.[i] ?? 0, total = result?.total || 0;
       return <li key={choice} className={`live-choice-color-${i % 4}`}><div className="live-bar-label"><span>{choice}</span><strong>{count}<small>명</small></strong></div><div className="live-bar-track" aria-hidden="true"><span style={{ transform: `scaleX(${total ? count / total : 0})` }} /></div></li>;

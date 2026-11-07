@@ -1,0 +1,64 @@
+{
+  "slug": "g2-08",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-08/exam-season.webp",
+      "caption": "잠이 안 오고",
+      "say": "요즘 밤에 잠이 잘 안 오고,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-08/exam-season.webp",
+      "chips": [
+        {
+          "x": 18,
+          "y": 16,
+          "text": "짜증"
+        },
+        {
+          "x": 36,
+          "y": 10,
+          "text": "미루기"
+        },
+        {
+          "x": 54,
+          "y": 16,
+          "text": "알림 끄기"
+        }
+      ],
+      "say": "괜히 짜증 나고, 할 일은 자꾸 미뤄진다면?",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-08/academy-bus.webp",
+      "caption": "몸과 마음이 보내는 신호",
+      "say": "그건 몸과 마음이 보내는 신호일지 몰라요.",
+      "clip": "content/teasers/clips/g2-08-academy-bus.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. Inside a city bus at night, the boy in school uniform sitting by the window on the left slowly leans his head against the glass and closes his eyes with a tired sigh, his bag resting on his lap. Soft orange streetlight reflections glide slowly across the window. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-08/sorting-cards.webp",
+      "caption": "이건 건강한 방법일까?",
+      "say": "게임, 울기, 혼자 있기… 이건 건강한 방법일까요?"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-08/walk-break.webp",
+      "caption": "나에게 맞는 방법",
+      "say": "나에게 맞는 풀기 방법은 뭘까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 신호를 알아차리고, 나만의 해소 키트를 만들어요."
+    }
+  ]
+}

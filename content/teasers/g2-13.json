@@ -1,0 +1,69 @@
+{
+  "slug": "g2-13",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-13/charger-return.webp",
+      "focus": "50% 50%",
+      "caption": "돌려 달라는 한마디가",
+      "say": "빌려준 걸 돌려 달라는 한마디가,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-13/charger-return.webp",
+      "focus": "50% 50%",
+      "bubbles": [
+        {
+          "x": 40,
+          "y": 9,
+          "text": "저… 그게…"
+        }
+      ],
+      "say": "왜 이렇게 어려울까요?",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-13/group-work.webp",
+      "focus": "50% 50%",
+      "caption": "참고, 참다가",
+      "say": "꾹 참고, 또 참다가,",
+      "clip": "content/teasers/clips/g2-13-group-work.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the joined group desks, two students keep typing and flipping papers busily. The student leaning back in the chair keeps scrolling on the phone. The boy who is working stops, looks over at the phone user, opens his mouth, closes it again, then frowns and grips his pen tighter, getting more and more frustrated. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-13/group-work.webp",
+      "focus": "50% 50%",
+      "bubbles": [
+        {
+          "x": 62,
+          "y": 9,
+          "text": "너 때문에 다 망하잖아!"
+        }
+      ],
+      "say": "결국 날카로운 말이 튀어나오기도 해요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-13-group-work.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the joined group desks, two students keep typing and flipping papers busily. The student leaning back in the chair keeps scrolling on the phone. The boy who is working stops, looks over at the phone user, opens his mouth, closes it again, then frowns and grips his pen tighter, getting more and more frustrated. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-13/cleaning-swap.webp",
+      "focus": "50% 50%",
+      "caption": "싫은데도 “응…”",
+      "say": "싫은데도 ‘응, 괜찮아’라고 해 버리기도 하고요."
+    },
+    {
+      "kind": "title",
+      "say": "원하는 걸 말하면서도, 상대가 상처받지 않을 수 있을까요?"
+    }
+  ]
+}

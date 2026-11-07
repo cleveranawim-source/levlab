@@ -1,0 +1,74 @@
+Lesson-kit QA capture
+
+Run with the existing testing Python (Playwright/Chromium, Pillow, pypdfium2):
+  ~/.claude/skills/webapp-testing/.venv/bin/python scripts/rollout/qa_shots.py --serve g1-09 g1-05 g1-06 g1-10
+
+--serve runs a fresh npm run build, starts a private Next production server on
+127.0.0.1:3227, and stops that process group in finally. Use --port for another
+unused port. It refuses an occupied port and does not stop existing dev servers.
+Use --no-build with --serve only when the current production build is fresh.
+Images are checked by the site at build time, so rebuild after image generation.
+
+Against an already-running local server:
+  ~/.claude/skills/webapp-testing/.venv/bin/python scripts/rollout/qa_shots.py --base-url http://localhost:3110 g1-09
+
+Omitting slugs selects all published/core lessons. --out changes the evidence
+root (default docs/audit/rollout-qa, gitignored). ffmpeg and ffprobe must be on PATH
+when an MP4 is present. No content, public media, classrooms, commits or deployments
+are created/changed. The production build output under .next is refreshed only
+when --serve is used without --no-build.
+
+Per-lesson evidence
+  deck.jpg              All slides at 1920x1080, final reveal state, labeled tiles.
+  deck-1366.jpg         Same at 1366x768.
+  slides/{size}/NN.jpg  Original final-state screenshots for detailed inspection.
+  slides/{size}/NN-build-BB.jpg
+                        Earlier exclusive questions / flip states.
+  overflow.json         Every build at both sizes, source SHA, exact zero-based
+                        source field paths, bounds, scroll/client dimensions,
+                        overflow amounts, missing-image details, media status.
+  teaser.jpg            Eight evenly spaced MP4 frames, when MP4 exists.
+  teaser/               Individual frames; timestamps also in overflow.json.
+  worksheet.jpg         PDF pages left-to-right, one row per worksheet/cards/
+                        cardsets PDF. If none exist, a labeled not-built tile.
+  worksheets/           Individual page PNGs and per-PDF contact sheets.
+  capture-error.json    Operational error, removed after a successful recapture.
+
+Root summary.json includes the printed lesson summary and grouped findings.
+server.log contains build/start output for --serve. Output includes extra capture
+states because ask slides replace questions rather than displaying all at once.
+All states are reached using actual ArrowRight keyboard actions. No DOM mutation
+is used to reveal student content. Only the floating controls and dev overlay
+are hidden for screenshots; content styling is untouched and motion is reduced.
+The script verifies no pending steps remain in each final slide capture.
+
+Interpretation
+- Overflow count = unique slide/element selectors across both sizes/all builds,
+  not repeated observations. summary.findings groups those further by field.
+- A box issue is scrollHeight > clientHeight + 2, or the horizontal equivalent.
+- Stage bounds are normalized to the 1920x1080 canvas, with 2px tolerance, despite
+  viewport scaling. Inline text is checked by bounds rather than zero client sizes.
+- footer_overlap is an additional guard: student text entering the footer area
+  can be a defect even when it remains within the outer stage rectangle.
+- Hidden questions, unrevealed steps, screen-reader-only text and the invisible
+  flip face are excluded. Intentional scroll containers are marked for review.
+- Missing-image count includes failed <img>/video-poster loads, source images
+  replaced by placeholders, and declared images not rendered at all. file_exists
+  distinguishes missing files from an outdated build or a renderer omission.
+  This includes not-yet-built video.poster paths. Missing MP4/PDF files are
+  separately recorded under media; unavailable videos are not played/generated.
+- Slide numbers in evidence are one-based; source_index and slides[N] paths are
+  zero-based. Automatically omitted final-lesson next slides are accounted for.
+- No room is opened: these captures exercise the default presentation, including
+  local tally/roulette/flip controls. They do not audit a populated live wall.
+
+Findings return exit 0 so authoring QA can report defects across the whole batch.
+An operational/browser error returns 1. --fail-on-findings additionally returns 1
+for overflow or missing images. The process-owned server stops in either case.
+
+Regression checks (temporary fixtures only; no server or content writes):
+  ~/.claude/skills/webapp-testing/.venv/bin/python scripts/rollout/test_qa_shots.py
+
+These exercise genuine box/stage overflow at two scales, hidden/flip exclusions,
+failed image and video-poster loads, missing declared images, deduplicated counts,
+PDF/card/cardsets contacts, absent outputs and stale teaser-contact removal.

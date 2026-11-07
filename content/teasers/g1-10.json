@@ -1,0 +1,74 @@
+{
+  "slug": "g1-10",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-10/test-paper.webp",
+      "focus": "60% 45%",
+      "caption": "“나 시험 망쳤어…”",
+      "say": "“나 시험 망쳤어.” 친구가 작게 말해요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-10/test-paper.webp",
+      "focus": "60% 45%",
+      "bubbles": [
+        {
+          "x": 30,
+          "y": 9,
+          "text": "다음엔 열심히 해!"
+        },
+        {
+          "x": 72,
+          "y": 9,
+          "text": "나도 망쳤는데?"
+        }
+      ],
+      "say": "이럴 때 우리는 해결책이나 내 얘기부터 꺼내곤 하죠.",
+      "cont": true
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-10/relay-fall.webp",
+      "focus": "55% 50%",
+      "caption": "말 한마디 뒤에는",
+      "say": "그런데 말 한마디 뒤에는,",
+      "clip": "content/teasers/clips/g1-10-relay-fall.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting alone on the bench with a scraped knee slowly lowers his head and hugs his knee. The classmate in the same class T-shirt, standing a few steps away with a baton, walks closer, hesitates for a moment, then quietly sits down next to him and gently places a hand on his shoulder. Far behind, the sports day flags sway lightly in the wind. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-10/relay-fall.webp",
+      "focus": "55% 50%",
+      "bubbles": [
+        {
+          "x": 48,
+          "y": 9,
+          "text": "나 때문에 졌어…"
+        }
+      ],
+      "say": "아직 꺼내지 못한 마음이 숨어 있어요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g1-10-relay-fall.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting alone on the bench with a scraped knee slowly lowers his head and hugs his knee. The classmate in the same class T-shirt, standing a few steps away with a baton, walks closer, hesitates for a moment, then quietly sits down next to him and gently places a hand on his shoulder. Far behind, the sports day flags sway lightly in the wind. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-10/sick-puppy.webp",
+      "focus": "50% 45%",
+      "caption": "그 마음, 어떻게 알아차릴까?",
+      "say": "그 마음을, 어떻게 알아차릴 수 있을까요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 ‘그랬구나’ 한마디로 시작하는 공감을 연습해요."
+    }
+  ]
+}

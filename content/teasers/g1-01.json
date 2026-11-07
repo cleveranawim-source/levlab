@@ -1,0 +1,89 @@
+{
+  "slug": "g1-01",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-01/checkin-board.webp",
+      "focus": "60% 45%",
+      "caption": "오늘 기분, 어때요?",
+      "say": "오늘 기분이 어떠냐고 물으면,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-01/checkin-board.webp",
+      "focus": "60% 45%",
+      "cont": true,
+      "bubbles": [
+        {
+          "x": 30,
+          "y": 9,
+          "text": "좋아."
+        },
+        {
+          "x": 58,
+          "y": 9,
+          "text": "그냥…"
+        },
+        {
+          "x": 84,
+          "y": 9,
+          "text": "짜증 나."
+        }
+      ],
+      "say": "대부분 ‘좋아’, ‘그냥’, ‘짜증 나’로 끝나요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-01/relay-order.webp",
+      "focus": "60% 40%",
+      "caption": "같은 명단 앞에서도",
+      "say": "그런데 같은 순간에도 마음속에는",
+      "clip": "content/teasers/clips/g1-01-relay-order.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the class notice board, the boy in the center reads the list, takes a small breath and his shoulders rise slightly with a stiff smile. The friend beside him claps twice, another pats his shoulder, and the girl on the side presses her lips together worriedly. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-01/relay-order.webp",
+      "focus": "60% 40%",
+      "cont": true,
+      "bubbles": [
+        {
+          "x": 34,
+          "y": 9,
+          "text": "설레!"
+        },
+        {
+          "x": 60,
+          "y": 9,
+          "text": "떨려…"
+        },
+        {
+          "x": 86,
+          "y": 9,
+          "text": "부담돼"
+        }
+      ],
+      "say": "설렘과 떨림과 부담이 한꺼번에 섞여 있어요.",
+      "clip": "content/teasers/clips/g1-01-relay-order.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. At the class notice board, the boy in the center reads the list, takes a small breath and his shoulders rise slightly with a stiff smile. The friend beside him claps twice, another pats his shoulder, and the girl on the side presses her lips together worriedly. Subtle natural movements, no new characters, no text, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g1-01/emotion-map.webp",
+      "focus": "50% 50%",
+      "caption": "내 마음의 진짜 이름은?",
+      "say": "그 마음에 딱 맞는 이름, 몇 개나 알고 있나요?"
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 내 감정에 진짜 이름을 붙여 봐요."
+    }
+  ]
+}

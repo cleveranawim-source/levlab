@@ -1,0 +1,68 @@
+{
+  "slug": "g2-15",
+  "version": 1,
+  "tts": {
+    "engine": "gemini",
+    "voice": "Sulafat"
+  },
+  "scenes": [
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-15/chat-gossip.webp",
+      "focus": "65% 45%",
+      "caption": "밤 11시, 반 단톡방",
+      "say": "밤 열한 시, 반 단톡방에 친구를 놀리는 사진이 올라오고,",
+      "clip": "content/teasers/clips/g2-15-chat-gossip.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting on the bed on the right looks down at the glowing phone in his hands; his thumb hovers over the screen, moves closer, then stops and pulls back. He frowns slightly and lets out a small breath, the light of the screen flickering softly on his face. Subtle natural movements, no new characters, no text on the screen, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-15/chat-gossip.webp",
+      "focus": "65% 45%",
+      "bubbles": [
+        {
+          "x": 40,
+          "y": 9,
+          "text": "ㅋㅋㅋㅋ"
+        },
+        {
+          "x": 78,
+          "y": 9,
+          "text": "나도 뭐라도 달아야 하나…"
+        }
+      ],
+      "say": "웃음 표시가 줄줄이 달려요.",
+      "cont": true,
+      "clip": "content/teasers/clips/g2-15-chat-gossip.mp4",
+      "clipRate": 0.8,
+      "clipPrompt": "Keep the exact flat hand-drawn illustration style, colors and line art. Static camera. The boy sitting on the bed on the right looks down at the glowing phone in his hands; his thumb hovers over the screen, moves closer, then stops and pulls back. He frowns slightly and lets out a small breath, the light of the screen flickering softly on his face. Subtle natural movements, no new characters, no text on the screen, the empty area stays empty."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-15/trash-left.webp",
+      "focus": "60% 55%",
+      "caption": "‘내가 버린 거 아니야’",
+      "say": "교실 바닥 쓰레기는, 내 것이 아니라서 그대로 남고,"
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-15/alone-corridor.webp",
+      "focus": "65% 45%",
+      "caption": "복도 끝, 혼자 걷는 친구",
+      "say": "복도 끝에는 오늘도 혼자 걷는 친구가 있어요."
+    },
+    {
+      "kind": "image",
+      "image": "/images/slides/g2-15/alone-corridor.webp",
+      "focus": "65% 45%",
+      "caption": "그때, 나는?",
+      "say": "우리 반이 흔들리는 이 순간, 나는 무엇을 할 수 있을까요?",
+      "cont": true
+    },
+    {
+      "kind": "title",
+      "say": "오늘은 우리 반을 지키는 가장 작은 행동 하나를 찾아봐요."
+    }
+  ]
+}

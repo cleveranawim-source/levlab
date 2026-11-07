@@ -1,5 +1,6 @@
 {
   "slug": "g1-09",
+  "version": 1,
   "tts": {
     "engine": "gemini",
     "voice": "Sulafat"

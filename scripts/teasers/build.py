@@ -156,6 +156,9 @@ def build(slug, lessons, page):
         if not sc.get("clip"):
             cinfo.append(None); continue
         src = ROOT / sc["clip"]
+        if not src.is_file():
+            print(f"WARN: {slug} scene {i + 1}: missing clip {sc['clip']}; using still image", file=sys.stderr)
+            cinfo.append(None); continue
         if src not in clips:
             d = tmp / f"clip{len(clips)}"; d.mkdir()
             subprocess.run(["ffmpeg", "-v", "error", "-i", str(src), "-vf", f"fps={FPS},scale={W}:-2", "-q:v", "2", str(d / "%04d.jpg")], check=True)

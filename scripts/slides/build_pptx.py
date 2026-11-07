@@ -5,7 +5,7 @@
       python3 scripts/slides/build_pptx.py g1-09      # 한 차시
 글꼴은 학교 PC에 늘 있는 '맑은 고딕'을 쓴다. 교사 메모(notes)는 발표자 노트로 들어간다.
 """
-import io, json, os, sys
+import argparse, io, json, math, os, sys
 from PIL import Image
 from pptx import Presentation
 from pptx.util import Emu, Pt
@@ -56,8 +56,11 @@ def text(slide, x, y, w, h, runs, size=24, color=INK, bold=False, align=PP_ALIGN
     return tb
 
 def image(slide, src, x, y, w, h, mode="contain"):
+    if not src: return None
     path = os.path.join(PUBLIC, src.lstrip("/"))
-    if not os.path.exists(path): return None
+    if not os.path.isfile(path):
+        print(f"WARN: missing slide image {src}", file=sys.stderr)
+        return None
     im = Image.open(path).convert("RGB")
     if mode == "cover":
         r = w / h
@@ -112,9 +115,10 @@ def notes(slide, s):
     if s.get("image", {}).get("credit"): parts.append("그림 출처: " + s["image"]["credit"])
     if parts: slide.notes_slide.notes_text_frame.text = "\n".join(parts)
 
-def build(slug, by, all_lessons):
+def build(slug, by, all_lessons, source_dir=None, out_dir=None):
     L = by[slug]
-    spec = json.load(open(os.path.join(ROOT, f"content/slides/{slug}.json"), encoding="utf-8"))
+    source_dir = source_dir or os.path.join(ROOT, "content/slides")
+    spec = json.load(open(os.path.join(source_dir, f"{slug}.json"), encoding="utf-8"))
     acc = AREA.get(L["area"], FOREST)
     flow = {f["stage"]: f for f in L["flow"]}
     same = sorted([x for x in all_lessons if x["grade"] == L["grade"]], key=lambda x: x["coreOrder"])
@@ -161,20 +165,22 @@ def build(slug, by, all_lessons):
                 x += w
         elif t == "picture":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
-            image(sl, s["image"]["src"], W * 0.5, 1.9, W * 0.5 - 0.6, 4.6)
-            if s["image"].get("credit"): text(sl, W * 0.5, 6.55, W * 0.5 - 0.6, 0.3, s["image"]["credit"], size=10, color=INK2, align=PP_ALIGN.RIGHT)
-            bullets(sl, s.get("steps", []), 0.6, 2.0, W * 0.5 - 1.0, 2.2, size=26)
-            ask_box(sl, s.get("ask"), 0.6, 4.25, W * 0.5 - 1.0, 2.25, acc, size=20)
+            image(sl, s.get("image", {}).get("src"), W * 0.5, 1.9, W * 0.5 - 0.6, 4.6)
+            if s.get("image", {}).get("credit"): text(sl, W * 0.5, 6.55, W * 0.5 - 0.6, 0.3, s["image"]["credit"], size=10, color=INK2, align=PP_ALIGN.RIGHT)
+            copy_w = W * 0.5 - 1.0 if s.get("image") else W - 1.2
+            bullets(sl, s.get("steps", []), 0.6, 2.0, copy_w, 2.2, size=26)
+            ask_box(sl, s.get("ask"), 0.6, 4.25, copy_w, 2.25, acc, size=20)
         elif t == "story":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
-            image(sl, s["image"]["src"], 0.6, 1.9, W * 0.48, 3.7, mode="cover")
-            rx = W * 0.48 + 1.0; rw = W - rx - 0.6
+            image(sl, s.get("image", {}).get("src"), 0.6, 1.9, W * 0.48, 3.7, mode="cover")
+            rx = W * 0.48 + 1.0 if s.get("image") else 0.6; rw = W - rx - 0.6
             text(sl, rx, 1.9, rw, 1.6, s.get("story", ""), size=26, bold=True, spacing=1.25)
             ch = s.get("choices", [])
-            for i, c in enumerate(ch[:4]):
-                cx = rx + (i % 2) * (rw / 2 + 0.05); cy = 3.7 + (i // 2) * 1.0
-                box(sl, cx, cy, rw / 2 - 0.1, 0.85, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.2)
-                text(sl, cx, cy + 0.12, rw / 2 - 0.1, 0.6, c, size=22, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+            pitch = min(1.0, 2.1 / max(1, math.ceil(len(ch) / 2)))
+            for i, c in enumerate(ch):
+                cx = rx + (i % 2) * (rw / 2 + 0.05); cy = 3.7 + (i // 2) * pitch
+                box(sl, cx, cy, rw / 2 - 0.1, pitch - 0.15, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.2)
+                text(sl, cx, cy + 0.06 if len(ch) > 4 else cy + 0.12, rw / 2 - 0.1, pitch - 0.25 if len(ch) > 4 else 0.6, c, size=19 if len(ch) > 4 else 22, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
             bullets(sl, s.get("steps", []), 0.6, 5.75, W - 1.2, 1.0, size=20, color=INK2)
         elif t == "cards":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
@@ -183,17 +189,26 @@ def build(slug, by, all_lessons):
                 x = 0.6 + i * (cw + 0.4)
                 box(sl, x, 2.0, cw, 3.0, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
                 box(sl, x, 2.0, cw, 0.12, fill=acc)
-                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7, [(c["title"], {"size": 34, "bold": True, "color": acc}), (c["text"], {"size": 22, "gap": 12}), (c.get("example", ""), {"size": 17, "color": INK2, "gap": 14})])
-            ask_box(sl, s.get("ask"), 0.6, 5.2, W - 1.2, 1.7, acc, size=19)
+                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7, [(c["title"], {"size": 26 if len(cards) == 4 else 34, "bold": True, "color": acc}), (c["text"], {"size": 19 if len(cards) == 4 else 22, "gap": 12}), (c.get("example", ""), {"size": 17, "color": INK2, "gap": 14})])
+            if s.get("steps"):
+                bullets(sl, s["steps"], 0.6, 5.2, W - 1.2, 1.7, size=20)
+            else:
+                ask_box(sl, s.get("ask"), 0.6, 5.2, W - 1.2, 1.7, acc, size=19)
         elif t == "activity":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
-            bullets(sl, s.get("steps", []), 0.6, 1.95, W * 0.55, 3.2, size=24, num=True)
-            fr = s.get("frames", []); fx = W * 0.6; fw = W - fx - 0.6
+            fr = s.get("frames", [])
+            copy_w = W * 0.55 if fr or s.get("image") else W - 1.2
+            bullets(sl, s.get("steps", []), 0.6, 1.95, copy_w, 3.2, size=24, num=True)
+            if s.get("image") and not fr: image(sl, s["image"].get("src"), W * 0.6, 1.95, W * 0.4 - 0.6, 3.5)
+            fx = W * 0.6; fw = W - fx - 0.6
             for i, f in enumerate(fr):
-                y = 1.95 + i * 1.45
-                box(sl, fx, y, fw, 1.3, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.1)
-                text(sl, fx + 0.25, y + 0.12, fw - 0.5, 0.45, f, size=20, bold=True, color=acc)
-                text(sl, fx + 0.25, y + 0.62, fw - 0.5, 0.5, "한 말  ·  느낀 감정  ·  속생각", size=14, color=INK2)
+                pitch = min(1.45, 4.35 / max(1, len(fr)))
+                y = 1.95 + i * pitch
+                box(sl, fx, y, fw, pitch - 0.15, fill="FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.1)
+                text(sl, fx + 0.25, y + 0.12, fw - 0.5, 0.45, f if isinstance(f, str) else f["title"], size=20, bold=True, color=acc)
+                if s.get("rows"): text(sl, fx + 0.25, y + 0.62, fw - 0.5, min(0.5, pitch - 0.8), "  ·  ".join(s["rows"]), size=14, color=INK2)
+            if s.get("ask") and not s.get("app"):
+                ask_box(sl, s["ask"], 0.6, 5.1, copy_w, 1.6, acc, size=17)
             if s.get("app"):
                 text(sl, 0.6, 5.7, W * 0.55, 0.8, [("레브랩 앱으로 해도 돼요", {"size": 15, "bold": True, "color": acc}), (f"{s['app']['name']}  {s['app']['url']}", {"size": 15, "color": INK2, "gap": 4})])
         elif t == "ask":
@@ -233,25 +248,39 @@ def build(slug, by, all_lessons):
             v = s.get("video", {})
             vp = os.path.join(PUBLIC, v.get("src", "").lstrip("/")); pp = os.path.join(PUBLIC, v.get("poster", "").lstrip("/"))
             vw = W - 2.4; vh = vw * 9 / 16
-            if os.path.exists(vp):
+            if v.get("src") and os.path.isfile(vp):
                 poster = None
-                if os.path.exists(pp):
+                if v.get("poster") and os.path.isfile(pp):
                     buf = io.BytesIO(); Image.open(pp).convert("RGB").save(buf, "PNG"); buf.seek(0); poster = buf
+                elif v.get("poster"):
+                    print(f"WARN: {slug}: missing video poster {v['poster']}", file=sys.stderr)
                 sl.shapes.add_movie(vp, E(1.2), E(0.85), E(vw), E(vh), poster_frame_image=poster, mime_type="video/mp4")
-            text(sl, 1.2, 0.85 + vh + 0.08, vw, 0.4, "영상을 누르면 재생돼요 · 소리를 켜 주세요", size=13, color=INK2, align=PP_ALIGN.CENTER)
+                caption = "영상을 누르면 재생돼요 · 소리를 켜 주세요"
+            else:
+                print(f"WARN: {slug}: missing video {v.get('src', '(unspecified)')}", file=sys.stderr)
+                image(sl, v.get("poster"), 1.2, 0.85, vw, vh)
+                caption = "여는 영상 준비 중"
+            text(sl, 1.2, 0.85 + vh + 0.08, vw, 0.4, caption, size=13, color=INK2, align=PP_ALIGN.CENTER)
         elif t == "end":
             box(sl, 0, 0, W, H, fill=acc)
             text(sl, 1.0, 2.0, W - 2.0, 2.6, s.get("message", ""), size=40, bold=True, color="FFFFFF", align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.25)
             text(sl, 1.0, 5.0, W - 2.0, 0.6, "오늘 수업에 함께해 주어 고마워요", size=22, color="FFFFFF", align=PP_ALIGN.CENTER)
             text(sl, 1.0, 6.6, W - 2.0, 0.4, "Lev Lab 레브랩 · www.levlab.co.kr", size=13, color="FFFFFF", align=PP_ALIGN.CENTER)
+        else:
+            raise ValueError(f"{slug}: unknown slide type {t}")
         notes(sl, s)
     prs.core_properties.title = f"중{L['grade']} {L['title']} — 수업 슬라이드"
     prs.core_properties.author = "Lev Lab 레브랩 (서울시교육청 교사개발자 2호 Yeol)"
-    out = os.path.join(PUBLIC, "files/slides", f"{slug}.pptx")
+    out = os.path.join(out_dir or os.path.join(PUBLIC, "files/slides"), f"{slug}.pptx")
     os.makedirs(os.path.dirname(out), exist_ok=True); prs.save(out)
     print(f"{slug}: {total}장 → {os.path.relpath(out, ROOT)} ({os.path.getsize(out) // 1024}KB)")
 
 if __name__ == "__main__":
     by, all_lessons = load()
-    slugs = sys.argv[1:] or sorted(f[:-5] for f in os.listdir(os.path.join(ROOT, "content/slides")) if f.endswith(".json"))
-    for sl in slugs: build(sl, by, all_lessons)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("slugs", nargs="*")
+    parser.add_argument("--source-dir", default=os.path.join(ROOT, "content/slides"))
+    parser.add_argument("--out", default=os.path.join(PUBLIC, "files/slides"))
+    args = parser.parse_args()
+    slugs = args.slugs or sorted(f[:-5] for f in os.listdir(args.source_dir) if f.endswith(".json"))
+    for sl in slugs: build(sl, by, all_lessons, args.source_dir, args.out)
