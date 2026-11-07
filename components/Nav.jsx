@@ -14,7 +14,7 @@ export default function Nav() {
     ? /^\/(curriculum|standards|lessons)(\/|$)/.test(pathname)
     : pathname === path || pathname.startsWith(`${path}/`);
   const scrolled = useScrolled();
-  const mobile = useIsMobile(1040);
+  const mobile = useIsMobile(1200);
   const [open, setOpen] = useState(false);
   const toggleRef = useRef(null);
   const headerRef = useRef(null);

@@ -2,14 +2,18 @@
 export const CATCHPHRASE = "마음이 배움의 중심이 되는 시간";
 export const SITE_URL = "https://www.levlab.co.kr";
 
+// 종교 수업 영역의 메뉴·페이지·사이트맵 공개 여부를 함께 관리한다.
+export const RELIGION_SEL_PUBLIC = false;
+
 // 자료실·인사이트는 실제 자료·글이 생길 때 다시 메뉴에 올린다.
 export const NAV_ITEMS = [
   { label: "소개", path: "/about" },
   { label: "SEL 수업", path: "/curriculum" },
   { label: "SEL 콘텐츠", path: "/tools" },
+  { label: "종교와 사회정서", path: "/religion-sel", hidden: !RELIGION_SEL_PUBLIC },
   { label: "연수·워크북", path: "/programs" },
   { label: "문의·협업", path: "/contact" },
-];
+].filter((item) => !item.hidden);
 
 export const CONTACT_EMAIL = "levlabkr@gmail.com";
 export const YOUTUBE_URL = "https://www.youtube.com/channel/UCBP83tCojDn0M-HU7s_q7ow";

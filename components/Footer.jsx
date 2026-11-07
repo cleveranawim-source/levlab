@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import MakerBadge from "./MakerBadge";
-import { CONTACT_EMAIL, YOUTUBE_URL } from "../data/site";
+import { CONTACT_EMAIL, YOUTUBE_URL, NAV_ITEMS } from "../data/site";
 
 export default function Footer() {
   return (
@@ -17,10 +17,9 @@ export default function Footer() {
         </div>
         <div>
           <h2 className="foot-h">둘러보기</h2>
-          <Link href="/about">소개</Link>
-          <Link href="/curriculum">SEL 수업</Link>
-          <Link href="/programs">연수·워크북</Link>
-          <Link href="/tools">SEL 콘텐츠</Link>
+          {NAV_ITEMS.filter(({ path }) => path !== "/contact").map(({ path, label }) => (
+            <Link key={path} href={path}>{label}</Link>
+          ))}
         </div>
         <div>
           <h2 className="foot-h">연결</h2>

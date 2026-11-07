@@ -5,6 +5,7 @@ import { createServer } from "node:net";
 import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import { ORIGIN, PAGE_META } from "../lib/pageMeta.js";
+import { RELIGION_SEL_PUBLIC } from "../data/site.js";
 
 const readJson = async (path) => JSON.parse(await readFile(new URL(path, import.meta.url), "utf8"));
 const { standards } = await readJson("../content/standards.json");
@@ -72,10 +73,12 @@ try {
   const sitemap = await sitemapResponse.text();
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(urls.sort(), publicPaths.map((path) => new URL(path, ORIGIN).href).sort(), "Sitemap must include all public pages and only published lessons");
+  if (!RELIGION_SEL_PUBLIC) assert(!urls.includes(`${ORIGIN}/religion-sel`), "Private religion page must stay out of the sitemap");
   for (const path of allPaths) {
     const response = await request(path);
     assert.equal(response.status, 200, `${path} HTTP status`);
     const html = await response.text();
+    if (!RELIGION_SEL_PUBLIC) assert(!html.includes('href="/religion-sel"'), `${path} must not link to the private religion page`);
     const head = html.split("</head>")[0];
     const canonical = head.match(/<link rel="canonical" href="([^"]+)"/);
     assert(canonical && new URL(canonical[1]).href === new URL(path, ORIGIN).href, `${path} server canonical`);
@@ -91,9 +94,17 @@ try {
     const res = await request(path, { redirect: "manual" });
     assert.ok([307, 308].includes(res.status) && res.headers.get("location")?.endsWith(to), `${path} must redirect to ${to} (got ${res.status} ${res.headers.get("location")})`);
   }
-  for (const path of ["/__check_unknown__", "/curriculum/grade-4", "/curriculum/grade-01", "/standards/99-99", "/lessons/not-a-lesson"]) {
+  const notFoundPaths = ["/__check_unknown__", "/curriculum/grade-4", "/curriculum/grade-01", "/standards/99-99", "/lessons/not-a-lesson",
+    ...(!RELIGION_SEL_PUBLIC ? ["/religion-sel", "/religion-sel/"] : []),
+  ];
+  for (const path of notFoundPaths) {
     assert.equal((await request(path)).status, 404, `${path} GET must return real HTTP 404`);
     assert.equal((await request(path, { method: "HEAD" })).status, 404, `${path} HEAD must return real HTTP 404`);
+  }
+  if (!RELIGION_SEL_PUBLIC) {
+    const privateHtml = await (await request("/religion-sel")).text();
+    assert(!privateHtml.includes("종교시간에도 마음을 배우고 관계를 연습합니다"), "Private page content must not be rendered");
+    assert(/name="robots" content="[^"]*noindex/.test(privateHtml), "Private page must be noindex");
   }
   for (const page of ["support", "privacy"]) {
     const original = await readFile(new URL(`../public/gangdannote/${page}/index.html`, import.meta.url), "utf8");
@@ -104,7 +115,7 @@ try {
       assert.equal(await response.text(), original, `${path} must preserve original HTML`);
     }
   }
-  console.log(`PASS: ${urls.length} sitemap URLs, ${allPaths.length} static pages with server metadata, draft noindex, 5 real 404s (GET/HEAD), 4 original gangdannote URLs`);
+  console.log(`PASS: ${urls.length} sitemap URLs, ${allPaths.length} static pages with server metadata, draft noindex, ${notFoundPaths.length} real 404s (GET/HEAD), 4 original gangdannote URLs`);
 } catch (error) {
   console.error(output);
   throw error;
