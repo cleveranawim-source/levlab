@@ -85,11 +85,15 @@ def narrate(spec, tmp):
         lens.append(dur(a))
     return lens, files
 
-def scene_html(sc, i, t0, d, L, acc):
+def scene_html(sc, i, t0, d, L, acc, clip=None):
     out = f'<section class="sc{" cont" if sc.get("cont") else ""}" style="--t0:{t0}s;--d:{d}s;--bg:{sc.get("bg", "#F5F6F2")}">'
     if sc["kind"] == "image":
         fit = sc.get("fit", "cover")
-        out += f'<img class="art {fit}" src="{(PUBLIC / sc["image"].lstrip("/")).as_uri()}" style="object-position:{sc.get("focus", "50% 50%")}">'
+        if clip:  # 움직이는 장면: 미리 뽑은 프레임을 시간에 맞춰 바꿔 끼운다
+            out += (f'<img class="art {fit}" src="{clip["dir"]}/0001.jpg" style="object-position:{sc.get("focus", "50% 50%")}" '
+                    f'data-dir="{clip["dir"]}" data-n="{clip["n"]}" data-cs="{clip["start"]}" data-rate="{clip["rate"]}" data-hold="{clip["hold"]}">')
+        else:
+            out += f'<img class="art {fit}" src="{(PUBLIC / sc["image"].lstrip("/")).as_uri()}" style="object-position:{sc.get("focus", "50% 50%")}">'
         if sc.get("caption"):
             out += f'<p class="cap"><span>{e(sc["caption"])}</span></p>'
         for k, c in enumerate(sc.get("chips", [])):
@@ -144,7 +148,18 @@ def build(slug, lessons, page):
         if i and spec["scenes"][i].get("cont"): t += FADE  # 같은 그림이 이어지면 겹치지 않고 바로 이어 붙인다
         starts.append(t); t += d - FADE
     total = starts[-1] + durs[-1]
-    scenes = "".join(scene_html(sc, i, starts[i], durs[i], L, acc) for i, sc in enumerate(spec["scenes"]))
+    clips, cinfo = {}, []
+    for i, sc in enumerate(spec["scenes"]):
+        if not sc.get("clip"):
+            cinfo.append(None); continue
+        src = ROOT / sc["clip"]
+        if src not in clips:
+            d = tmp / f"clip{len(clips)}"; d.mkdir()
+            subprocess.run(["ffmpeg", "-v", "error", "-i", str(src), "-vf", f"fps={FPS},scale={W}:-2", "-q:v", "2", str(d / "%04d.jpg")], check=True)
+            clips[src] = {"dir": d.as_uri(), "n": len(list(d.glob("*.jpg"))), "start": starts[i] + sc.get("clipDelay", 0.3),
+                          "rate": sc.get("clipRate", 1), "hold": 1}
+        cinfo.append(clips[src])
+    scenes = "".join(scene_html(sc, i, starts[i], durs[i], L, acc, cinfo[i]) for i, sc in enumerate(spec["scenes"]))
     doc = f'<!doctype html><html lang="ko"><meta charset="utf-8"><style>{CSS % {"sans": SANS, "serif": SERIF, "fi": "8%", "fo": "92%"}}</style><body>{scenes}</body></html>'
     hp = tmp / "t.html"; hp.write_text(doc, encoding="utf-8")
     page.set_viewport_size({"width": W, "height": H})
@@ -154,13 +169,30 @@ def build(slug, lessons, page):
     n = int(total * FPS)
     for i in range(n):
         page.evaluate(f"document.getAnimations().forEach(a => a.currentTime = {i * 1000 / FPS})")
+        if clips:
+            page.evaluate("""t => Promise.all([...document.querySelectorAll('img[data-dir]')].map(img => {
+                const k = Math.min(+img.dataset.n, Math.max(1, 1 + Math.floor((t - img.dataset.cs) * img.dataset.rate * %d)));
+                const src = img.dataset.dir + '/' + String(k).padStart(4, '0') + '.jpg';
+                if (img.getAttribute('src') === src) return null;
+                img.setAttribute('src', src); return img.decode().catch(() => null); }))""" % FPS, i / FPS)
         page.screenshot(path=str(frames / f"{i:05d}.jpg"), type="jpeg", quality=90)
     # 내레이션을 장면 시작 0.35초 뒤에 깐다
     ins, flt = [], []
     for i, st in enumerate(starts):
         ins += ["-i", str(files[i])]
         ms = int((st + 0.35) * 1000); flt.append(f"[{i + 1}:a]adelay={ms}|{ms}[a{i}]")
-    mix = "".join(f"[a{i}]" for i in range(len(starts))) + f"amix=inputs={len(starts)}:normalize=0,apad=whole_dur={total:.2f},loudnorm=I=-16:TP=-1.5[a]"
+    nar = "".join(f"[a{i}]" for i in range(len(starts))) + f"amix=inputs={len(starts)}:normalize=0,apad=whole_dur={total:.2f}"
+    if spec.get("bgm"):  # 배경 음악: 앞뒤를 부드럽게 열고 닫고, 내레이션이 나올 때는 저절로 작아진다
+        ins += ["-i", str(ROOT / spec["bgm"])]; b = len(starts) + 1
+        vol = spec.get("bgmVolume", 0.32)
+        mix = (f"{nar},asplit=2[nar][key];"
+               f"[{b}:a]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{total:.2f},afade=t=in:d=0.8,"
+               f"afade=t=out:st={total - 2.2:.2f}:d=2.2,volume={vol}[bg];"
+               "[bg][key]sidechaincompress=threshold=0.02:ratio=5:attack=30:release=500[duck];"
+               "[nar]aformat=sample_rates=48000:channel_layouts=stereo[nar2];"
+               "[nar2][duck]amix=inputs=2:normalize=0,loudnorm=I=-16:TP=-1.5[a]")
+    else:
+        mix = f"{nar},loudnorm=I=-16:TP=-1.5[a]"
     OUT.mkdir(parents=True, exist_ok=True)
     out = OUT / f"{slug}.mp4"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", str(frames / "%05d.jpg"), *ins,
@@ -170,12 +202,15 @@ def build(slug, lessons, page):
     from PIL import Image
     Image.open(frames / f"{int((starts[-1] + 2.2) * FPS):05d}.jpg").convert("RGB").resize((1280, 720)).save(OUT / f"{slug}.webp", "WEBP", quality=82)
     shutil.rmtree(tmp)
-    print(f"{slug}: {total:.1f}s, {len(starts)} scenes → {out.relative_to(ROOT)} ({out.stat().st_size // 1024}KB)")
+    print(f"{slug}: {total:.1f}s, {len(starts)} scenes → {out} ({out.stat().st_size // 1024}KB)")
 
 def main():
     from playwright.sync_api import sync_playwright
     lessons = {l["slug"]: l for l in json.load(open(ROOT / "content/lessons.json", encoding="utf-8"))["lessons"]}
-    slugs = sys.argv[1:] or sorted(p.stem for p in (ROOT / "content/teasers").glob("*.json"))
+    global OUT
+    for a in sys.argv[1:]:
+        if a.startswith("--out="): OUT = Path(a[6:]).resolve()
+    slugs = [a for a in sys.argv[1:] if not a.startswith("--")] or sorted(p.stem for p in (ROOT / "content/teasers").glob("*.json"))
     with sync_playwright() as pw:
         b = pw.chromium.launch(); page = b.new_page()
         for s in slugs: build(s, lessons, page)
