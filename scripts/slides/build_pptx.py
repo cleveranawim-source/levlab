@@ -160,15 +160,19 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             box(sl, 0.6, 1.2, 1.9, 0.5, fill=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.5)
             text(sl, 0.6, 1.24, 1.9, 0.45, L["area"], size=16, bold=True, color="FFFFFF", align=PP_ALIGN.CENTER)
             text(sl, 2.65, 1.26, 4.5, 0.7, f"중{L['grade']} · {L['skill']}", size=16, color=INK2)
-            text(sl, 0.6, 2.0, W * 0.52 - 1.0, 2.4, L["title"], size=48, bold=True, spacing=1.05)
-            text(sl, 0.6, 4.6, W * 0.52 - 1.0, 1.5, L.get("keyQuestion", ""), size=22, color=INK2)
+            text(sl, 0.6, 2.0, W * 0.52 - 1.0, 2.4, L["title"], size=36 if len(L["title"]) > 25 else 42 if len(L["title"]) > 15 else 48, bold=True, spacing=1.05)
+            title_question = text(sl, 0.6, 4.6, W * 0.52 - 0.9, 1.5, L.get("keyQuestion", ""), size=22, color=INK2)
+            title_question.text_frame.margin_right = E(.15)
             text(sl, 0.6, 6.4, 6, 0.4, f"[9사회정서{L['standard']}]  ·  {L['minutes']}분", size=14, color=INK2)
         elif t == "question":
             chrome(sl, L, n, total)
             text(sl, 1.0, 1.4, W - 2.0, 0.5, "오늘의 질문", size=20, bold=True, color=acc, align=PP_ALIGN.CENTER)
             q = L.get("keyQuestion", "")
             box(sl, 1.4, 3.55, W - 2.8, 0.5, fill=HL)
-            text(sl, 0.5, 2.2, W - 1.0, 3.0, q, size=36 if len(q) > 52 else 40 if len(q) > 36 else 44, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.2)
+            question = text(sl, 0.5, 2.2, W - 1.0, 3.0, q, size=36 if len(q) > 52 else 40 if len(q) > 36 else 44, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.2)
+            # Preserve the original wrap width, with room for punctuation
+            # overhang in PowerPoint and substitute fonts in LibreOffice.
+            question.text_frame.margin_left = question.text_frame.margin_right = E(.55)
         elif t == "goals":
             chrome(sl, L, n, total); heading(sl, "이 시간이 끝나면")
             goals = s.get("goals") or L["objectives"]
@@ -185,7 +189,8 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
                 shade = [acc, acc, acc, acc, acc][i]
                 b = box(sl, x + 0.04, 2.3, w - 0.08, 1.1, fill=shade if i % 2 == 0 else "FFFFFF", line=acc, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.15)
                 text(sl, x + 0.1, 2.38, w - 0.2, 1.0, [(f["stage"], {"size": 18, "bold": True, "color": "FFFFFF" if i % 2 == 0 else acc}), (f"{f['minutes']}분", {"size": 15, "color": "FFFFFF" if i % 2 == 0 else INK2, "gap": 2})], align=PP_ALIGN.CENTER)
-                text(sl, x + 0.05, 3.6, w - 0.1, 2.8, (s.get("titles") or {}).get(f["stage"], f.get("title", "")), size=16, color=INK, align=PP_ALIGN.CENTER)
+                journey_title = text(sl, x + 0.01, 3.6, w - 0.02, 2.8, (s.get("titles") or {}).get(f["stage"], f.get("title", "")), size=16, color=INK, align=PP_ALIGN.CENTER)
+                journey_title.text_frame.margin_left = journey_title.text_frame.margin_right = E(.09)
                 x += w
         elif t == "picture":
             chrome(sl, L, n, total, st, mins); heading(sl, s.get("heading", ""))
@@ -215,9 +220,13 @@ def build(slug, by, all_lessons, source_dir=None, out_dir=None):
             for i, c in enumerate(cards):
                 x = 0.6 + i * (cw + 0.4)
                 compact = len(c["title"]) > 6 or len(c["text"]) + len(c.get("example", "")) > 70
+                dense_card = len(cards) == 4 and (len(c["title"]) > 12 or len(c["text"]) + len(c.get("example", "")) > 55)
                 box(sl, x, 2.0, cw, 3.0, fill=PAPER2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08)
                 box(sl, x, 2.0, cw, 0.12, fill=acc)
-                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7 if compact else 3.0, [(c["title"], {"size": (22 if len(cards) == 4 else 26) if compact else (26 if len(cards) == 4 else 34), "bold": True, "color": acc}), (c["text"], {"size": (18 if len(cards) == 4 else 20) if compact else (19 if len(cards) == 4 else 22), "gap": 10 if compact else 12}), (c.get("example", ""), {"size": 15 if compact else 17, "color": INK2, "gap": 10 if compact else 14})])
+                title_size = (20 if len(cards) == 4 else 26) if compact else (26 if len(cards) == 4 else 34)
+                body_size = (16 if len(cards) == 4 else 19) if compact else (19 if len(cards) == 4 else 22)
+                if dense_card: title_size, body_size = 18, 15
+                text(sl, x + 0.3, 2.25, cw - 0.6, 2.7 if compact else 3.0, [(c["title"], {"size": title_size, "bold": True, "color": acc}), (c["text"], {"size": body_size, "gap": 8 if dense_card else 10 if compact else 12}), (c.get("example", ""), {"size": 13 if dense_card else 14 if compact else 17, "color": INK2, "gap": 8 if dense_card else 10 if compact else 14})])
             if s.get("steps"):
                 bullets(sl, s["steps"], 0.6, 5.2, W - 1.2, 1.7, size=20)
             else:
