@@ -30,8 +30,8 @@ export default function HomePage() {
         <div className="wrap home-hero-grid">
           <div className="home-hero-copy">
             <WitControls />
-            <h1 className="serif" id="home-title"><span className="hero-word" style={{ "--word": 0 }}>감정을</span>{" "}<span className="hero-word" style={{ "--word": 1 }}>다루는</span>{" "}<span className="hero-word" style={{ "--word": 2 }}>힘은</span><br /><span className="hero-highlight"><span className="hero-word" style={{ "--word": 3 }}>가르칠</span>{" "}<span className="hero-word" style={{ "--word": 4 }}>수</span>{" "}<span className="hero-word" style={{ "--word": 5 }}>있습니다</span></span></h1>
-            <p className="sub">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 1~3학년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</p>
+            <h1 className="serif" id="home-title"><span className="hero-word" style={{ "--word": 0 }}>마음이</span>{" "}<span className="hero-word" style={{ "--word": 1 }}>배움의</span><br /><span className="hero-highlight"><span className="hero-word" style={{ "--word": 2 }}>중심이</span>{" "}<span className="hero-word" style={{ "--word": 3 }}>되는</span>{" "}<span className="hero-word" style={{ "--word": 4 }}>시간</span></span></h1>
+            <p className="sub"><span className="hero-sub-long">서울 사회정서교육 17개 사회정서기술에 맞춘<br className="desktop-break" /> 중학교 1~3학년 수업과 게임·자기 점검·활동 도구.<br className="desktop-break" /> 직접 체험하며 마음 근육을 키웁니다.</span><span className="hero-sub-short">중학교 1~3학년 사회정서교육 수업과 체험 콘텐츠</span></p>
             <LessonSearch variant="hero" />
             <div className="cta-row"><Link className="btn btn-solid" href="/curriculum">수업 찾기 <span aria-hidden="true">→</span></Link><Link className="btn btn-ghost" href="/tools">콘텐츠 체험하기</Link></div>
             <YeolSticker />

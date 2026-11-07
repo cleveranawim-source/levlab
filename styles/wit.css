@@ -97,3 +97,12 @@
   .wit-maker { display: none !important; }
   .home-grade, .featured-lesson { transform: none !important; box-shadow: none !important; }
 }
+
+/* 휴대폰 첫 화면: 제목·한 줄 소개·검색·버튼만 먼저 보이고, 나머지는 아래 구역에서 만난다 */
+.hero-sub-short { display: none; }
+@media (max-width: 700px) {
+  .home-hero .heart-code, .home-hero .wit-controls, .home-hero .wit-maker, .home-hero .home-facts { display: none; }
+  .home-hero .hero-sub-long { display: none; }
+  .home-hero .hero-sub-short { display: inline; }
+  .home-hero .hero-domain-tabs { display: none; }
+}
