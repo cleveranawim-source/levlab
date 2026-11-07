@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start --hostname localhost",
     "preview": "next start --hostname localhost",
-    "check": "npm run build && node scripts/check.mjs"
+    "check": "npm run build && node scripts/check.mjs",
+    "test:live": "node --test test/live*.test.mjs"
   },
   "dependencies": {
     "next": "^16.4.5",

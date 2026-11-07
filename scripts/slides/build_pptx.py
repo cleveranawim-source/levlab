@@ -228,6 +228,17 @@ def build(slug, by, all_lessons):
             heading(sl, "다음 시간")
             image(sl, f"/images/lessons/{nxt['slug']}.webp", W - 5.6, 1.9, 5.0, 3.75, mode="cover")
             text(sl, 0.6, 2.1, W - 6.8, 3.6, [(f"{nxt['area']}  ·  {nxt['skill']}  ·  [9사회정서{nxt['standard']}]", {"size": 16, "color": AREA.get(nxt["area"], acc), "bold": True}), (nxt["title"], {"size": 38, "bold": True, "gap": 12}), (nxt.get("keyQuestion", ""), {"size": 22, "color": INK2, "gap": 16})])
+        elif t == "video":
+            chrome(sl, L, n, total)
+            v = s.get("video", {})
+            vp = os.path.join(PUBLIC, v.get("src", "").lstrip("/")); pp = os.path.join(PUBLIC, v.get("poster", "").lstrip("/"))
+            vw = W - 2.4; vh = vw * 9 / 16
+            if os.path.exists(vp):
+                poster = None
+                if os.path.exists(pp):
+                    buf = io.BytesIO(); Image.open(pp).convert("RGB").save(buf, "PNG"); buf.seek(0); poster = buf
+                sl.shapes.add_movie(vp, E(1.2), E(0.85), E(vw), E(vh), poster_frame_image=poster, mime_type="video/mp4")
+            text(sl, 1.2, 0.85 + vh + 0.08, vw, 0.4, "영상을 누르면 재생돼요 · 소리를 켜 주세요", size=13, color=INK2, align=PP_ALIGN.CENTER)
         elif t == "end":
             box(sl, 0, 0, W, H, fill=acc)
             text(sl, 1.0, 2.0, W - 2.0, 2.6, s.get("message", ""), size=40, bold=True, color="FFFFFF", align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, spacing=1.25)

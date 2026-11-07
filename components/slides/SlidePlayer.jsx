@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import SlideContent, { AREA_COLORS, STAGES, revealCount, slideHeading } from "./SlideContent";
+import { LiveControl } from "../live";
 
 function ControlIcon({ kind }) {
   const paths = {
@@ -34,6 +35,8 @@ export default function SlidePlayer({ deck }) {
   const [notice, setNotice] = useState("");
   const [choices, setChoices] = useState({});
   const [timers, setTimers] = useState({});
+  const [motion, setMotion] = useState(false);
+  const [readingFlips, setReadingFlips] = useState({});
   const { index, revealed } = position;
   const slide = slides[index];
   const presentation = ready && viewport.width >= 768;
@@ -77,15 +80,33 @@ export default function SlidePlayer({ deck }) {
   }, []);
   useEffect(() => { if (ready) wake(); }, [ready, wake]);
   useEffect(() => { if (ready) document.dispatchEvent(new Event("levlab:motion-refresh")); }, [ready]);
+  useEffect(() => {
+    const preference = matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setMotion(!preference.matches && document.documentElement.classList.contains("js-motion"));
+    const observer = new MutationObserver(sync);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    preference.addEventListener("change", sync);
+    sync();
+    return () => { observer.disconnect(); preference.removeEventListener("change", sync); };
+  }, []);
 
   const navigate = useCallback((direction) => {
     wake();
     setPosition((current) => {
       const count = revealCount(slides[current.index]);
+      if (presentation && slides[current.index].toy?.kind === "flip") {
+        const flipped = current.flipped || [];
+        const nextCard = direction > 0 ? slides[current.index].left.items.findIndex((_, i) => !flipped.includes(i)) : flipped.at(-1);
+        if (nextCard !== undefined && nextCard !== -1) {
+          const updated = direction > 0 ? [...flipped, nextCard] : flipped.filter((i) => i !== nextCard);
+          return { ...current, flipped: updated, revealed: updated.length + 1 };
+        }
+      } else {
       if (presentation && direction > 0 && current.revealed < count) return { ...current, revealed: current.revealed + 1 };
       if (presentation && direction < 0 && current.revealed > 1) return { ...current, revealed: current.revealed - 1 };
+      }
       const next = Math.max(0, Math.min(total - 1, current.index + direction));
-      return { index: next, revealed: next === current.index ? current.revealed : direction < 0 ? revealCount(slides[next]) : 1 };
+      return { index: next, revealed: next === current.index ? current.revealed : direction < 0 ? revealCount(slides[next]) : 1, flipped: direction < 0 && slides[next].toy?.kind === "flip" ? slides[next].left.items.map((_, i) => i) : [] };
     });
   }, [slides, total, presentation, wake]);
 
@@ -142,6 +163,7 @@ export default function SlidePlayer({ deck }) {
       if (key === "f") { event.preventDefault(); toggleFullscreen(); return; }
       if (!presentation) return;
       if (key === "t") { event.preventDefault(); toggleTimer(); return; }
+      if (key === " " && slide.type === "video" && root.current?.querySelector(".slide-page:not([hidden]) video")?.paused === false) { event.preventDefault(); navigate(1); return; }
       // Space continues to activate a focused native control.
       if (key === " " && event.target.closest("button, a, summary")) return;
       if (["arrowright", "pagedown", " "].includes(key)) { event.preventDefault(); navigate(1); }
@@ -150,7 +172,7 @@ export default function SlidePlayer({ deck }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [presentation, lesson.slug, total, navigate, toggleNotes, toggleFullscreen, toggleTimer, wake]);
+  }, [presentation, lesson.slug, total, slide.type, navigate, toggleNotes, toggleFullscreen, toggleTimer, wake]);
 
   const currentStage = STAGES.indexOf(slide.stage);
   const done = timerSeconds > 0 && timer.remaining === 0;
@@ -163,7 +185,10 @@ export default function SlidePlayer({ deck }) {
       <div className="slide-stage">
         {slides.map((item, number) => <section key={number} id={String(number + 1)} className={`slide-page slide-type-${item.type}`} role="group" aria-roledescription="slide" aria-label={`${number + 1} / ${total}`} hidden={presentation && number !== index}>
           <div className="slide-topline"><span>LEV LAB</span><span>{item.stage} <span aria-hidden="true">·</span> 중{lesson.grade}</span></div>
-          <div className="slide-content"><SlideContent slide={item} deck={deck} interactive={presentation} revealed={number === index ? revealed : 1} choice={choices[number]} onChoose={ready ? (selected) => setChoices((all) => ({ ...all, [number]: all[number] === selected ? null : selected })) : undefined} /></div>
+          <div className="slide-content"><SlideContent slide={item} deck={deck} index={number} interactive={presentation} enabled={ready} active={number === index} motion={motion} revealed={number === index ? revealed : 1} choice={choices[number]} onChoose={ready ? (selected) => setChoices((all) => ({ ...all, [number]: all[number] === selected ? null : selected })) : undefined} flipped={presentation ? number === index ? position.flipped || [] : [] : readingFlips[number] || []} onFlip={(card) => {
+            if (presentation) setPosition((current) => { const all = current.flipped || []; const flipped = all.includes(card) ? all.filter((i) => i !== card) : [...all, card]; return { ...current, flipped, revealed: flipped.length + 1 }; });
+            else setReadingFlips((current) => { const all = current[number] || []; return { ...current, [number]: all.includes(card) ? all.filter((i) => i !== card) : [...all, card] }; });
+          }} /></div>
           {item.timer > 0 && <div className="slide-timer-slot">{presentation && number === index ? <button className={`slide-timer${done ? " is-done" : ""}`} type="button" onClick={toggleTimer} aria-label={done ? "시간 끝, 타이머 다시 시작" : `타이머 ${timer.running ? "정지" : "시작"}, ${clockText(timer.remaining)} 남음`} aria-pressed={timer.running}><span>{done ? "시간 끝" : clockText(timer.remaining)}</span><small>{done ? "다시 시작" : timer.running ? "잠시 멈추기" : "시작하기 · T"}</small><span className="slide-timer-track" aria-hidden="true"><span style={{ transform: `scaleX(${timer.remaining / timerSeconds})` }} /></span></button> : <span className="slide-duration">{item.timer}분</span>}</div>}
           <div className="slide-bottomline"><span>{lesson.title}</span><span>{presentation && number === index && revealCount(item) > 1 ? `${revealed} / ${revealCount(item)} ${item.type === "ask" ? "질문" : "내용"} · ` : ""}{number + 1} / {total}</span></div>
         </section>)}
@@ -175,7 +200,8 @@ export default function SlidePlayer({ deck }) {
         <span className="slide-control-count">{index + 1} / {total}</span>
         <button type="button" onClick={() => navigate(1)} disabled={index === total - 1 && revealed >= revealCount(slide)} aria-label="다음 내용 (오른쪽 화살표)" title="다음 · → / Space"><ControlIcon kind="next" /></button>
         <button type="button" onClick={toggleNotes} aria-expanded={notesOpen} aria-controls="slide-notes" aria-label="교사 메모 (N)" title="교사 메모 · N"><ControlIcon kind="notes" /></button>
-        <button type="button" onClick={toggleFullscreen} aria-pressed={fullscreen} aria-label="전체 화면 (F)" title="전체 화면 · F"><ControlIcon kind="fullscreen" /></button>
+        <LiveControl lesson={lesson} slide={slide} index={index} />
+        <button type="button" className="slide-fullscreen-control" onClick={toggleFullscreen} aria-pressed={fullscreen} aria-label="전체 화면 (F)" title="전체 화면 · F"><ControlIcon kind="fullscreen" /></button>
         <button type="button" data-wit-toggle aria-pressed="false" className="slide-motion-toggle">움직임 멈추기</button>
         <a href={`/lessons/${lesson.slug}`} aria-label="차시 페이지로 나가기 (Esc)" title="나가기 · Esc"><ControlIcon kind="exit" /></a>
       </div>
@@ -185,7 +211,7 @@ export default function SlidePlayer({ deck }) {
         <p className="slide-notes-text">{Array.isArray(slide.notes) ? slide.notes.join("\n") : slide.notes || "이 화면에 따로 적힌 교사 메모가 없습니다."}</p>
         {slide.ask?.length > 0 && <><h3>이렇게 물어보세요</h3><ul>{slide.ask.map((ask, i) => <li key={i}>{ask}</li>)}</ul></>}
         {timerSeconds > 0 && <div className="slide-notes-timer"><button type="button" onClick={toggleTimer}>{timer.running ? "타이머 정지" : "타이머 시작"}</button><button type="button" onClick={() => setTimers((all) => ({ ...all, [index]: { remaining: timerSeconds, running: false } }))}>시간 초기화</button><p>{clockText(timer.remaining)} 남음 · 화면을 넘기면 멈춥니다.</p></div>}
-        <details className="slide-shortcuts"><summary>발표 조작 안내</summary><dl><div><dt>← → / Space</dt><dd>내용을 하나씩 넘기기</dd></div><div><dt>PageUp / PageDown</dt><dd>이전 / 다음 내용</dd></div><div><dt>Home / End</dt><dd>첫 화면 / 마지막 화면</dd></div><div><dt>N / T / F</dt><dd>메모 / 타이머 / 전체 화면</dd></div><div><dt>Esc</dt><dd>차시 페이지로 나가기</dd></div><div><dt>화면을 좌우로 밀기</dt><dd>이전 / 다음 내용</dd></div></dl><p>메모는 현재 화면에도 보입니다. 학생에게 보여도 되는 때에 열어 주세요.</p></details>
+        <details className="slide-shortcuts"><summary>발표 조작 안내</summary><dl><div><dt>← → / Space</dt><dd>내용을 하나씩 넘기기 · 말 카드를 뒤집기</dd></div><div><dt>PageUp / PageDown</dt><dd>이전 / 다음 내용</dd></div><div><dt>Home / End</dt><dd>첫 화면 / 마지막 화면</dd></div><div><dt>N / T / F</dt><dd>메모 / 타이머 / 전체 화면</dd></div><div><dt>R / P</dt><dd>모둠 뽑기 / 영상 재생·정지</dd></div><div><dt>Esc</dt><dd>차시 페이지로 나가기</dd></div><div><dt>화면을 좌우로 밀기</dt><dd>이전 / 다음 내용</dd></div></dl><p>메모는 현재 화면에도 보입니다. 학생에게 보여도 되는 때에 열어 주세요.</p></details>
       </aside>
       {presentation && <nav className="slide-progress" aria-label="수업 단계">{STAGES.map((stage, i) => { const first = slides.findIndex((item) => item.stage === stage); return <button type="button" key={stage} className={`slide-stage-${i}`} aria-label={`${stage} 단계로 이동`} aria-current={currentStage === i ? "step" : undefined} disabled={first === -1} onClick={() => { setPosition({ index: first, revealed: 1 }); wake(); }}><span>{stage}</span><span className="slide-progress-fill" style={{ transform: `scaleX(${i < currentStage ? 1 : i > currentStage ? 0 : (index - first + 1) / slides.filter((item) => item.stage === stage).length})` }} /></button>; })}</nav>}
     </>}

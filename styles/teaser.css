@@ -48,3 +48,16 @@ html[data-motion-paused="true"] .treel-item:hover { transform: none; }
 .tthumb-wrap { position: relative; display: block; }
 .tteaser { position: absolute; left: 10px; top: 10px; padding: 3px 10px 3px 22px; border-radius: 999px; background: #1E2A24; color: #fff; font-size: 12.5px; font-weight: 700; }
 .tteaser::before { content: ""; position: absolute; left: 10px; top: 50%; margin-top: -5px; border-style: solid; border-width: 5px 0 5px 8px; border-color: transparent transparent transparent var(--hl, #FFE45C); }
+
+/* 차시 자료 꾸러미 */
+.kit-list { list-style: none; margin: 12px 0 28px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.kit-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--line, #DCE2DC); border-radius: 14px; background: var(--paper, #fff); color: var(--ink, #1E2A24); text-decoration: none; transition: transform .2s cubic-bezier(.3, 1.4, .6, 1), border-color .15s; }
+.kit-item:hover { border-color: var(--ink, #1E2A24); transform: translateY(-2px); }
+.kit-item:focus-visible { outline: 3px solid var(--d-self, #6D4FC2); outline-offset: 2px; }
+.kit-type { display: grid; place-items: center; height: 40px; border-radius: 10px; background: var(--ac, var(--forest, #1F5C3F)); color: var(--on-ac, #fff); font-size: 13px; font-weight: 800; }
+.kit-body { display: grid; gap: 2px; min-width: 0; }
+.kit-body b { font-size: 15.5px; }
+.kit-body span { font-size: 13px; color: var(--ink-2, #4A5650); }
+.kit-meta { font-size: 12.5px; color: var(--ink-2, #4A5650); white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { .kit-item { transition: none; } .kit-item:hover { transform: none; } }
+@media print { .kit-list { display: none; } }

@@ -18,12 +18,15 @@ export function getSlideSlugs() {
     .map((file) => file.slice(0, -5)).filter((slug) => validSlug(slug) && getLesson(slug)).sort();
 }
 
-function existingImage(image) {
-  if (!image) return null;
-  const file = typeof image.src === "string" && image.src.startsWith("/")
-    ? path.resolve(process.cwd(), "public", `.${image.src}`) : null;
+function existingAsset(src) {
+  const file = typeof src === "string" && src.startsWith("/")
+    ? path.resolve(process.cwd(), "public", `.${src}`) : null;
   const publicRoot = path.resolve(process.cwd(), "public") + path.sep;
-  return { ...image, src: file?.startsWith(publicRoot) && fs.existsSync(file) ? image.src : null };
+  return file?.startsWith(publicRoot) && fs.existsSync(file) ? src : null;
+}
+
+function existingImage(image) {
+  return image ? { ...image, src: existingAsset(image.src) } : null;
 }
 
 export function getSlideDownload(slug) {
@@ -45,6 +48,7 @@ export function getLessonSlides(slug) {
     ...slide,
     stage: slide.stage || (["next", "end"].includes(slide.type) ? "정리" : "도입"),
     image: existingImage(slide.image),
+    ...(slide.video ? { video: { ...slide.video, src: existingAsset(slide.video.src), poster: existingAsset(slide.video.poster) } } : {}),
     ...(slide.type === "goals" ? { goals: slide.goals?.length ? slide.goals : lesson.objectives } : {}),
   }));
   return { lesson, nextLesson, image: lessonArt(lesson), nextImage: nextLesson ? lessonArt(nextLesson) : null, slides };
